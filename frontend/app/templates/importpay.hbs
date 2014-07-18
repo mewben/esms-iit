@@ -1,0 +1,120 @@
+<div class="page-header">
+	<h3><i class="fa fa-angle-right"></i> Import Payments
+		<small>Import payments received from other means. e.g. banks</small>
+	</h3>
+</div>
+
+<div class="row">
+	<div class="col-md-3">
+		<form role="form" {{action 'parse' on='submit'}}>
+			<div class="form-group">
+				<label>Choose CSV file:</label>
+				{{input type="file" value=csv accept=".csv" name="csv" id="csv"}}
+			</div>
+			<div class="form-group">
+				<label>Report from: </label>
+				{{view Em.Select
+				content=bcodes
+				optionValuePath="content.v"
+				optionLabelPath="content.name"
+				value=bcode
+				class="form-control"}}
+			</div>
+			{{submit-spin saveText='Parse CSV File' disabled=disb isProc=g.isProc}}
+
+		</form>
+		<hr>
+		<div class="panel panel-default">
+			<div class="panel-heading">How To:</div>
+			<div class="panel-body">
+				<ol>
+					<li>Select .csv file. Check the required headers below</li>
+					<li>Select which Report From</li>
+					<li>Click Parse CSV File</li>
+					<li>Verify Student Id. Check if the Names match.</li>
+					<li>Submit for Processing.</li>
+				</ol>
+				<hr>
+				<ul class="nav">
+					<li>REQUIRED CSV HEADERS</li>
+					<li><span class="label label-default">paydate</span> - Date paid</li>
+					<li><span class="label label-default">studid</span> - Student Id</li>
+					<li><span class="label label-default">studname</span> - Student Full Name</li>
+					<li><span class="label label-default">sy</span> - School-Year (e.g. 2014-2015)</li>
+					<li><span class="label label-default">sem</span> - Semester (e.g. 2)</li>
+					<li><span class="label label-default">refno</span> - Reference Number</li>
+					<li><span class="label label-default">amt</span> - Amount paid</li>
+				</ul>
+				<hr>
+				<em>Note: `refno` - replace \ with .</em>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9">
+	{{#if data}}
+		<div class="text-right">
+			{{#if verified}}
+				{{button-spin saveText="Submit for Processing" action="submit" icon="fa-magic" disabled=g.isProc isProc=g.isProc}}
+			{{else}}
+				{{button-spin saveText="Verify Student ID" action="verify" icon="fa-check-square-o" disabled=g.isProc isProc=g.isProc}}
+			{{/if}}
+		</div>
+		<hr>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				Import Payments from {{bcode}} - {{data.length}} records
+			</div>
+			<table class="table table-condensed table-hover table-striped">
+				<thead>
+					<tr>
+						<th>&nbsp;</th>
+						<th>Student Name</th>
+						<th>ID #</th>
+						<th>SY &bull; Sem</th>
+						<th>Pay Date</th>
+						<th>Ref. No.</th>
+						<th class="text-right">Amount (Php)</th>
+						<th>&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{#each data}}
+						<tr {{bind-attr class="err:danger"}}>
+							<td>
+								{{#if payee}}
+									<small class="text-muted">{{payee}}</small>
+								{{/if}}
+								&nbsp;
+							</td>
+							<td>{{studname}}</td>
+							<td>{{studid}}</td>
+							<td>{{sy}} &bull; {{sem}}</td>
+							<td>{{paydate}}</td>
+							<td>{{refno}}</td>
+							<td class="text-right">{{format-currency amt}}</td>
+							<td>
+								{{#if proc}}
+									<i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
+								{{else}}
+									{{#if fail}}
+										<div class="text-muted"><em>Error: {{err}}</em></div>
+									{{/if}}
+									{{#if success}}
+										<span class="label label-success">Success</span>
+									{{/if}}
+								{{/if}}
+								&nbsp;
+							</td>
+						</tr>
+					{{/each}}
+					<tr class="warning">
+						<td colspan="5" class="text-right"><strong>TOTAL:</strong></td>
+						<td class="text-right"><strong>{{format-currency total}}</strong></td>
+						<td>&nbsp;</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	{{/if}}
+	</div>
+</div>

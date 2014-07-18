@@ -1,0 +1,11 @@
+<div {{bind-attr class="g.pclass"}}>
+	{{partial 'partials/header'}}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				{{outlet}}
+			</div>
+		</div>
+	</div>
+	{{partial 'partials/footer'}}
+</div>

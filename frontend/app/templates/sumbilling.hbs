@@ -1,0 +1,42 @@
+<div class="page-header">
+	<h3><i class="fa fa-angle-right"></i> Summary of Billing
+		<small>Retrieves all the probable collection of the selected semester.</small>
+	</h3>
+</div>
+
+<div class="row">
+	<div class="col-md-3">
+		<form role="form" {{action 'retrieve' on='submit'}}>
+			<div class="form-group">
+				<label>School-Year:</label>
+				{{input value=sy placeholder="SY" class="form-control" autofocus="autofocus"}}
+			</div>
+			<div class="form-group">
+				<label>Sem:</label>
+				<div class="input-group">
+					{{input value=sem class="form-control" placeholder="Sem"}}
+					<span class="input-group-btn">
+						{{submit-spin saveText='Retrieve' disabled=disb isProc=g.isProc}}
+					</span>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="col-md-9">
+	{{#if data}}
+		<div class="text-right">
+			{{#link-to 'print.sumbilling' sy sem class="btn btn-info"}}
+				<i class="fa fa-print fa-fw"></i> Print
+			{{/link-to}}
+		</div>
+		<hr>
+		{{partial 'reports/sumbilling'}}
+		<hr>
+		<div class="text-right">
+			{{#link-to 'print.sumbilling' sy sem class="btn btn-info"}}
+				<i class="fa fa-print fa-fw"></i> Print
+			{{/link-to}}
+		</div>
+	{{/if}}
+	</div>
+</div>

@@ -1,0 +1,65 @@
+<nav id="header" class="navbar navbar-inverse navbar-static-top" role="navigation">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainmenu"><i class="fa fa-bars"></i></button>
+			{{#link-to 'dashboard' class="navbar-brand"}}eSMS <i class="fa fa-angle-double-right"></i>{{/link-to}}
+		</div>
+		<div id="mainmenu" class="collapse navbar-collapse">
+			<ul class="nav navbar-nav">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-desktop fa-fw"></i> Actions <i class="fa fa-angle-down"></i>
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							{{#link-to 'payment'}}<i class="fa fa-angle-right"></i> Payment{{/link-to}}
+						</li>
+						<li>
+							{{#link-to 'refunds'}}<i class="fa fa-angle-right"></i> Refund{{/link-to}}
+						</li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-crosshairs fa-fw"></i> Automate <i class="fa fa-angle-down"></i>
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							{{#link-to 'importpay'}}<i class="fa fa-angle-right"></i> Import Payments{{/link-to}}
+						</li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-list-alt fa-fw"></i> Reports <i class="fa fa-angle-down"></i>
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							{{#link-to 'receivables'}}<i class="fa fa-angle-right"></i> Account Receivables{{/link-to}}
+						</li>
+						<li>
+							{{#link-to 'collections'}}<i class="fa fa-angle-right"></i> Report of Collections{{/link-to}}
+						</li>
+						<li>
+							{{#link-to 'ledgers'}}<i class="fa fa-angle-right"></i> Subsidiary Ledger{{/link-to}}
+						</li>
+						<li>
+							{{#link-to 'sumbilling'}}<i class="fa fa-angle-right"></i> Summary of Billing{{/link-to}}
+						</li>
+					</ul>
+				</li>
+			</ul>
+
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="#" data-toggle="modal" data-target="#mod-sem">
+						<i class="fa fa-paperclip fa-fw"></i> {{g.sem.sy}} &bull; {{g.sem.sem}}
+					</a>
+				</li>
+				<li>
+					<a href="#">Log out</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>

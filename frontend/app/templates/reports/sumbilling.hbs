@@ -1,0 +1,27 @@
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<strong>School-Year: <em>{{data.sy}} &bull; {{data.sem}}</em></strong>
+	</div>
+	<table class="table table-condensed table-bordered table-striped table-hover">
+		<thead>
+			<tr>
+				<th>Account</th>
+				<th>Account Code</th>
+				<th class="text-right">Amount</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each data.data}}
+				<tr>
+					<td>{{feedesc}}</td>
+					<td>{{acctcode}}</td>
+					<td class="text-right">{{format-currency amount}}</td>
+				</tr>
+			{{/each}}
+			<tr class="warning">
+				<td class="text-right"><strong>TOTAL:</strong></td>
+				<td class="text-right" colspan="2"><strong>{{format-currency data.total}}</strong></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

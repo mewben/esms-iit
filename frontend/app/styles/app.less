@@ -1,0 +1,70 @@
+/* TODO: Minimize usage bootstrap */
+@import (inline) "vendor/bootstrap/dist/css/bootstrap.min.css";
+@import (inline) "vendor/selectize/dist/css/selectize.css";
+@import (inline) "vendor/selectize/dist/css/selectize.bootstrap3.css";
+@import (inline) "vendor/toastr/toastr.min.css";
+
+@import "vendor/bootstrap/less/variables.less";
+@import "vendor/custom/variables.less";
+
+a {cursor:pointer;}
+
+.print {
+	padding-top: 15px;
+	font-size: 10px;
+	#ff, #header {display:none;}
+	#logo {
+		position: absolute;
+		top: 10px;
+		left: 50%;
+		margin-left: -230px;
+	}
+	.paper {width: 595px; margin: 0 auto;}
+}
+
+#footer {
+	border-top: 1px solid rgba(0,0,0,0.1);
+	margin-top: 150px;
+}
+
+.navbar-brand {
+
+	& {
+		color: @brand-warning !important;
+	}
+
+	&:hover {
+		color: #fff !important;
+	}
+}
+
+.table.selectable td {
+	cursor: pointer;
+}
+
+.main {
+	position: absolute;
+	top: 15px;
+	bottom: 0;
+	left: 15px;
+	right: 15px;
+
+	.login-box {
+		display: table;
+		height: 90%;
+		margin: 0 auto;
+		max-width: 530px;
+		padding: 0;
+	}
+
+	.login-form {
+		display: table-cell;
+		max-width: 530px;
+		vertical-align: middle;
+
+		.wrap {
+			float: left;
+			margin-right: 2px;
+		}
+	}
+}

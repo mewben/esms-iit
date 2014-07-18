@@ -1,0 +1,151 @@
+<div class="page-header">
+	<h3><i class="fa fa-angle-right"></i> Note Payment
+		<small>Receives Payment aside from the cashier mode.</small>
+	</h3>
+</div>
+<div class="row">
+	<div class="col-md-8">
+		<div class="panel panel-info">
+			<div class="panel-heading">Note Payment</div>
+			<div class="panel-body">
+				<form role="form">
+					<fieldset {{bind-attr disabled="succ"}}>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<label>REFERENCE #:</label>
+									{{input value=refno class="form-control" autofocus="autofocus"}}
+								</div>
+								<div class="col-sm-3">
+									<label>BCODE:</label>
+									{{view Em.Select
+										content=bcodes
+										optionValuePath="content.v"
+										optionLabelPath="content.name"
+										value=bcode
+										class="form-control"}}
+								</div>
+								<div class="col-sm-3">
+									<label>DATE:</label>
+									{{input value=currentDate class="form-control"}}
+								</div>
+								<div class="col-sm-2">
+									<label>SY:</label>
+									{{input value=sy class="form-control" disabled="disabled"}}
+								</div>
+								<div class="col-sm-1">
+									<label>SEM:</label>
+									{{input value=sem class="form-control" disabled="disabled"}}
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-2">
+									<label>STUDENT ID:</label>
+									{{input value=id class="form-control" action="searchId"}}
+								</div>
+								<div class="col-sm-6">
+									<label>PAYEE:</label>
+									{{input value=payee class="form-control"}}
+								</div>
+								{{#if studid}}
+								<div class="col-sm-4">
+									<label>&nbsp;</label>
+									<div><button type="button" class="btn btn-info btn-block" {{action 'loadUnpaid'}}>
+										<i class="fa fa-cloud-download"></i> Load Unpaid Assessment
+									</button></div>
+								</div>
+								{{/if}}
+							</div>
+						</div>
+						<hr>
+							<label>Add Fee:</label>
+							{{view 'selectize' placeholder="Type Fee Code" value=feecode contentBinding="model"}}
+						<hr>
+						<div class="form-group">
+							<table class="table table-condensed table-striped">
+								<thead>
+									<tr>
+										<th>CODE</th>
+										<th>DESCRIPTION</th>
+										<th class="text-right">ACCT-CODE</th>
+										<th width="100" class="text-right">AMOUNT</th>
+										<th width="10">&nbsp;</th>
+									</tr>
+								</thead>
+								<tbody>
+									{{#each data}}
+									<tr>
+										<td>{{feecode}}</td>
+										<td>{{feedesc}}</td>
+										<td class="text-right">{{acctcode}}</td>
+										<td class="text-right">
+											{{input class="form-control input-sm text-right" value=amt}}
+										</td>
+										<td>&nbsp;
+											{{#if succ}}
+											<button type="button" {{action 'delete' this}} class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></button>
+											{{/if}}
+										</td>
+									</tr>
+									{{/each}}
+									<tr class="warning">
+										<td colspan="3" class="text-right"><strong>TOTAL:</strong></td>
+										<td class="text-right"><strong>{{format-currency total}}</strong></td>
+										<td>&nbsp;</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading">ACTIONS</div>
+			<div class="panel-body">
+				{{button-spin action="submit" saveText='Save Payment' disabled=disb isProc=g.isProc btnClass="btn-warning btn-block"}}
+				<button type="button" {{action 'cancel'}} class="btn btn-default btn-block">Cancel</button>
+				<hr>
+				<button type="button" class="btn btn-info btn-block" {{action 'new'}}><i class="fa fa-fw fa-cube"></i> New Payment</button>
+				<button type="button" class="btn btn-danger btn-block" {{action 'deleteP'}} {{bind-attr disabled="not_succ"}}><i class="fa fa-fw fa-trash-o"></i> Delete Payment</button>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Search Note Payment</div>
+			<div class="panel-body">
+				<form {{action 'searchP' on="submit"}}>
+					<div class="form-group">
+						{{view Em.Select
+							content=searchCat
+							optionValuePath="content.v"
+							optionLabelPath="content.name"
+							value=cat
+							class="form-control"}}
+					</div>
+					<div class="form-group">
+						{{input class="form-control" value=query placeholder="Search"}}
+					</div>
+					<div class="form-group">
+						{{submit-spin saveText='Lookup' disabled=disb2 isProc=g.isProc btnClass="btn-warning btn-block"}}
+					</div>
+				</form>
+				<table class="table table-condensed table-hover selectable">
+					<tbody>
+						{{#each searchRes}}
+						<tr {{action 'select' this on="click"}}>
+							<td>{{studid}}</td>
+							<td>{{payee}}</td>
+							<td>{{refno}}</td>
+						</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,46 @@
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<div class="row">
+			<div class="col-xs-8">
+				<strong>{{details.studid}} - {{details.studfullname}}</strong>
+			</div>
+			<div class="col-xs-4 text-right">
+				<em class="text-muted">{{details.major.studmajor}}</em>
+			</div>
+		</div>
+	</div>
+	<table class="table table-condensed table-bordered table-striped table-hover">
+		<thead>
+			<tr>
+				<th width="1%">#</th>
+				<th>Date</th>
+				<th>Reference</th>
+				<th class="text-right">Debit</th>
+				<th class="text-right">Credit</th>
+				<th class="text-right">Balance</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each data}}
+				<tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td colspan="4"><strong>{{{name}}}</strong></td>
+				</tr>
+				{{#each data}}
+				<tr>
+					<td><em class="text-muted">{{num}}.</em></td>
+					<td>{{format-date rdate 'MMM. DD, YYYY'}}</td>
+					<td>{{ref}}</td>
+					<td class="text-right">{{format-currency debit}}</td>
+					<td class="text-right">{{format-currency credit}}</td>
+					<td class="text-right">{{format-currency balance}}</td>
+				</tr>
+				{{/each}}
+			{{/each}}
+			<tr>
+				<td colspan="6"><em>*** NOTHING FOLLOWS ***</em></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

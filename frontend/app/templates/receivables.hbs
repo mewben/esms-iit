@@ -1,0 +1,87 @@
+<div class="page-header">
+	<h3><i class="fa fa-angle-right"></i> Accounts Receivable
+		<small>Retrieves the balances of students from the current semester as of date entered.</small>
+	</h3>
+</div>
+<form class="form-inline text-right" role="form" {{action 'retrieve' on='submit'}}>
+	<div class="form-group">
+		<label for="coll" class="sr2-only">College</label>
+		{{view Em.Select
+				content=colleges
+				optionValuePath="content.v"
+				optionLabelPath="content.name"
+				value=college
+				class="form-control"}}
+	</div>
+	<div class="form-group">
+		<label for="date" class="sr2-only">Payment as of Date</label>
+		{{input value=dd placeholder="yyyy-mm-dd" class="form-control" autofocus="autofocus"}}
+	</div>
+	{{submit-spin saveText='Retrieve Data' disabled=disb isProc=g.isProc}}
+</form>
+
+{{#if data}}
+	<div id="export"></div>
+	<hr>
+	<div class="text-right">
+		<button class="btn btn-sm btn-info" {{action 'export'}}><i class="fa fa-file-excel-o fa-fw"></i> Export to Excel</button>
+	</div>
+	<hr>
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<div class="row">
+				<div class="col-sm-6">
+					<strong><em>School-Year: </em>{{g.sem.sy}} &bull; {{g.sem.sem}}</strong>
+				</div>
+				<div class="col-sm-6 text-right">
+					<strong><em>As of: </em>{{format-date dd ''}}</strong>
+				</div>
+			</div>
+		</div>
+		<table class="table table-condensed table-striped table-hover">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Student Name</th>
+					<th>Major</th>
+					<th>Status</th>
+					<th class="text-right">Total Assessment</th>
+					<th class="text-right">Amount Paid</th>
+					<th class="text-right">Refund</th>
+					<th class="text-right">Balance</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{#each data.data}}
+				<tr>
+					<td>{{studid}}</td>
+					<td>{{fullname}}</td>
+					<td>{{studmajor}}</td>
+					<td>{{schdesc}}</td>
+					<td class="text-right">{{format-currency total_assess}}</td>
+					<td class="text-right">{{format-currency total_pay}}</td>
+					<td class="text-right">{{format-currency total_refund}}</td>
+					<td class="text-right">{{format-currency balance}}</td>
+				</tr>
+				{{/each}}
+				<tr>
+					<td colspan="8" class="text-right"><em>... (cut off due to huge data. Click on Export or Print to see the full data.)</em></td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr class="warning">
+					<td colspan="4"><strong>TOTAL: <em>{{data.total.count}} Students</em></strong></td>
+					<td class="text-right"><strong>{{format-currency data.total.assess}}</strong></td>
+					<td class="text-right"><strong>{{format-currency data.total.paid}}</strong></td>
+					<td class="text-right"><strong>{{format-currency data.total.refund}}</strong></td>
+					<td class="text-right"><strong>{{format-currency data.total.balance}}</strong></td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+
+	<hr>
+	<div class="text-right">
+		<button class="btn btn-sm btn-info" {{action 'export'}}><i class="fa fa-file-excel-o fa-fw"></i> Export to Excel</button>
+	</div>
+{{/if}}

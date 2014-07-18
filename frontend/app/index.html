@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>EsmsUi</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {{BASE_TAG}}
+
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/esms-ui.css" media="all">
+  </head>
+  <body>
+    <script>
+      window.EsmsUiENV = {{ENV}};
+      window.EmberENV = window.EsmsUiENV.EmberENV;
+      window.sem = {
+        sy: '2014-2015',
+        sem: '1'
+      };
+      window.currentDate = '2014-07-09';
+    </script>
+    <script src="assets/vendor.js"></script>
+    <script src="assets/esms-ui.js"></script>
+    <script>
+      window.EsmsUi = require('esms-ui/app')['default'].create(EsmsUiENV.APP);
+    </script>
+  </body>
+</html>

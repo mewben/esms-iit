@@ -1,0 +1,31 @@
+/bootstrap/compiled.php
+/vendor
+/public/bgs
+composer.phar
+composer.lock
+.env.*.php
+.env.php
+.DS_Store
+Thumbs.db
+
+
+# /frontend ember-cli
+
+# compiled output
+/frontend/dist
+/frontend/tmp
+
+# dependencies
+/frontend/node_modules
+/frontend/vendor
+!/frontend/vendor/custom
+
+# misc
+/frontend/.sass-cache
+/frontend/connect.lock
+/frontend/libpeerconnection.log
+/frontend/.DS_Store
+/frontend/Thumbs.db
+/frontend/coverage
+/frontend/npm-debug.log
+/frontend/testem.log
