@@ -1,0 +1,113 @@
+-- REPLACE FUNCTION
+
+-- get_studentsubledger(bpchar)
+-- included bulk_collection
+
+-- Desc: Gets the subsidiary ledger from a student
+-- Ex. get_studentsubledger('005432');
+
+
+DECLARE
+
+	prm_STUDID ALIAS FOR $1;
+
+  	ledger_rec 	record;
+  	rst         studentledgertype%ROWTYPE;
+
+   	v_balance 	numeric(12,2);
+
+BEGIN  
+ 	FOR ledger_rec IN 
+ 		SELECT * 
+ 		FROM (
+			(
+				SELECT 
+					sy,
+					sem,
+					gendate as rdate,
+					'Billing' as ref,
+					0 as ord,
+                  	SUM(coalesce(amt,0.00)) as debit,
+                  	0.00 as credit
+               	FROM ass_header 
+               	LEFT JOIN ass_details USING(sy,sem,studid)
+             	WHERE studid=prm_STUDID
+            	GROUP BY sy,sem,rdate,ref
+
+          		UNION ALL
+
+          		SELECT 
+          			sy,
+          			sem,
+          			paydate as rdate,
+          			CAST(orno as character varying(20)) as ref,
+          			1 as ord,
+                 	0.00 as debit,
+                 	SUM(coalesce(amt,0.00)) as credit
+          		FROM collection_header 
+          		LEFT JOIN collection_details USING(orno)
+          		WHERE studid=prm_STUDID
+          		GROUP BY sy,sem,rdate,ref
+
+				UNION ALL
+
+				-- bulk_collection
+				SELECT 
+					sy,
+					sem,
+					paydate as rdate, 
+					bcode || ' - ' || refno as ref,
+					1 as ord,
+					0.00 as debit,
+					SUM(coalesce(amt,0.00)) as credit
+				FROM bulk_collection_header 
+				LEFT JOIN bulk_collection_details USING(refno)
+				WHERE studid=prm_STUDID
+				GROUP BY sy,sem,rdate,ref 
+								
+
+          		UNION ALL
+
+          		SELECT 
+          			sy,
+          			sem,
+          			date_entered as rdate,
+          			'Refund' as ref,
+          			1 as ord,
+                 	SUM(coalesce(amount,0.00)) as debit,
+                 	0.00 as credit
+          		FROM student_refund
+          		WHERE studid=prm_STUDID
+          		GROUP BY sy,sem,rdate,ref
+         	)
+		) as foo
+ 		ORDER BY 
+ 			sy,
+			CASE
+				WHEN UPPER(sem) BETWEEN 'A' AND 'Z' THEN 0
+				WHEN sem BETWEEN '0' AND '9' THEN 2
+				ELSE 1
+			END,
+			sem, ord, rdate
+	    
+
+   		LOOP
+        	IF ledger_rec.ord=0 THEN
+           		v_balance := 0.00;
+        	END IF;
+
+        	v_balance   := v_balance + coalesce(ledger_rec.debit,0.00) - coalesce(ledger_rec.credit,0.00); 
+
+	        rst.sy      := ledger_rec.sy;
+	        rst.sem     := ledger_rec.sem;
+	        rst.rdate   := ledger_rec.rdate;
+	        rst.ref     := ledger_rec.ref;
+	        rst.debit   := ledger_rec.debit;
+	        rst.credit  := ledger_rec.credit;
+	        rst.balance := v_balance;
+
+			RETURN NEXT rst;
+   		END LOOP;
+
+   	RETURN;
+END;

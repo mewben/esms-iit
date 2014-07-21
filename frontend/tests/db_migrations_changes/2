@@ -1,0 +1,73 @@
+-- REPLACE FUNCTION
+
+-- get_studbalance(bpchar, bpchar, bpchar, refcursor, date)
+-- added bulk_collection_details
+-- Desc: Gets the list of balances from students in a semester to date.
+-- Ex. get_studbalance('2013-2014', '2', 'UNDR', 'cur', '2013-12-31');
+
+DECLARE 
+ 	prm_SY    ALIAS FOR $1;
+ 	prm_SEM   ALIAS FOR $2;
+ 	prm_COLL  ALIAS FOR $3;
+ 	prm_ref   ALIAS FOR $4;
+ 	prm_DATE  ALIAS FOR $5;
+
+BEGIN 
+ 	OPEN prm_ref FOR
+    	SELECT 
+    		studid,
+    		studfullname as fullname,
+    		total_assess,
+    		total_pay,
+    		0.00 as total_refund,
+    		coalesce(total_assess,0) - coalesce(total_pay,0) as balance,
+    		registered,
+    		studmajor,
+    		schdesc
+    	FROM (
+    		SELECT 
+    			sy,
+    			sem,
+    			studid,
+    			SUM(coalesce(amt,0)) as total_assess,
+       			coalesce (
+					(
+						SELECT SUM(t) 
+						FROM (
+							SELECT sum(coalesce(amt,0)) as t
+								FROM collection_details 
+								LEFT JOIN collection_header USING(orno)
+								WHERE sy=ass_details.sy 
+									AND sem=ass_details.sem 
+									AND studid=ass_details.studid 
+									AND paydate <= prm_DATE
+
+							UNION ALL
+						
+							SELECT sum(coalesce(amt,0)) as t
+								FROM bulk_collection_details 
+								LEFT JOIN bulk_collection_header USING(refno)
+								WHERE sy=ass_details.sy 
+									AND sem=ass_details.sem 
+									AND studid=ass_details.studid 
+									AND paydate <= prm_DATE
+						) as foo
+				
+				),0.00) as total_pay
+     		FROM ass_details
+     		WHERE sy=prm_SY 
+     			AND sem=prm_SEM
+     		GROUP BY sy,sem,studid
+     	) as t 
+     	LEFT JOIN student USING(studid) 
+       	LEFT JOIN semstudent USING(sy,sem,studid) 
+     	LEFT JOIN program ON (progcode=studmajor) 
+     	LEFT JOIN department ON (deptcode=progdept)
+     	LEFT JOIN scholar ON (schcode=bpchar(scholarstatus))
+      	WHERE coalesce(total_assess,0) > coalesce(total_pay,0) 
+      		AND deptcoll=prm_COLL 
+      		AND registered = 't'
+     	ORDER BY studmajor,studfullname;
+ 
+ 	RETURN prm_ref; 
+END;

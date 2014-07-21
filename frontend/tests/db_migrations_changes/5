@@ -1,0 +1,93 @@
+-- NEW QUERY
+
+
+CREATE OR REPLACE FUNCTION "srgb"."get_bulkcollections_bydate"(date, date, varchar, varchar, varchar)
+  RETURNS SETOF "srgb"."rptbulkcollectionstype" AS $BODY$
+
+-- get_bulkcollections_by_date(date, date, varchar, varchar, varchar)
+-- Desc: Gets the collections from cashier or bulk
+-- Ex: get_bulkcollections_bydate('2014-06-01', '2014-07-01', 'STF', '1', 'FCB')
+-- Ex: get_bulkcollections_bydate('2014-06-01', '2014-07-01', 'STF', '', '')
+
+DECLARE
+  	prm_datefrom 	ALIAS FOR $1;
+   	prm_dateto 		ALIAS FOR $2;
+   	prm_ChargeTo 	ALIAS FOR $3;
+   	prm_not_cashier ALIAS FOR $4;
+   	prm_bcode 		ALIAS FOR $5;
+
+   	collection_rec 	record;
+   	rst         	rptbulkcollectionstype%ROWTYPE;
+	 
+BEGIN
+	IF (prm_not_cashier='1') THEN /* Not From Cashier */
+		FOR collection_rec IN 
+			SELECT
+				paydate,
+				refno,
+				studid,
+				payee,
+				CASE WHEN coalesce(subacctcode,'')='' THEN acctcode
+					ELSE trim(acctcode) || '(' || trim(subacctcode) || ')' 
+				END as acctcode,
+				feedesc,
+				amt
+			FROM bulk_collection_details 
+			LEFT JOIN bulk_collection_header USING(refno)
+			LEFT JOIN fees USING(feecode)
+			WHERE (paydate BETWEEN prm_datefrom AND prm_dateto) 
+				AND chargeto=prm_ChargeTo 
+				AND coalesce(amt,0)<>0
+				AND bcode=prm_bcode
+			ORDER BY paydate,refno,acctcode,subacctcode
+
+			LOOP
+				rst.paydate 	:= collection_rec.paydate;
+				rst.refno		:= collection_rec.refno;
+				rst.studid 		:= collection_rec.studid;
+				rst.payee		:= collection_rec.payee;
+				rst.acctcode	:= collection_rec.acctcode;
+				rst.acctname	:= collection_rec.feedesc;
+				rst.amount		:= collection_rec.amt;
+
+				RETURN NEXT rst;
+			END LOOP;
+	ELSE
+		FOR collection_rec IN 
+			SELECT
+				paydate,
+				orno,
+				studid,
+				payee,
+				CASE WHEN coalesce(subacctcode,'')='' THEN acctcode
+					ELSE trim(acctcode) || '(' || trim(subacctcode) || ')' 
+				END as acctcode,
+				feedesc,
+				amt
+			FROM collection_details 
+			LEFT JOIN collection_header USING(orno)
+			LEFT JOIN fees USING(feecode)
+			WHERE (paydate BETWEEN prm_datefrom AND prm_dateto) 
+				AND chargeto=prm_ChargeTo 
+				AND coalesce(amt,0)<>0
+			ORDER BY paydate,orno,acctcode,subacctcode
+
+			LOOP
+				rst.paydate 	:= collection_rec.paydate;
+				rst.refno		:= collection_rec.orno;
+				rst.studid 		:= collection_rec.studid;
+				rst.payee		:= collection_rec.payee;
+				rst.acctcode	:= collection_rec.acctcode;
+				rst.acctname	:= collection_rec.feedesc;
+				rst.amount		:= collection_rec.amt;
+
+				RETURN NEXT rst;
+			END LOOP;
+	END IF;
+  
+  	RETURN;
+END;
+$BODY$
+  	LANGUAGE 'plpgsql' VOLATILE;
+
+ALTER FUNCTION "srgb"."get_bulkcollections_bydate"(date, date, varchar, varchar, varchar) OWNER TO "postgres";

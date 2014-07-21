@@ -1,0 +1,64 @@
+-- NEW QUERY
+
+CREATE OR REPLACE FUNCTION "srgb"."get_summaryofbilling2"(bpchar, bpchar)
+  RETURNS SETOF "srgb"."rptsummaryofbilling2type" AS $BODY$
+
+-- get_summaryofbilling2(bpchar, bpchar)
+-- added acctcode
+-- Desc: Shows all the collectibles in a sem by the summary of assessments from students
+-- Ex. get_summaryofbilling2('2013-2014', '2');
+
+
+DECLARE
+	/* Update History:
+    	2008-02-17: Created by chard, uses new created type rptsummaryofbillingtype
+
+ 	  	Sample Query: SELECT * FROM get_summaryofbilling('2007-2008','2')
+	*/
+   	
+   	prm_SY ALIAS FOR $1;
+   	prm_SEM ALIAS FOR $2;
+
+   	assessment_rec	record;
+   	rst         	rptsummaryofbilling2type%ROWTYPE;
+
+   	v_num 			integer;
+
+BEGIN
+
+  	v_num := 0;
+  
+   	FOR assessment_rec IN 
+   		SELECT 
+   			ord,
+   			feecode,
+   			feedesc,
+   			acctcode,
+   			SUM(coalesce(amt,0.00)) as amount
+     	FROM ass_details 
+     	LEFT JOIN ass_header USING(sy,sem,studid)
+    	LEFT JOIN fees USING(feecode)
+     	WHERE sy=prm_SY 
+     		AND sem=prm_SEM 
+     		AND coalesce(amt,0.00)<>0.00
+     	GROUP BY fees.ord,feecode, acctcode, feedesc
+     	ORDER BY fees.ord,feedesc, acctcode, feecode
+                        
+   		LOOP
+        	v_num 		:= v_num + 1;
+
+        	rst.num     := v_num;
+        	rst.feecode := assessment_rec.feecode; 
+        	rst.feedesc := assessment_rec.feedesc;
+        	rst.amount  := assessment_rec.amount;
+			rst.acctcode  := assessment_rec.acctcode;
+
+			RETURN NEXT rst;
+   		END LOOP;
+
+   	RETURN; 
+END;
+$BODY$
+  	LANGUAGE 'plpgsql' VOLATILE;
+
+ALTER FUNCTION "srgb"."get_summaryofbilling2"(bpchar, bpchar) OWNER TO "postgres";
