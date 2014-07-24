@@ -5,10 +5,44 @@
 @import (inline) "vendor/toastr/toastr.min.css";
 
 @import "vendor/bootstrap/less/variables.less";
-@import "vendor/custom/variables.less";
+
+// font-awesome
+@import "vendor/font-awesome/less/variables.less";
+@import "vendor/custom/variables.less";		// override variables
+@import "vendor/font-awesome/less/mixins.less";
+@import "vendor/font-awesome/less/path.less";
+@import "vendor/font-awesome/less/core.less";
+@import "vendor/font-awesome/less/larger.less";
+@import "vendor/font-awesome/less/fixed-width.less";
+@import "vendor/font-awesome/less/list.less";
+@import "vendor/font-awesome/less/bordered-pulled.less";
+@import "vendor/font-awesome/less/spinning.less";
+@import "vendor/font-awesome/less/icons.less";
+
+
+
+
 
 a {cursor:pointer;}
 
+.borderless tbody tr td,
+.borderless thead tr th { border: none;}
+table.pre {
+	font-family: monospace; //@font-family-monospace;
+}
+td.border-top {
+	border-top: 1px solid #000 !important;
+}
+td.border-top.double {
+	border-top: 3px double #000 !important;
+}
+td.border-bottom {
+	border-bottom: 1px solid #000 !important;
+}
+td.border-bottom.double {
+	border-bottom: 3px double #000 !important;
+}
+table.table table.table {margin-bottom: 0;}
 .print {
 	padding-top: 15px;
 	font-size: 10px;

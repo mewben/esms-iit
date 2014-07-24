@@ -2,6 +2,12 @@
 
 class Report {
 
+	public function getCertBilling($q)
+	{
+		$data = [];
+		
+	}
+
 	public function getCollections($q)
 	{
 		extract($q);

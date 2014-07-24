@@ -2,7 +2,11 @@
 
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
-var app = new EmberApp();
+var app = new EmberApp({
+	fingerprint: {
+		enabled: false
+	}
+});
 
 // Use `app.import` to add additional libraries to the generated
 // output files.
@@ -20,6 +24,13 @@ var app = new EmberApp();
 // bootstrap
 // TODO : minimize usage bootstrap
 app.import('vendor/bootstrap/dist/js/bootstrap.min.js');
+
+// font-awesome fonts
+app.import('vendor/font-awesome/fonts/fontawesome-webfont.eot');
+app.import('vendor/font-awesome/fonts/fontawesome-webfont.svg');
+app.import('vendor/font-awesome/fonts/fontawesome-webfont.ttf');
+app.import('vendor/font-awesome/fonts/fontawesome-webfont.woff');
+app.import('vendor/font-awesome/fonts/FontAwesome.otf');
 
 // selectize
 app.import('vendor/selectize/dist/js/standalone/selectize.min.js');

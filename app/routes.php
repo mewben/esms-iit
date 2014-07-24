@@ -33,6 +33,7 @@ Route::group(['prefix' => 'api/v1', 'before' => 'auth.custom'], function() {
 	Route::get('load-unpaid', 'FeesController@unpaid');
 	Route::get('payment', 'FeesController@payment');
 	Route::get('students', 'StudentsController@search');
+	Route::get('reports/certbilling', 'ReportsController@certbilling');
 	Route::get('reports/collections', 'ReportsController@collections');
 	Route::get('reports/ledgers/{id}', 'ReportsController@ledger');
 	Route::get('reports/receivables', 'ReportsController@receivables');

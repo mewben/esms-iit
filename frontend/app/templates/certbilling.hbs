@@ -1,6 +1,6 @@
 <div class="page-header">
-	<h3><i class="fa fa-angle-right"></i> Subsidiary Ledger
-		<small>Retrieves the account statement of a student.</small>
+	<h3><i class="fa fa-angle-right"></i> Certificate of Billing (! Working in Progress DO NOT USE YET.)
+		<small>Retrieves the certificate of billing of a student.</small>
 	</h3>
 </div>
 
@@ -21,7 +21,7 @@
 			<hr>
 			<div class="list-group">
 				{{#each data}}
-					{{#link-to 'ledgers.ledger' studid class="list-group-item list-group-item-warning"}}
+					{{#link-to 'certbilling.stud' studid class="list-group-item list-group-item-warning"}}
 						<small>{{studid}} - {{studfullname}}</small>
 					{{/link-to}}
 				{{/each}}

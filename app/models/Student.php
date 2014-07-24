@@ -19,7 +19,6 @@ class Student extends \Eloquent {
 			$data = $model->toArray();
 			return array_map('utf8_encode', $data);
 		} else {
-
 			return static::searchByLastName($q);
 		}
 	}
@@ -29,7 +28,7 @@ class Student extends \Eloquent {
 		$data = static::where('studlastname', 'LIKE', strtoupper($q) . '%')
 				->orderBy('studlastname')
 				->orderBy('studfirstname')
-				->get(['studid', 'studlastname', 'studfirstname'])
+				->get(['studid', 'studfullname'])
 				->toArray();
 
 		return static::_encode($data);

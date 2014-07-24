@@ -56,10 +56,12 @@ Route::filter('auth.basic', function()
 
 Route::filter('auth.custom', function()
 {
-	if (!Session::has('user'))
-		return Redirect::to('login');
+	if ($_ENV['FILTER']) {
+		if (!Session::has('user'))
+			return Redirect::to('login');
 
-	Config::set('database.connections.pgsql', Session::get('user.con'));
+		Config::set('database.connections.pgsql', Session::get('user.con'));
+	}
 });
 
 /*

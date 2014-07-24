@@ -3,7 +3,7 @@
 ### To setup
 
 1. Clone this repository.
-2. Create `/.env.production.php`.
+2. Create `/.env.php` for production.
 ```
 	<?php
 
@@ -11,7 +11,9 @@
 		'DBHOST' => 'your_host',
 		'DBNAME' => 'your_dbname',
 		'DBUSER' => 'your_dbuser',
-		'DBPASS' => 'your_password'
+		'DBPASS' => 'your_password',
+		
+		'FILTER' => true
 	);
 ```
 3. Run `composer install`.

@@ -7,8 +7,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/esms-ui-3cfd33b7e51c2f95845eb1aa28f1fce0.css" media="all">
+    <link rel="stylesheet" href="assets/esms-ui.css" media="all">
   </head>
   <body>
     @yield('content')

@@ -21,6 +21,18 @@ export default Em.Controller.extend({
 				.done(function(res) {
 					self.set('data', res);
 				});
+		},
+		searchStud: function(id, trans) {
+			var self = this;
+
+			this.get('g').getJSON('/students?', {q: id})
+				.done(function(res) {
+					if(res.studid) {
+						self.transitionToRoute(trans, res.studid);
+					} else {
+						self.set('data', res);
+					}
+				});
 		}
 	}
 });

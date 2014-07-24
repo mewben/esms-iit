@@ -14,9 +14,11 @@ Router.map(function() {
 	this.route('importpay');
 
 	// Reports
+	this.resource('certbilling', function() {
+		this.route('stud', {path: ':studid'});
+	});
 	this.route('collections');
 	this.resource('ledgers', function() {
-		this.route('search', {path: 'search/:studid'});
 		this.route('ledger', {path: ':studid'});
 	});
 	this.resource('refunds', function() {
@@ -29,6 +31,7 @@ Router.map(function() {
 
 	// Print
 	this.resource('print', function() {
+		this.route('certbilling', {path: 'certbilling/:studid'});
 		this.route('ledger', {path: 'ledger/:studid'});
 		this.route('sumbilling', {path: 'sumbilling/:sy/:sem'});
 	});

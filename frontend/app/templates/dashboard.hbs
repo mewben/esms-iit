@@ -1,1 +1,24 @@
-<h3>Dashboard</h3>
+<div class="page-header">
+	<h3>What do you want to do?</h3>
+</div>
+<div class="row">
+	<div class="col-sm-4">
+		<div class="list-group">
+			{{#link-to 'payment' class="list-group-item"}}Payment Module{{/link-to}}
+		</div>
+	</div>
+	<div class="col-sm-4">
+		<div class="list-group">
+			{{#link-to 'importpay' class="list-group-item"}}Import Payment{{/link-to}}
+		</div>
+	</div>
+	<div class="col-sm-4">
+		<div class="list-group">
+			{{#link-to 'receivables' class="list-group-item"}}Account Receivables{{/link-to}}
+			{{#link-to 'collections' class="list-group-item"}}Report of Collections{{/link-to}}
+			{{#link-to 'sumbilling' class="list-group-item"}}Summary of Billing{{/link-to}}
+			{{#link-to 'certbilling' class="list-group-item"}}Certificate of Billing{{/link-to}}
+			{{#link-to 'ledgers' class="list-group-item"}}Subsidiary Leger{{/link-to}}
+		</div>
+	</div>
+</div>

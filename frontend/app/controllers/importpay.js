@@ -18,6 +18,8 @@ export default Base.extend({
 			var self = this;
 			var total = 0;
 
+			this.set('verified', false);
+
 			Em.$("#csv").parse({
 				config: {
 					dynamicTyping: false
