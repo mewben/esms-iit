@@ -30,7 +30,7 @@ class AdminController extends \BaseController {
 			DB::connection()->getDatabaseName();
 			$sem = Semester::where('current', '=', 't')->get()->toArray();
 			if (!$sem) {
-				$sem[0] = array('sy' => '2014-2014', 'sem' => '1');
+				$sem[0] = array('sy' => '2014-2015', 'sem' => '1');
 			} 
 			$currentDate = date('Y-m-d');
 			
