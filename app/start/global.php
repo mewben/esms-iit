@@ -49,7 +49,9 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 App::error(function(Exception $exception, $code)
 {
 	//Log::error($exception);
-	return Response::json($exception->getMessage(), $code);
+	$c = $exception->getCode();
+	if (isset($c) && $c == '409')
+		return Response::json($exception->getMessage(), $code);
 });
 
 /*

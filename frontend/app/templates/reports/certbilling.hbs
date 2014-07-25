@@ -2,15 +2,15 @@
 	<tbody>
 		<tr>
 			<td width="15%">Student Name</td>
-			<td>: <strong>170348 - MOHAMMAD NAJER B. AMBOR</strong></td>
+			<td>: <strong>{{h.studid}} - {{h.studfullname2}}</strong></td>
 		</tr>
 		<tr>
 			<td width="15%">Course &amp; Year</td>
-			<td>: <strong>BSCE - 1</strong></td>
+			<td>: <strong>{{h.studmajor}} - {{h.studlevel}}</strong></td>
 		</tr>
 		<tr>
 			<td width="15%">School Year</td>
-			<td>: <strong>SY: 2014-2015 Sem: 1</strong></td>
+			<td>: <strong>SY: {{h.sy}} Sem: {{h.sem}}</strong></td>
 		</tr>
 	</tbody>
 </table>
@@ -19,53 +19,25 @@
 		<table class="table borderless table-condensed pre">
 			<thead>
 				<tr>
-					<th class="text-center">SUBJECTS</th>
+					<th>SUBJECTS</th>
 					<th class="text-right">LEC</th>
 					<th class="text-right">LAB</th>
 					<th class="text-right">UNIT</th>
 				</tr>
 			</thead>
 			<tbody>
+				{{#each s}}
 				<tr>
-					<td>CET 2</td>
-					<td class="text-right">3</td>
-					<td class="text-right">0</td>
-					<td class="text-right">3</td>
+					<td>{{subjcodedsp}}</td>
+					<td class="text-right">{{subjlec_units}}</td>
+					<td class="text-right">{{subjlab_units}}</td>
+					<td class="text-right">{{subjcredit}}</td>
 				</tr>
-				<tr>
-					<td>Chem 1</td>
-					<td>3</td>
-					<td>0</td>
-					<td>3</td>
-				</tr>
-				<tr>
-					<td>Draw 1</td>
-					<td>3</td>
-					<td>0</td>
-					<td>3</td>
-				</tr>
-				<tr>
-					<td>English 1</td>
-					<td>3</td>
-					<td>0</td>
-					<td>3</td>
-				</tr>
-				<tr>
-					<td>Filipino 1</td>
-					<td>0</td>
-					<td>2</td>
-					<td>2</td>
-				</tr>
-				<tr>
-					<td>NSTP/CWTS</td>
-					<td>3</td>
-					<td>0</td>
-					<td>3</td>
-				</tr>
+				{{/each}}
 				<tr>
 					<td>&nbsp;</td>
 					<td colspan="2" class="text-center"><strong>Total</strong></td>
-					<td class="text-right border-top">28</td>
+					<td class="text-right border-top"><strong>{{h.t_unit}}</strong></td>
 				</tr>
 			</tbody>
 		</table>		
@@ -80,48 +52,32 @@
 			<tbody>
 				<tr>
 					<td>&nbsp;</td>
-					<td colspan="2">Tuition (P180.00 per unit)</td>
-					<td class="text-right">4,500.00</td>
+					<td colspan="2">Tuition (P{{h.tuiamt}} per unit)</td>
+					<td class="text-right">{{format-currency tui.amt}}</td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
 					<td colspan="2">Registration Fee</td>
-					<td class="text-right">200.00</td>
+					<td class="text-right">{{format-currency reg.amt}}</td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
 					<td colspan="2">Miscellaneous Fees:</td>
-					<td class="text-right">3,190.00</td>
+					<td class="text-right">{{format-currency h.t_misc}}</td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
 					<td colspan="2">
 						<table class="table table-condensed pre">
-							<tr>
-								<td>&nbsp;</td>
-								<td>Library Fee</td>
-								<td class="text-right">300.00</td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td>Library Fee</td>
-								<td class="text-right">300.00</td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td>Library Fee</td>
-								<td class="text-right">300.00</td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td>Library Fee</td>
-								<td class="text-right">300.00</td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td>Library Fee</td>
-								<td class="text-right">300.00</td>
-							</tr>
+							<tbody>
+								{{#each misc}}
+								<tr>
+									<td>&nbsp;</td>
+									<td>{{feedesc}}</td>
+									<td class="text-right">{{format-currency amt}}</td>
+								</tr>
+								{{/each}}
+							</tbody>
 						</table>
 					</td>
 					<td>&nbsp;</td>
@@ -129,31 +85,33 @@
 				<tr>
 					<td>&nbsp;</td>
 					<td colspan="2">
-						Laboratory (P250.00/subject)
+						Laboratory (P{{h.labamt}}/subject)
 					</td>
-					<td class="text-right">750.00</td>
+					<td class="text-right">{{format-currency lab.amt}}</td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
 					<td colspan="2"><strong>TOTAL BILLING:</strong></td>
-					<td class="text-right border-top"><strong>8,640.00</strong></td>
+					<td class="text-right border-top"><strong>{{format-currency h.t_as}}</strong></td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
 					<td colspan="2">Less: Payments</td>
-					<td class="text-right">2,500.00</td>
+					<td class="text-right">{{format-currency h.t_paid}}</td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
 					<td colspan="2">
 						<table class="table table-condensed borderless pre">
 							<tbody>
+								{{#each paid}}
 								<tr>
 									<td>&nbsp;</td>
-									<td>O.R. 9689754</td>
-									<td>6/10/2014</td>
-									<td class="text-right">2,500.00</td>
+									<td>{{ref}}</td>
+									<td>{{paydate}}</td>
+									<td class="text-right">{{format-currency amt}}</td>
 								</tr>
+								{{/each}}
 							</tbody>
 						</table>
 					</td>
@@ -162,7 +120,7 @@
 				<tr>
 					<td>&nbsp;</td>
 					<td colspan="2"><strong>BALANCE</strong></td>
-					<td class="text-right border-top double"><strong>6,140.00</strong></td>
+					<td class="text-right border-top double"><strong>{{format-currency h.bal}}</strong></td>
 				</tr>
 			</tbody>
 		</table>

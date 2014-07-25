@@ -9,9 +9,9 @@ class ReportsController extends \BaseController {
 		$this->model = $model;
 	}
 
-	public function certbilling()
+	public function certbilling($id)
 	{
-		return Response::json($this->model->getCertBilling(Input::all()));
+		return Response::json($this->model->getCertBilling($id));
 	}
 
 	public function collections()

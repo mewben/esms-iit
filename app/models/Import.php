@@ -23,8 +23,7 @@ class Import {
 				$details[] = [
 					'refno' => $data['refno'],
 					'feecode' => $v->feecode,
-					'amt' => $paid,
-					'lastuser' => 'engg_mls' // TODO: get logged in user
+					'amt' => $paid
 				];
 			}
 		}

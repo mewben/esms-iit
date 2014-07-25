@@ -1,0 +1,60 @@
+-- NEW QUERY
+
+CREATE OR REPLACE FUNCTION "srgb"."get_paid"(bpchar, bpchar, bpchar)
+  RETURNS SETOF "srgb"."paidtype" AS $BODY$
+
+-- get_paid(bpchar, bpchar, bpchar)
+-- Desc: Gets all the paid transactions of a student in a particular sy sem
+-- Ex. get_paid('005032', '2013-2014', '1');
+
+
+DECLARE
+   	
+    prm_ID  ALIAS FOR $1;
+   	prm_SY  ALIAS FOR $2;
+   	prm_SEM ALIAS FOR $3;
+
+    paid_rec    record;
+    rst         paidtype%ROWTYPE;
+
+BEGIN
+  
+    FOR paid_rec IN 
+        SELECT *
+        FROM (
+            SELECT
+                'O.R. ' || CAST(orno AS character varying(20)) AS ref,
+                paydate AS rdate,
+                SUM(amt) AS amt
+            FROM collection_header
+            LEFT JOIN collection_details USING(orno)
+            WHERE studid=prm_ID AND sy=prm_SY AND sem=prm_SEM
+            GROUP BY rdate, ref
+
+            UNION ALL
+
+            SELECT
+                bcode || '-' || refno as ref,
+                paydate as rdate,
+                SUM(amt) as amt
+            FROM bulk_collection_header
+            LEFT JOIN bulk_collection_details USING(refno)
+            WHERE studid=prm_ID AND sy=prm_SY AND sem=prm_SEM
+            GROUP BY rdate, ref
+        ) as foo
+        ORDER BY rdate
+
+    LOOP
+        rst.ref     := paid_rec.ref;
+        rst.paydate := paid_rec.rdate;
+        rst.amt     := paid_rec.amt;
+
+        RETURN NEXT rst;
+    END LOOP;
+
+   	RETURN; 
+END;
+$BODY$
+  	LANGUAGE 'plpgsql' VOLATILE;
+
+ALTER FUNCTION "srgb"."get_paid"(bpchar, bpchar, bpchar) OWNER TO "postgres";

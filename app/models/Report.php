@@ -2,18 +2,87 @@
 
 class Report {
 
-	public function getCertBilling($q)
+	public function getCertBilling($id)
 	{
+		$q['studid'] = $id;
+		$q['sy'] = Session::get('user.sem.sy', '2014-2015');
+		$q['sem'] = Session::get('user.sem.sem', '1');
+
 		$data = [];
+		// headers
+		$h = DB::select("
+			SELECT studid, t1.sy, t1.sem, studfullname2, studmajor, studlevel, t2.amt AS tuiamt, t3.amt AS labamt 
+			FROM semstudent AS t1 
+			LEFT JOIN student USING(studid)
+			LEFT JOIN tuitionmatrix_new AS t2
+				ON (
+					t1.payment_sy = t2.sy AND
+					t1.payment_sem = t2.sem AND
+					t1.studmajor = t2.progcode
+				)
+			LEFT JOIN labmatrix_new AS t3
+				ON (
+					t1.payment_sy = t3.sy AND
+					t1.payment_sem = t3.sem
+				)
+			WHERE studid=? AND t1.sy=? AND t1.sem=? AND t3.subjcode='DEFAULT        ' AND registered=true
+		", array($q['studid'], $q['sy'], $q['sem']));
+
+		if (!$h)	throw new Exception('Student Not Enrolled in this Semester', 409);
+		$data['h'] = $h[0];
+
+		// subjects
+		$subj = DB::select('SELECT * FROM registration LEFT JOIN subject USING(subjcode) WHERE studid=? AND sy=? AND sem=?', array($q['studid'], $q['sy'], $q['sem']));
+		$data['s'] = $subj;
+		if (count($subj) > 1) {
+			$t = 0.00;
+			foreach ($subj as $k => $v) {
+				$t += $v->subjcredit;
+			}
+			$data['h']->t_unit = number_format($t, 2);
+		}
+
+		// assessment
+		$as = DB::select('SELECT * FROM ass_details LEFT JOIN fees USING(feecode) WHERE studid=? AND sy=? AND sem=?', array($q['studid'], $q['sy'], $q['sem']));
+		if (count($as) > 1) {
+			$t = 0.00;
+			$m = 0.00;
+			foreach ($as as $k => $v) {
+				if ($v->feecode == 'TUITIONFEE  ') { // fixed length
+					$data['tui'] = $v;
+				} elseif ($v->feecode == 'REGFEE      ') {
+					$data['reg'] = $v;
+				} elseif ($v->feecode == 'LABFEE      ' ) {
+					$data['lab'] = $v;
+				} else {
+					$data['misc'][] = $v;
+					$m += $v->amt;
+				}
+				$t += $v->amt;
+			}
+			$data['h']->t_as = $t;
+			$data['h']->t_misc = $m;
+		}
+
+		// paid
+		$p = DB::select("SELECT * FROM get_paid(?, ?, ?)", array($q['studid'], $q['sy'], $q['sem']));
+		$data['paid'] = $p;
+		if ($p) {
+			$t = 0.00;
+			foreach ($p as $k => $v) {
+				$t += $v->amt;
+			}
+			$data['h']->t_paid = $t;
+		}
+		$data['h']->bal = $data['h']->t_as - $data['h']->t_paid;
+		$data['currentDate'] = date('Y-m-d');
 		
+		return $data;
 	}
 
 	public function getCollections($q)
 	{
 		extract($q);
-		$data['datefrom'] = '2014-06-01';
-		$data['dateto'] = '2014-07-14';
-		$data['fund'] = 'STF';
 		if ($bcode == 'CASHIER') {
 			$rep = DB::select("SELECT * FROM get_bulkcollections_bydate(?, ?, ?, ?, ?)", array($datefrom, $dateto, $fund, '', ''));
 		} else {
