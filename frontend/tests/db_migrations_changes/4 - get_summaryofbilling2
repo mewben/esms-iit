@@ -35,10 +35,12 @@ BEGIN
    			feedesc,
    			acctcode,
    			SUM(coalesce(amt,0.00)) as amount
-     	FROM ass_details 
+     	FROM ass_details AS t1
      	LEFT JOIN ass_header USING(sy,sem,studid)
     	LEFT JOIN fees USING(feecode)
-     	WHERE sy=prm_SY 
+      LEFT JOIN semstudent USING(sy,sem,studid)
+     	WHERE registered='t'
+        AND sy=prm_SY 
      		AND sem=prm_SEM 
      		AND coalesce(amt,0.00)<>0.00
      	GROUP BY fees.ord,feecode, acctcode, feedesc

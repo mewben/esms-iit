@@ -26,11 +26,11 @@ var app = new EmberApp({
 app.import('vendor/bootstrap/dist/js/bootstrap.min.js');
 
 // font-awesome fonts
-app.import('vendor/font-awesome/fonts/fontawesome-webfont.eot');
-app.import('vendor/font-awesome/fonts/fontawesome-webfont.svg');
-app.import('vendor/font-awesome/fonts/fontawesome-webfont.ttf');
-app.import('vendor/font-awesome/fonts/fontawesome-webfont.woff');
-app.import('vendor/font-awesome/fonts/FontAwesome.otf');
+//app.import('vendor/font-awesome/fonts/fontawesome-webfont.eot', {destDir: 'fonts'});
+//app.import('vendor/font-awesome/fonts/fontawesome-webfont.svg', {destDir: 'fonts'});
+//app.import('vendor/font-awesome/fonts/fontawesome-webfont.ttf', {destDir: 'fonts'});
+//app.import('vendor/font-awesome/fonts/fontawesome-webfont.woff', {destDir: 'fonts'});
+//app.import('vendor/font-awesome/fonts/FontAwesome.otf', {destDir: 'fonts'});
 
 // selectize
 app.import('vendor/selectize/dist/js/standalone/selectize.min.js');
