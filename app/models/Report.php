@@ -67,6 +67,7 @@ class Report {
 		// paid
 		$p = DB::select("SELECT * FROM get_paid(?, ?, ?)", array($q['studid'], $q['sy'], $q['sem']));
 		$data['paid'] = $p;
+		$data['h']->t_paid = null;
 		if ($p) {
 			$t = 0.00;
 			foreach ($p as $k => $v) {
