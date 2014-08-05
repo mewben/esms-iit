@@ -21,11 +21,8 @@ Router.map(function() {
 	this.resource('ledgers', function() {
 		this.route('ledger', {path: ':studid'});
 	});
-	this.resource('refunds', function() {
-		this.route('new');
-		this.route('edit', {path: ':id'});
-	});
 	this.route('receivables');
+	this.route('refund');
 	this.route('sumbilling');
 
 

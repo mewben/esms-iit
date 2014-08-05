@@ -71,12 +71,13 @@ BEGIN
           		SELECT 
           			sy,
           			sem,
-          			date_entered as rdate,
-          			'Refund' as ref,
+          			paydate as rdate,
+          			'Refund - '|| refno as ref,
           			1 as ord,
-                 	SUM(coalesce(amount,0.00)) as debit,
+                 	SUM(coalesce(amt,0.00)) as debit,
                  	0.00 as credit
-          		FROM student_refund
+          		FROM refund_header
+                LEFT JOIN refund_details USING(refno)
           		WHERE studid=prm_STUDID
           		GROUP BY sy,sem,rdate,ref
          	)

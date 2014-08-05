@@ -1,6 +1,7 @@
 import Em from 'ember';
 
 export default Em.Controller.extend({
+	version: EsmsUiENV.version,
 	sem: {
 		sy: window.sem.sy,
 		sem: window.sem.sem

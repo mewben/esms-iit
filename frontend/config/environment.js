@@ -17,7 +17,8 @@ module.exports = function(environment) {
       // when it is created
     },
     ApiHost: 'http://server2.dev:8000/',
-    Api: 'api/v1'
+    Api: 'api/v1',
+    version: require('../package.json').version
   };
 
   if (environment === 'development') {

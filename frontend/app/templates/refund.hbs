@@ -1,0 +1,103 @@
+<div class="page-header">
+	<h3><i class="fa fa-angle-right"></i> Refund
+		<small>Refund module.</small>
+	</h3>
+</div>
+
+<div class="row">
+	<div class="col-md-3">
+		{{partial 'partials/lookup-stud'}}
+		{{#if data}}
+			<hr>
+			<div class="list-group">
+				{{#each data}}
+					<a {{action 'checkRefund' studid}} href="#" class="list-group-item list-group-item-warning">
+						<small>{{studid}} - {{studfullname}}</small>
+					</a>
+				{{/each}}
+			</div>
+		{{/if}}
+<hr>
+			<pre>
+// NOTES
+1. student id
+2. student name
+3. ref no
+4. date
+5. sy
+6. sem
+7. Remarks
+8. particulars
+
+// actions
+1. Issue Refund
+2. Cancel
+3. New Refund
+4. Delete Refund
+
+// Search
+1. by refno, id, lastname
+2. search item q
+3. Lookup
+			</pre>
+	</div>
+	<div class="col-md-9">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-sm-6">
+						Refund
+					</div>
+					<div class="col-sm-6 text-right">
+						SY: <strong>{{sy}}</strong>
+						SEM: <strong>{{sem}}</strong>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<form role="form">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-3">
+								<label>STUDENT ID:</label>
+								{{input value=studid class="form-control" disabled="disabled"}}
+							</div>
+							<div class="col-sm-9">
+								<label>NAME:</label>
+								{{input value=payee class="form-control" disabled="disabled"}}
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-3">
+								<label>REFERENCE #:</label>
+								{{input value=refno class="form-control"}}
+							</div>
+							<div class="col-sm-3">
+								<label>DATE: (YYYY-MM-DD)</label>
+								{{input value=currentDate class="form-control"}}
+							</div>
+							<div class="col-sm-6">
+								<label>REMARKS:</label>
+								{{textarea value=remarks class="form-control"}}
+							</div>
+						</div>
+					</div>
+					<div class="form-group text-center">
+						<hr>
+						<div class="row">
+							<div class="col-sm-9">
+								<h2 class="no-margin no-padding"><small>Php</small> {{format-currency amt}}</h2>
+								<small class="text-muted">REFUND</small>
+							</div>
+							<div class="col-sm-3">
+								{{button-spin action="issue" saveText='Issue Refund' disabled=disbissue isProc=g.isProc btnClass="btn-info btn-block"}}
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

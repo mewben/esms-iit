@@ -9,6 +9,5 @@ export default Base.extend({
 		lookup: function() {
 			this.send('searchStud', this.get('stud'), 'certbilling.stud');
 		}
-
 	}
 });

@@ -17,7 +17,8 @@ class Student extends \Eloquent {
 
 		if ($model) {
 			$data = $model->toArray();
-			return array_map('utf8_encode', $data);
+			$r[0] = array_map('utf8_encode', $data);
+			return $r[0];
 		} else {
 			return static::searchByLastName($q);
 		}

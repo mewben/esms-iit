@@ -1,4 +1,8 @@
 <div class="paper">
 	{{partial 'partials/header-pr'}}
 	{{outlet}}
+	<div class="hidden-print text-right">
+		<hr>
+		<button {{action 'print'}} class="btn btn-warning"><i class="fa fa-print"></i> Print</button>
+	</div>
 </div>

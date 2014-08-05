@@ -17,6 +17,12 @@ class CreatePaidType extends Migration {
 			DB::unprepared('CREATE TYPE "srgb"."paidtype" AS ("ref" varchar(30), "paydate" date, "amt" numeric(16,2));');
 			DB::unprepared('ALTER TYPE "srgb"."paidtype" OWNER TO "postgres";');
 		}
+
+		$f = DB::select("SELECT 1 FROM pg_type WHERE typname = 'paiddetailstype';");
+		if (!$f) {
+			DB::unprepared('CREATE TYPE "srgb"."paiddetailstype" AS ("feecode" char(12), "amt" numeric(16,2));');
+			DB::unprepared('ALTER TYPE "srgb"."paiddetailstype" OWNER TO "postgres";');
+		}
 	}
 
 	/**

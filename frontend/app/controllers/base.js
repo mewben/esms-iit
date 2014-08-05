@@ -4,6 +4,7 @@ export default Em.Controller.extend({
 	needs: 'g',
 	g: Em.computed.alias('controllers.g'),
 
+	version: Em.computed.oneWay('g.version'),
 	sy: Em.computed.oneWay('g.sem.sy'),
 	sem: Em.computed.oneWay('g.sem.sem'),
 	currentDate: Em.computed.oneWay('g.currentDate'),
@@ -27,8 +28,8 @@ export default Em.Controller.extend({
 
 			this.get('g').getJSON('/students?', {q: id})
 				.done(function(res) {
-					if(res.studid) {
-						self.transitionToRoute(trans, res.studid);
+					if(res.length === 1 && trans) {
+						self.transitionToRoute(trans, res[0].studid);
 					} else {
 						self.set('data', res);
 					}

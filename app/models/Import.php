@@ -41,16 +41,38 @@ class Import {
 	}
 
 	// save single payment
+	/*
+	$data = array(
+		'h' => array(
+			'refno' => 'REF #',
+			'sy' => '2014-2015',
+			'sem' => '1'
+			'studid' => '013515',
+			'payee' => 'LASTNAME, FIRSTNAME',
+			'bcode' => 'FCB',
+			'paydate' => '2014-07-31',
+		),
+		'details' => array(
+			0 => array(
+				'refno' => 'REF #',
+				'feecode' => 'REPDFEE',
+				'amt' => '1000'
+			)
+		)
+	);
+	 */
 	public function payment($data)
 	{
 		if (isset($data['h']['studid']) && $data['h']['studid'] == '')	unset($data['h']['studid']);
 
 		$details = [];
 		foreach ($data['details'] as $k => $v) {
-			$data['details'][$k]['refno'] = $data['h']['refno'];
-			$details[$k]['refno'] = $data['h']['refno'];
-			$details[$k]['feecode'] = $v['feecode'];
-			$details[$k]['amt'] = $v['amt'];
+			if ($v['amt'] != '' && $v['amt'] != 0) {
+				$data['details'][$k]['refno'] = $data['h']['refno'];
+				$details[$k]['refno'] = $data['h']['refno'];
+				$details[$k]['feecode'] = $v['feecode'];
+				$details[$k]['amt'] = $v['amt'];
+			}
 		}
 		$data['details'] = $details;
 
