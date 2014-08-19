@@ -10,71 +10,58 @@ DECLARE
      Sample Query: SELECT * FROM get_unpaidassessment('2008-2009','1','2008-00383')
   */
 
-	assessment_rec record;
-	v_paid numeric(9,2);
-	v_coll numeric(9,2);
-	v_bulk numeric(9,2);
+  assessment_rec record;
+  v_paid numeric(9,2);
+  v_coll numeric(9,2);
+  v_bulk numeric(9,2);
 
-  	rst    assessmenttype%ROWTYPE;
-
+  rst    assessmenttype%ROWTYPE;
 BEGIN 
-  	rst.sy     := prmSY;
-  	rst.sem    := prmSEM;
-  	rst.studid := prmSTUDID;
+  rst.sy     := prmSY;
+  rst.sem    := prmSEM;
+  rst.studid := prmSTUDID;
 
-  	FOR assessment_rec IN 
-  		SELECT 
-  			feecode,
-  			feedesc,
-  			coalesce(amt,0.00) as amt
-       	FROM ass_details 
-       	LEFT JOIN fees USING(feecode)
-     	WHERE sy=prmSY 
-     		AND sem=prmSEM 
-     		AND studid=prmSTUDID
-      	ORDER BY ord,feecode
-  
-  	LOOP
-    	--for every assessment details identify payment made
-    	v_paid := 0.00;
-    	v_coll := 0.00;
-    	v_bulk := 0.00;
+  FOR assessment_rec IN SELECT feecode,feedesc,coalesce(amt,0.00) as amt
+                        FROM ass_details LEFT JOIN fees USING(feecode)
+                        WHERE sy=prmSY AND sem=prmSEM and studid=prmSTUDID
+                        ORDER BY ord,feecode
+  LOOP
+    --for every assessment details identify payment made
+    v_paid := 0.00;
+    v_coll := 0.00;
+    v_bulk := 0.00;
+/*
+    SELECT sum(coalesce(amt,0.00)) INTO v_paid
+    FROM collection_details LEFT JOIN collection_header USING(orno)
+    WHERE sy=prmSY AND sem=prmSEM and studid=prmSTUDID AND feecode=assessment_rec.feecode; */
 
-	/* -- Before change
-    	SELECT sum(coalesce(amt,0.00)) INTO v_paid
-    	FROM collection_details LEFT JOIN collection_header USING(orno)
-    	WHERE sy=prmSY AND sem=prmSEM and studid=prmSTUDID AND feecode=assessment_rec.feecode; */
+    SELECT SUM(t) INTO v_paid FROM
+      (SELECT SUM(amt) as t
+        FROM collection_details LEFT JOIN collection_header USING(orno)
+        WHERE sy=prmSY AND sem=prmSEM and studid=prmSTUDID AND feecode=assessment_rec.feecode
 
-    	SELECT SUM(t) INTO v_paid 
-    	FROM (
-    		SELECT SUM(amt) as t
-        	FROM collection_details 
-        	LEFT JOIN collection_header USING(orno)
-        	WHERE sy=prmSY 
-        		AND sem=prmSEM 
-        		AND studid=prmSTUDID 
-        		AND feecode=assessment_rec.feecode
+        UNION ALL
 
-        	UNION ALL
+        SELECT SUM(amt) as t
+        FROM bulk_collection_details LEFT JOIN bulk_collection_header USING(refno)
+        WHERE sy=prmSY AND sem=prmSEM and studid=prmSTUDID AND feecode=assessment_rec.feecode
 
-        	SELECT SUM(amt) as t
-        	FROM bulk_collection_details 
-        	LEFT JOIN bulk_collection_header USING(refno)
-        	WHERE sy=prmSY 
-        		AND sem=prmSEM 
-        		AND studid=prmSTUDID 
-        		AND feecode=assessment_rec.feecode
-      	) as foo;
+    UNION ALL
 
-    	v_paid := coalesce(v_paid,0.00);
+    SELECT -SUM(amt) AS t
+    FROM refund_details LEFT JOIN refund_header USING(refno)
+    WHERE sy=prmSY AND sem=prmSEM AND studid=prmSTUDID AND feecode=assessment_rec.feecode
+      ) as foo;
 
-    	IF assessment_rec.amt <> v_paid THEN
-       		rst.feecode := assessment_rec.feecode;
-       		rst.feedesc := assessment_rec.feedesc;
-       		rst.amt     := assessment_rec.amt - v_paid;
-       		RETURN NEXT rst;
-    	END IF;
-  	END LOOP;
+    v_paid := coalesce(v_paid,0.00);
 
-  	RETURN;
+    IF assessment_rec.amt <> v_paid AND assessment_rec.amt >= v_paid THEN
+       rst.feecode := assessment_rec.feecode;
+       rst.feedesc := assessment_rec.feedesc;
+       rst.amt     := assessment_rec.amt - v_paid;
+       RETURN NEXT rst;
+    END IF;
+  END LOOP;
+
+  RETURN;
 END;
