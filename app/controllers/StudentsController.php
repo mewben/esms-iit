@@ -13,7 +13,7 @@ class StudentsController extends \BaseController {
 	public function search()
 	{
 		if (Input::get('q'))
-			return Response::json($this->model->search(Input::get('q')));
+			return Response::json($this->model->search(Input::all()));
 
 		return Response::json(['err'=>'Error'], 409);
 	}

@@ -8,12 +8,13 @@ class Import {
 		// 1. Get unpaid assessment of the student
 		$unpaid = DB::select("SELECT * FROM get_unpaidassessment(?, ?, ?)", array($data['sy'], $data['sem'], $data['studid']));
 		if (!$unpaid)
-			throw new Exception('No assessment.', 409);
+			throw new Exception('Zero assessment or Zero Balance', 409);
 
 		// 2. Allocate paid from the unpaid assessment
 		$amt = $data['amt'] - 0;
 		$details = [];
 
+		$t = 0;
 		foreach($unpaid as $k => $v) {
 			if ($amt > 0) {
 				$sub = $amt - ($v->amt - 0);			
@@ -25,8 +26,14 @@ class Import {
 					'feecode' => $v->feecode,
 					'amt' => $paid
 				];
+
+				$t += $paid;
 			}
 		}
+
+		if ($t != $data['amt'])
+			throw new Exception('Excess payment. Please use the Note payment module and set the excess to TUITIONFEE.', 409);
+		
 		try {
 			// 3. Save to bulk_collection_header
 			BulkCollectionHeader::create($data);

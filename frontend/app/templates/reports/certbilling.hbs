@@ -117,6 +117,15 @@
 					</td>
 					<td>&nbsp;</td>
 				</tr>
+				{{#if refund}}
+				{{#each refund}}
+				<tr>
+					<td>&nbsp;</td>
+					<td colspan="2">Refund ({{ref}} - {{paydate}})</td>
+					<td class="text-right">{{format-currency amt}}</td>
+				</tr>
+				{{/each}}
+				{{/if}}
 				<tr>
 					<td>&nbsp;</td>
 					<td colspan="2"><strong>BALANCE</strong></td>

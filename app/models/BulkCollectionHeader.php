@@ -21,4 +21,5 @@ class BulkCollectionHeader extends \Eloquent {
 	{
 		return $this->hasMany('BulkCollectionDetails', 'refno', 'refno');
 	}
+
 }

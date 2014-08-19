@@ -7,12 +7,12 @@
 <div class="row">
 	<div class="col-md-3">
 		{{partial 'partials/lookup-stud'}}
-		{{#if data}}
+		{{#if studlist}}
 			<hr>
 			<div class="list-group">
-				{{#each data}}
+				{{#each studlist}}
 					{{#link-to 'certbilling.stud' studid class="list-group-item list-group-item-warning"}}
-						<small>{{studid}} - {{studfullname}}</small>
+						<small>{{studid}} - {{fullname}}</small>
 					{{/link-to}}
 				{{/each}}
 			</div>

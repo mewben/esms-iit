@@ -32,10 +32,10 @@ class CreateBulkCollectionHeader extends Migration {
 		DB::unprepared('REVOKE ALL ON TABLE bulk_collection_header FROM PUBLIC;');
 		DB::unprepared('REVOKE ALL ON TABLE bulk_collection_header FROM postgres;');
 		DB::unprepared('GRANT ALL ON TABLE bulk_collection_header TO postgres;');
-		DB::unprepared('GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE bulk_collection_header TO srgb_admin;');
+		//DB::unprepared('GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE bulk_collection_header TO srgb_admin;');
 		DB::unprepared('GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE bulk_collection_header TO srgb_cashier;');
-		DB::unprepared('GRANT SELECT ON TABLE bulk_collection_header TO srgb_clerk;');
-		DB::unprepared('GRANT SELECT ON TABLE bulk_collection_header TO srgb_controller;');
+		//DB::unprepared('GRANT SELECT ON TABLE bulk_collection_header TO srgb_clerk;');
+		//DB::unprepared('GRANT SELECT ON TABLE bulk_collection_header TO srgb_controller;');
 		DB::unprepared('GRANT SELECT ON TABLE bulk_collection_header TO srgb_assessor;');
 		DB::unprepared('GRANT SELECT ON TABLE bulk_collection_header TO srgb_view_all;');
 		DB::unprepared('GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE bulk_collection_header TO srgb_cashiertmp;');

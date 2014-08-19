@@ -3,35 +3,42 @@
 class RefundsController extends \BaseController {
 
 	protected $model;
+	protected $data = array();
 
 	public function __construct(Refund $model)
 	{
 		$this->model = $model;
+		$this->data['sy'] = Session::get('user.sy', '2014-2015');
+		$this->data['sem'] = Session::get('user.sem', '1');
 	}
 
-	/**
-	 * Get the refundable amount of a particular student by semester
-	 */
-	public function show($id)
+	public function check($id)
 	{
-		$data = array(
-			'studid' => $id,
-			'sy' => Session::get('user.sy', '2014-2015'),
-			'sem' => Session::get('user.sem', '1')
-		);
-		return Response::json($this->model->show($data));
+		$this->data['studid'] = $id;
+		return Response::json($this->model->check($this->data));
 	}
 
-	/**
-	 * Save a refund
-	 */
 	public function save()
 	{
-		return true;
-		$data = Input::all();
-		$data['sy'] = Session::get('user.sy', '2014-2015');
-		$data['sem'] = Session::get('user.sem', '1');
-
+		$data = array_merge(Input::all(), $this->data);
 		return Response::json($this->model->process($data));
 	}
+
+	public function search()
+	{
+		$data = array_merge(Input::all(), $this->data);
+		return Response::json($this->model->search($data));
+	}
+
+	public function show($id)
+	{
+		$this->data['refno'] = $id;
+		return Response::json($this->model->show($this->data));
+	}
+
+	public function destroy()
+	{
+		return Response::json($this->model->deleteRefund(Input::get('q')));
+	}
+
 }

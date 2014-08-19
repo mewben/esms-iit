@@ -3,7 +3,11 @@ import Base from './base';
 
 export default Base.extend({
 	bcodes: [
-		{v: 'FCB', name: 'FCB'}
+		{v: 'FCB', name: 'FCB'},
+		{v: 'ALAY', name: 'Alay-lakad Inc.'},
+		{v: 'LGUTAG', name: 'LGU-Tagbilaran'},
+		{v: 'DOST', name: 'DOST'},
+		{v: 'CPG', name: 'CPG'}
 	],
 	bcode: 'FCB',
 	verfied: false,
@@ -48,10 +52,10 @@ export default Base.extend({
 			data.forEach(function(item) {
 				Em.set(item, 'proc', true);
 				Em.set(item, 'bcode', bcode);
-				self.get('g').getJSON('/students?', {q: item.studid})
+				self.get('g').getJSON('/students?', {q: item.studid, d: true})
 					.done(function(res) {
 						Em.set(item, 'proc', false);
-						Em.set(item, 'payee', res.studfullname);
+						Em.set(item, 'payee', res.fullname);
 					});
 			});
 			this.set('verified', true);

@@ -4,10 +4,34 @@
 	</h3>
 </div>
 <div class="row">
-	<div class="col-md-8">
+	<div class="col-md-3">
+		{{partial 'partials/lookup-stud'}}
+		{{#if studlist}}
+			<hr>
+			<div class="list-group">
+				{{#each studlist}}
+					<a {{action 'qStudSelect' studid}} href="#" class="list-group-item list-group-item-warning">
+						<small>{{studid}} - {{fullname}}</small>
+					</a>
+				{{/each}}
+			</div>
+		{{/if}}
+	</div>
+	<div class="col-md-9">
 		<div class="panel panel-info">
 			<div class="panel-heading">Note Payment</div>
 			<div class="panel-body">
+				<div class="row">
+					<div class="col-sm-6">
+						<button type="button" class="btn btn-info" {{action 'new'}}><i class="fa fa-fw fa-cube"></i> New Payment</button>
+						<button type="button" class="btn btn-danger" {{action 'deleteP'}} {{bind-attr disabled="not_succ"}}><i class="fa fa-fw fa-trash-o"></i> Delete Payment</button>
+					</div>
+					<div class="col-sm-6 text-right">
+						{{button-spin action="submit" saveText='Save Payment' disabled=disb isProc=g.isProc btnClass="btn-warning"}}
+						<button type="button" {{action 'cancel'}} class="btn btn-default">Cancel</button>
+					</div>
+				</div>
+				<hr>
 				<form role="form">
 					<fieldset {{bind-attr disabled="succ"}}>
 						<div class="form-group">
@@ -43,7 +67,7 @@
 							<div class="row">
 								<div class="col-sm-2">
 									<label>STUDENT ID:</label>
-									{{input value=id class="form-control" action="searchId"}}
+									{{input value=id class="form-control" action="searchId" disabled="disabled"}}
 								</div>
 								<div class="col-sm-6">
 									<label>PAYEE:</label>
@@ -70,7 +94,7 @@
 										<th>CODE</th>
 										<th>DESCRIPTION</th>
 										<th class="text-right">ACCT-CODE</th>
-										<th width="100" class="text-right">AMOUNT</th>
+										<th width="100" class="text-right">AMOUNT (Php)</th>
 										<th width="10">&nbsp;</th>
 									</tr>
 								</thead>
@@ -102,50 +126,29 @@
 				</form>
 			</div>
 		</div>
-	</div>
-	<div class="col-md-4">
+		<hr>
 		<div class="panel panel-default">
-			<div class="panel-heading">Actions</div>
+			<div class="panel-heading">Search Payment</div>
 			<div class="panel-body">
-				{{button-spin action="submit" saveText='Save Payment' disabled=disb isProc=g.isProc btnClass="btn-warning btn-block"}}
-				<button type="button" {{action 'cancel'}} class="btn btn-default btn-block">Cancel</button>
-				<hr>
-				<button type="button" class="btn btn-info btn-block" {{action 'new'}}><i class="fa fa-fw fa-cube"></i> New Payment</button>
-				<button type="button" class="btn btn-danger btn-block" {{action 'deleteP'}} {{bind-attr disabled="not_succ"}}><i class="fa fa-fw fa-trash-o"></i> Delete Payment</button>
+				<div class="row">
+					<div class="col-sm-5">
+						{{partial 'partials/lookup-thing'}}
+					</div>
+					<div class="col-sm-7">
+						{{#if sr}}
+							<hr>
+							<div class="list-group">
+								{{#each sr}}
+									<a {{action 'select' refno}} href="#" class="list-group-item list-group-item-warning">
+										<small>{{studid}} - {{payee}} ({{refno}})</small>
+										<span class="pull-right"> {{format-currency amt}} </span>
+									</a>
+								{{/each}}
+							</div>
+						{{/if}}
+					</div>
+				</div>
 			</div>
-		</div>
-
-		<div class="panel panel-default">
-			<div class="panel-heading">Search Note Payment</div>
-			<div class="panel-body">
-				<form {{action 'searchP' on="submit"}}>
-					<div class="form-group">
-						{{view Em.Select
-							content=searchCat
-							optionValuePath="content.v"
-							optionLabelPath="content.name"
-							value=cat
-							class="form-control"}}
-					</div>
-					<div class="form-group">
-						{{input class="form-control" value=query placeholder="Search"}}
-					</div>
-					<div class="form-group">
-						{{submit-spin saveText='Lookup' disabled=disb2 isProc=g.isProc btnClass="btn-warning btn-block"}}
-					</div>
-				</form>
-				<table class="table table-condensed table-hover selectable">
-					<tbody>
-						{{#each searchRes}}
-						<tr {{action 'select' this on="click"}}>
-							<td>{{studid}}</td>
-							<td>{{payee}}</td>
-							<td>{{refno}}</td>
-						</tr>
-						{{/each}}
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
+		</div>	
+	</div> <!-- /.col-sm-9 -->
 </div>

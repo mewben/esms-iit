@@ -7,39 +7,16 @@
 <div class="row">
 	<div class="col-md-3">
 		{{partial 'partials/lookup-stud'}}
-		{{#if data}}
+		{{#if studlist}}
 			<hr>
 			<div class="list-group">
-				{{#each data}}
+				{{#each studlist}}
 					<a {{action 'checkRefund' studid}} href="#" class="list-group-item list-group-item-warning">
-						<small>{{studid}} - {{studfullname}}</small>
+						<small>{{studid}} - {{fullname}}</small>
 					</a>
 				{{/each}}
 			</div>
 		{{/if}}
-<hr>
-			<pre>
-// NOTES
-1. student id
-2. student name
-3. ref no
-4. date
-5. sy
-6. sem
-7. Remarks
-8. particulars
-
-// actions
-1. Issue Refund
-2. Cancel
-3. New Refund
-4. Delete Refund
-
-// Search
-1. by refno, id, lastname
-2. search item q
-3. Lookup
-			</pre>
 	</div>
 	<div class="col-md-9">
 		<div class="panel panel-info">
@@ -56,6 +33,7 @@
 			</div>
 			<div class="panel-body">
 				<form role="form">
+					<fieldset {{bind-attr disabled="succ"}}>
 					<div class="form-group">
 						<div class="row">
 							<div class="col-sm-3">
@@ -84,19 +62,43 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-group text-center">
-						<hr>
-						<div class="row">
-							<div class="col-sm-9">
-								<h2 class="no-margin no-padding"><small>Php</small> {{format-currency amt}}</h2>
-								<small class="text-muted">REFUND</small>
-							</div>
-							<div class="col-sm-3">
-								{{button-spin action="issue" saveText='Issue Refund' disabled=disbissue isProc=g.isProc btnClass="btn-info btn-block"}}
-							</div>
-						</div>
-					</div>
+					</fieldset>
 				</form>
+				<hr>
+				<div class="row">
+					<div class="col-sm-9 text-center">
+						<h2 class="no-margin no-padding"><small>Php</small> {{format-currency amt}}</h2>
+						<small class="text-muted">REFUND</small>
+					</div>
+					<div class="col-sm-3">
+						{{button-spin action="issue" saveText='Issue Refund' disabled=disbissue isProc=g.isProc btnClass="btn-info btn-block"}}
+						<button type="button" class="btn btn-danger btn-block" {{action 'delete'}} {{bind-attr disabled="not_succ"}}><i class="fa fa-fw fa-trash-o"></i> Delete Refund</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<div class="panel panel-default">
+			<div class="panel-heading">Search Refunds</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-sm-5">
+						{{partial 'partials/lookup-thing'}}
+					</div>
+					<div class="col-sm-7">
+						{{#if sr}}
+							<hr>
+							<div class="list-group">
+								{{#each sr}}
+									<a {{action 'select' refno}} href="#" class="list-group-item list-group-item-warning">
+										<small>{{studid}} - {{payee}} ({{refno}})</small>
+										<span class="pull-right"> {{format-currency amt}} </span>
+									</a>
+								{{/each}}
+							</div>
+						{{/if}}
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -20,7 +20,7 @@ class CreateRefundDetailsTable extends Migration {
 			$table->string('lastuser')->default(DB::raw('"current_user"()'));
 
 			$table->primary(array('refno', 'feecode'));
-			$table->foreign('refno')->references('refno')->on('srgb.bulk_collection_header')->onDelete('cascade')->onUpdate('cascade');
+			$table->foreign('refno')->references('refno')->on('srgb.refund_header')->onDelete('cascade')->onUpdate('cascade');
 			$table->foreign('feecode')->references('feecode')->on('srgb.fees')->onDelete('restrict')->onUpdate('cascade');
 		});
 

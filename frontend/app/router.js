@@ -24,8 +24,15 @@ Router.map(function() {
 	this.route('receivables');
 	this.route('refund');
 	this.route('sumbilling');
-
-
+/*
+	// Manage
+	this.resource('bcodes', function() {
+		this.resource('bcode', {path: '/:id'}, function() {
+			this.route('edit');
+		});
+		this.route('new');
+	});
+*/
 	// Print
 	this.resource('print', function() {
 		this.route('certbilling', {path: 'certbilling/:studid'});

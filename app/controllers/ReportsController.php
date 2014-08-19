@@ -11,7 +11,12 @@ class ReportsController extends \BaseController {
 
 	public function certbilling($id)
 	{
-		return Response::json($this->model->getCertBilling($id));
+		$data = array(
+			'studid' => $id,
+			'sy' => Session::get('user.sy', '2014-2015'),
+			'sem' => Session::get('user.sem', '1')
+		);
+		return Response::json($this->model->getCertBilling($data));
 	}
 
 	public function collections()

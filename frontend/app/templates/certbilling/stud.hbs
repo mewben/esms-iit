@@ -1,10 +1,4 @@
-<div class="text-right">
-	{{#link-to 'print.certbilling' h.studid class="btn btn-info"}}
-		<i class="fa fa-print fa-fw"></i> Print
-	{{/link-to}}
-</div>
-{{! TODO component to-print}}
-{{!to-print to='print.certbilling' p=h.studid action='toprint'}}
+{{to-print to='print.certbilling' p=h.studid act='toprint'}}
 <hr>
 <div class="panel panel-default">
 	<div class="panel-heading">
@@ -22,8 +16,4 @@
 	</div>
 </div>
 <hr>
-<div class="text-right">
-	{{#link-to 'print.certbilling' h.studid class="btn btn-info"}}
-		<i class="fa fa-print fa-fw"></i> Print
-	{{/link-to}}
-</div>
+{{to-print to='print.certbilling' p=h.studid act='toprint'}}

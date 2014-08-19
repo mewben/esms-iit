@@ -1,18 +1,23 @@
 import Em from 'ember';
 
 export default Em.Controller.extend({
-	needs: 'g',
-	g: Em.computed.alias('controllers.g'),
+	needs: 			'g',
+	g: 				Em.computed.alias('controllers.g'),
 
-	version: Em.computed.oneWay('g.version'),
-	sy: Em.computed.oneWay('g.sem.sy'),
-	sem: Em.computed.oneWay('g.sem.sem'),
-	currentDate: Em.computed.oneWay('g.currentDate'),
+	version: 		Em.computed.oneWay('g.version'),
+	sy: 			Em.computed.oneWay('g.sem.sy'),
+	sem: 			Em.computed.oneWay('g.sem.sem'),
+	currentDate: 	Em.computed.oneWay('g.currentDate'),
 
 	// enable/disable submit button
 	disb: function() {
 		return !this.get('sy') || !this.get('sem') || this.get('g.isProc');
 	}.property('sy', 'sem', 'g.isProc'),
+
+	// search student enable submit button
+	disbQStud: function() {
+		return !this.get('stud') || this.get('g.isProc');
+	}.property('stud'),
 
 	actions: {
 		search: function(url, param) {
@@ -31,7 +36,7 @@ export default Em.Controller.extend({
 					if(res.length === 1 && trans) {
 						self.transitionToRoute(trans, res[0].studid);
 					} else {
-						self.set('data', res);
+						self.set('studlist', res);
 					}
 				});
 		}

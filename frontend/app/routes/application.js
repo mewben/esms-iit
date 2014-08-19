@@ -5,11 +5,14 @@ export default Em.Route.extend({
 		print: function() {
 			window.print();
 		},
-		toprint: function(route, p) {
-			console.log(route);
-			console.log(p);
-			var url = this.router.generate(route, p);
-			console.log(url);
+		toprint: function(route, p, p2) {
+			var url;
+			if (p2) {
+				url = this.router.generate(route, p, p2);
+			} else {
+				url = this.router.generate(route, p);
+			}
+			window.open(url);
 		}
 	}
 });

@@ -1,0 +1,16 @@
+<form {{action 'searchP' on="submit"}}>
+	<div class="form-group">
+		{{input value=q class="form-control" placeholder="Search"}}
+	</div>
+	<div class="form-group">
+		{{view Em.Select
+			content=searchCat
+			optionValuePath="content.v"
+			optionLabelPath="content.name"
+			value=cat
+			class="form-control"}}
+	</div>
+	<div class="form-group">
+		{{submit-spin saveText='Lookup' disabled=disb2 isProc=g.isProc btnClass="btn-warning btn-block"}}
+	</div>
+</form>

@@ -1,0 +1,46 @@
+-- NEW QUERY
+
+CREATE OR REPLACE FUNCTION "srgb"."get_refund"(bpchar, bpchar, bpchar)
+  RETURNS SETOF "srgb"."paidtype" AS $BODY$
+
+-- get_refund(bpchar, bpchar, bpchar)
+-- Desc: Gets all the refund transactions of a student in a particular sy sem
+-- Ex. get_refund('005032', '2013-2014', '1');
+
+
+DECLARE
+   	
+    prm_ID  ALIAS FOR $1;
+   	prm_SY  ALIAS FOR $2;
+   	prm_SEM ALIAS FOR $3;
+
+    paid_rec    record;
+    rst         paidtype%ROWTYPE;
+
+BEGIN
+  
+    FOR paid_rec IN 
+        SELECT
+            'RF - ' || refno as ref,
+            paydate as rdate,
+            SUM(amt) as amt
+        FROM refund_header
+        LEFT JOIN refund_details USING(refno)
+        WHERE studid=prm_ID AND sy=prm_SY AND sem=prm_SEM
+        GROUP BY rdate, ref
+        ORDER BY rdate
+
+    LOOP
+        rst.ref     := paid_rec.ref;
+        rst.paydate := paid_rec.rdate;
+        rst.amt     := paid_rec.amt;
+
+        RETURN NEXT rst;
+    END LOOP;
+
+   	RETURN; 
+END;
+$BODY$
+  	LANGUAGE 'plpgsql' VOLATILE;
+
+ALTER FUNCTION "srgb"."get_refund"(bpchar, bpchar, bpchar) OWNER TO "postgres";

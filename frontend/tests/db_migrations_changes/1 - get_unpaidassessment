@@ -32,7 +32,7 @@ BEGIN
      	WHERE sy=prmSY 
      		AND sem=prmSEM 
      		AND studid=prmSTUDID
-      	ORDER BY ord,acctcode
+      	ORDER BY ord,feecode
   
   	LOOP
     	--for every assessment details identify payment made

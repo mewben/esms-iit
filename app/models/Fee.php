@@ -20,31 +20,42 @@ class Fee extends \Eloquent {
 		
 		$unpaid = DB::select("SELECT * FROM get_unpaidassessment(?, ?, ?)", array($data['sy'], $data['sem'], $data['q']));
 		if (!$unpaid)
-			throw new Exception('No assessment.', 409);
+			throw new Exception('Zero Assessment or Zero Balance.', 409);
 
 		return $unpaid;
 	}
 
-	public function getPayment($data)
+	public function getPayment($q)
 	{
-		if (isset($data['cat'])) {
-			if ($data['cat'] == 'payee')
-				$data['q'] = strtoupper($data['q']);
+		extract($q);
+
+		if (isset($cat)) {
+			if ($cat == 'payee')
+				$q = strtoupper($q);
 
 			$model = new BulkCollectionHeader;
-			$model = $model->where($data['cat'], 'LIKE', '%' . $data['q'] . '%');
+			$model = $model->with('details');
+			$model = $model->where($cat, 'LIKE', '%' . $q . '%');
+			$data = $model->get();
 
-			$data = $model->get()->toArray();
-			if (count($data) == 1) {
+			$r = array();
+			foreach ($data as $key => $value) {
+				$r[$key]['studid'] = $value->studid;
+				$r[$key]['payee'] = $value->payee;
+				$r[$key]['refno'] = $value->refno;
+				$r[$key]['amt'] = $value->details->sum('amt');
+			}
+
+			if (count($r) == 1) {
 				// return all the data
-				return $this->_loadPayment($data[0]['refno']);
+				return $this->_loadPayment($r[0]['refno']);
 			} else {
 				// return the list
-				return $data;
+				return $r;
 			}
 		} else {
 			// find refno
-			return $this->_loadPayment($data['q']);
+			return $this->_loadPayment($q);
 		}
 	}
 

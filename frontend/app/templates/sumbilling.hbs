@@ -24,19 +24,11 @@
 	</div>
 	<div class="col-md-9">
 	{{#if data}}
-		<div class="text-right">
-			{{#link-to 'print.sumbilling' sy sem class="btn btn-info"}}
-				<i class="fa fa-print fa-fw"></i> Print
-			{{/link-to}}
-		</div>
+		{{to-print to='print.sumbilling' p=sy p2=sem act='toprint'}}
 		<hr>
 		{{partial 'reports/sumbilling'}}
 		<hr>
-		<div class="text-right">
-			{{#link-to 'print.sumbilling' sy sem class="btn btn-info"}}
-				<i class="fa fa-print fa-fw"></i> Print
-			{{/link-to}}
-		</div>
+		{{to-print to='print.sumbilling' p=sy p2=sem act='toprint'}}
 	{{/if}}
 	</div>
 </div>

@@ -1,6 +1,7 @@
 <?php
 
 class Refund extends \Eloquent {
+	use \Helper;
 
 	protected $table = 'refund_header';
 	protected $primaryKey = 'refno';
@@ -14,6 +15,16 @@ class Refund extends \Eloquent {
 		'remarks'
 	];
 	public $timestamps = false;
+
+	/**
+	 * Delete a refund
+	 *
+	 * @param 	string $refno Reference number
+	 */
+	public function deleteRefund($refno)
+	{
+		return Refund::where('refno', $refno)->delete();
+	}
 
 	/**
 	 * Do the actual save into the refunds table
@@ -110,27 +121,71 @@ class Refund extends \Eloquent {
 		}
 
 		// Save to bulk_collection_header
-		if (count($p['details']) > 0) {
+		if (isset($p) && count($p['details']) > 0) {
 			$p['h'] = $q;
 			(new Import)->payment($p);
 		}
 
 		// Save refund
-		if (count($r['details']) > 0) {
+		if (isset($r) && count($r['details']) > 0) {
 			$r['h'] = $q;
 			self::make($r);
 		}
 		return true;
 	}
 
+
 	/**
-	 * shows the refundable amount of a student
+	 * Search refund by refno, studid, lname
+	 *
+	 * @param 	array $q 'q', 'cat', 'sy', 'sem'
+	 * @return 	array
+	 */
+	public function search($q)
+	{
+		extract($q);
+
+		$q = strtoupper($q);
+
+		$data = DB::table('refund_header')
+			->where('refund_header.' . $cat, 'LIKE', '%' . $q . '%')
+			->leftJoin('refund_details', 'refund_header.refno', '=', 'refund_details.refno')
+			->groupBy('refund_header.refno')
+			->groupBy('studid')
+			->groupBy('payee')
+			->groupBy('paydate')
+			->get(array('studid', 'payee', 'refund_header.refno', 'paydate', DB::RAW('SUM(amt) AS amt')));
+
+		return $data;
+	}
+
+	public function show($q)
+	{
+		extract($q);
+
+		$data = static::where('refno', $refno)
+					->where('sy', $sy)
+					->where('sem', $sem)
+					->get()
+					->toArray();
+		if (!$data)	throw new Exception('Reference # not found.');
+		//$model = static::findOrFail($refno);
+
+		//$data = $model->toArray();
+		$amt = DB::select("SELECT SUM(amt) AS amt FROM refund_details WHERE refno = ?", array($refno));
+		$data[0]['amt'] = $amt[0]->amt;
+
+		return $data[0];
+	}
+
+	/**
+	 * Checks and returns the refundable amount of a student
 	 *
 	 * @param 	array $q Associate array studid, sy, sem
 	 * @throws 	Exception If no amount refundable for the semester
 	 * @return 	array Returns studid, studfullname, amt
 	 */
-	public function show($q)
+	public function check($q)
 	{
 		extract($q);
 
@@ -139,6 +194,7 @@ class Refund extends \Eloquent {
 		// return student studid, studfullname, amt
 		$s = DB::select("SELECT studid, studfullname FROM student WHERE studid=?", array($studid));
 		$s[0]->amt = $excess;
+		$s = static::encode($s);
 
 		return $s[0];
 	}
@@ -156,11 +212,29 @@ class Refund extends \Eloquent {
 	{
 		$ass = DB::select("SELECT SUM(amt) AS t FROM ass_details WHERE studid=? AND sy=? AND sem=?", array($studid, $sy, $sem));
 		$paid = DB::select("SELECT SUM(amt) AS t FROM get_paid(?,?,?)", array($studid, $sy, $sem));
-		$refund = DB::select("SELECT SUM(amt) AS t FROM refund_details WHERE studid=? AND sy=? AND sem=?", array($studid, $sy, $sem));
-	
-		$excess = $paid[0]->t - $ass[0]->t + $refund[0]->t;
+		$refund = DB::select("SELECT SUM(amt) AS t FROM get_refund(?,?,?)", array($studid, $sy, $sem));
+
+		$excess = $paid[0]->t - $ass[0]->t - $refund[0]->t;
 		if ($excess <= 0)	throw new Exception('No amount refundable for this semester.', 409);
 
 		return $excess;
+	}
+
+
+	/**
+	 * Gets the refund of a student
+	 *
+	 * @param 	string $studid
+	 * @param 	string $sy
+	 * @param 	string $sem
+	 * @return 	array
+	 */
+	public static function getRefund($studid, $sy, $sem)
+	{
+		try {
+			return DB::select("SELECT * FROM get_refund(?,?,?)", array($studid, $sy, $sem));
+		} catch (Exception $e) {
+			throw new Exception($e->getMessage(), 409);
+		}
 	}
 }

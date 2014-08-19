@@ -3,12 +3,16 @@ import Base from './base';
 
 export default Base.extend({
 	bcodes: [
-		{v: 'FCB', name: 'FCB'}
+		{v: 'FCB', name: 'FCB'},
+		{v: 'ALAY', name: 'Alay-lakad Inc.'},
+		{v: 'LGUTAG', name: 'LGU-Tagbilaran'},
+		{v: 'DOST', name: 'DOST'},
+		{v: 'CPG', name: 'CPG'}
 	],
 	searchCat: [
-		{v: 'refno', name: 'By Reference Number'},
-		{v: 'studid', name: 'By Student Id'},
-		{v: 'payee', name: 'By Last Name'}
+		{v: 'refno', name: 'Reference Number'},
+		{v: 'studid', name: 'Student Id'},
+		{v: 'payee', name: 'Last Name'}
 	],
 	bcode: 'FCB',
 	cat: 'refno',
@@ -21,8 +25,8 @@ export default Base.extend({
 	}.property('refno', 'payee', 'currentDate', 'total', 'succ'),
 
 	disb2: function() {
-		return !this.get('cat') || !this.get('query') || this.get('g.isProc');
-	}.property('cat', 'query'),
+		return !this.get('q') || this.get('g.isProc');
+	}.property('q'),
 
 	total: function() {
 		return this.get('data').reduce(function(t, p) {
@@ -62,20 +66,16 @@ export default Base.extend({
 	}.property('succ'),
 
 	actions: {
-		searchId: function() {
-			var self = this;
+		lookup: function() {
+			this.send('searchStud', this.get('stud'));
+		},
 
-			this.get('g').getJSON('/students?', {q: this.get('id')})
-				.done(function(res) {
-					if (res) {
-						self.set('studid', res.studid);
-						self.set('payee', res.studfullname);
-					} else {
-						// remove payee and studid
-						self.set('studid', undefined);
-						self.set('payee', undefined);
-					}
-				});
+		qStudSelect: function(id) {
+			this._loadId(id);
+		},
+		
+		searchId: function() {
+			this._loadId(this.get('id'));
 		},
 
 		loadUnpaid: function() {
@@ -134,14 +134,14 @@ export default Base.extend({
 			}
 		},
 
-		select: function(t) {
-			this._loadPayment({q: t.refno});
+		select: function(refno) {
+			this._loadPayment({q: refno});
 		},
 
 		searchP: function() {
 			var param = {
 				cat: this.get('cat'),
-				q: this.get('query')
+				q: this.get('q')
 			};
 			this._loadPayment(param);
 		}
@@ -177,8 +177,25 @@ export default Base.extend({
 					});
 				} else {
 					// show search results
-					self.set('searchRes', res);
+					self.set('sr', res);
 				}
 			});
+	},
+
+	_loadId: function(id) {
+		var self = this;
+
+		this.get('g').getJSON('/students?', {q: id, d: true})
+			.done(function(res) {
+				if (res) {
+					self.set('studid', res.studid);
+					self.set('payee', res.fullname);
+					self.set('id', res.studid);
+				} else {
+					// remove payee and studid
+					self.set('studid', undefined);
+					self.set('payee', undefined);
+				}
+			}); 
 	}
 });

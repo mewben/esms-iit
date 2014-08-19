@@ -1,15 +1,31 @@
 <?php
 
 class Report {
+	use \Helper;
 
-	public function getCertBilling($id)
+	/**
+	 * Gets the data for the certificate of billing
+	 *
+	 * @param 	array $q 'studid', 'sy', 'sem'
+	 * @return 	array assoc
+	 *
+	 * @ignore 	return data
+	 * ---
+	 *	'h' => 'studid', 'sy', 'sem', 'studfullname2', 'studmajor', 'studlevel', 'tuiamt', 'labamt', 't_unit', 't_as', 't_misc'
+	 * 	's' => array => 'subjcodedsp', 'subjlec_units', 'subjlab_units', 'subjcredit'
+	 * 	'misc' => array
+	 *	'lab' => object
+	 * 	'reg' => object
+	 * 	'tui' => object
+	 * 	'refund' => object
+	 * ---
+	 */
+	public function getCertBilling($q)
 	{
-		$q['studid'] = $id;
-		$q['sy'] = Session::get('user.sem.sy', '2014-2015');
-		$q['sem'] = Session::get('user.sem.sem', '1');
-
 		$data = [];
-		// headers
+		extract($q);
+
+		// Get headers
 		$h = DB::select("
 			SELECT studid, t1.sy, t1.sem, studfullname2, studmajor, studlevel, t2.amt AS tuiamt, t3.amt AS labamt 
 			FROM semstudent AS t1 
@@ -26,56 +42,72 @@ class Report {
 					t1.payment_sem = t3.sem
 				)
 			WHERE studid=? AND t1.sy=? AND t1.sem=? AND t3.subjcode='DEFAULT        ' AND registered=true
-		", array($q['studid'], $q['sy'], $q['sem']));
+		", array($studid, $sy, $sem));
 
 		if (!$h)	throw new Exception('Student Not Enrolled in this Semester', 409);
+		
+		$h = static::encode($h);
 		$data['h'] = $h[0];
 
-		// subjects
-		$subj = DB::select('SELECT * FROM registration LEFT JOIN subject USING(subjcode) WHERE studid=? AND sy=? AND sem=?', array($q['studid'], $q['sy'], $q['sem']));
+		// Get the subjects enrolled with lec lab total units
+		$subj = Subject::getEnrolledSubjects($studid, $sy, $sem);
 		$data['s'] = $subj;
-		if (count($subj) > 1) {
-			$t = 0.00;
-			foreach ($subj as $k => $v) {
-				$t += $v->subjcredit;
-			}
-			$data['h']->t_unit = number_format($t, 2);
-		}
+		$t = 0;
 
-		// assessment
-		$as = DB::select('SELECT * FROM ass_details LEFT JOIN fees USING(feecode) WHERE studid=? AND sy=? AND sem=?', array($q['studid'], $q['sy'], $q['sem']));
-		if (count($as) > 1) {
-			$t = 0.00;
-			$m = 0.00;
-			foreach ($as as $k => $v) {
-				if ($v->feecode == 'TUITIONFEE  ') { // fixed length
+		foreach ($subj as $v) {
+			$t += $v->subjcredit;
+		}
+		$data['h']['t_unit'] = number_format($t, 2);
+
+		// Get assessment details
+		$as = Assessment::getAssessmentDetails($studid, $sy, $sem);
+		$t = 0;
+		$m = 0;
+		foreach ($as as $v) {
+			switch($v->feecode) {
+				case 'TUITIONFEE  ':
 					$data['tui'] = $v;
-				} elseif ($v->feecode == 'REGFEE      ') {
+					break;
+				case 'REGFEE      ':
 					$data['reg'] = $v;
-				} elseif ($v->feecode == 'LABFEE      ' ) {
+					break;
+				case 'LABFEE      ':
 					$data['lab'] = $v;
-				} else {
+					break;
+				default:
 					$data['misc'][] = $v;
 					$m += $v->amt;
-				}
-				$t += $v->amt;
 			}
-			$data['h']->t_as = $t;
-			$data['h']->t_misc = $m;
+			$t += $v->amt;
 		}
 
-		// paid
-		$p = DB::select("SELECT * FROM get_paid(?, ?, ?)", array($q['studid'], $q['sy'], $q['sem']));
+		$data['h']['t_as'] = $t;
+		$data['h']['t_misc'] = $m;
+
+		// Get paid
+		$p = Collection::getPaid($studid, $sy, $sem);
 		$data['paid'] = $p;
-		$data['h']->t_paid = null;
-		if ($p) {
-			$t = 0.00;
-			foreach ($p as $k => $v) {
+		$data['h']['t_paid'] = null;
+		
+		$t = 0;
+		foreach ($p as $v) {
+			$t += $v->amt;
+		}
+		$data['h']['t_paid'] = $t;
+
+		// Get Refund
+		$r = Refund::getRefund($studid, $sy, $sem);
+		$data['h']['t_refund'] = null;
+		if ($r) {
+			$data['refund'] = $r;
+			$t = 0;
+			foreach ($r as $v) {
 				$t += $v->amt;
 			}
-			$data['h']->t_paid = $t;
+			$data['h']['t_refund'] = $t;
 		}
-		$data['h']->bal = $data['h']->t_as - $data['h']->t_paid;
+
+		$data['h']['bal'] = $data['h']['t_as'] - $data['h']['t_paid'] + $data['h']['t_refund'];
 		$data['currentDate'] = date('Y-m-d');
 		
 		return $data;

@@ -1,0 +1,32 @@
+-- EDIT FUNCTION
+
+-- get_balance_perstudent()
+-- Called when printing O.R.
+
+DECLARE 
+ 	prm_SY    	ALIAS FOR $1;
+ 	prm_SEM   	ALIAS FOR $2;
+ 	prm_STUDID  ALIAS FOR $3;
+
+ 	v_total_assessment numeric(12,2);
+ 	v_total_paid numeric(12,2);
+ 	v_balance numeric(12,2);
+
+
+BEGIN
+
+   	SELECT sum(coalesce(amt,0.00)) INTO v_total_assessment
+   	FROM ass_details
+   	WHERE sy=prm_SY AND sem=prm_SEM AND studid=prm_STUDID;
+
+    SELECT SUM(COALESCE(amt, 0.00)) INTO v_total_paid 
+	FROM get_paid(prm_STUDID, prm_SY, prm_SEM);
+
+   	v_balance := coalesce(v_total_assessment,0) - coalesce(v_total_paid,0);
+
+   	IF v_balance < 0 THEN
+      	v_balance := 0.00;
+   	END IF;
+  
+   	RETURN v_balance;
+END;
