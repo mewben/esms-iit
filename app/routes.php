@@ -11,8 +11,18 @@
 |
 */
 
-Route::get('test', function() {
+Route::post('token', function() {
+	$ret = array(
+		'access_token' => 'ABCDE',
+		'refresh_token' => '12345',
+		'expires_in' => 3600,
+		'token_type' => 'Bearer'
+	);
+	return Response::json($ret);
+});
 
+Route::get('test', function() {
+	(new Bcode)->store('dlf');
 });
 
 Route::get('login', function() {
@@ -25,7 +35,13 @@ Route::get('logout', function() {
 });
 
 Route::group(['prefix' => 'api/v1', 'before' => 'auth.custom'], function() {
-	header('Access-Control-Allow-Origin: *');
+	//header("Access-Control-Allow-Origin: *");
+	//header("Access-Control-Allow-Methods: POST, GET, DELETE");
+
+	Route::get('test', function() {
+		//return Response::json(array('hello'));
+		return Response::json(array('error' => 'No access'), 401);
+	});
 
 	Route::post('change_semester', 'AdminController@change_semester');
 	Route::post('import-payment', 'ImportController@payments');
@@ -34,6 +50,9 @@ Route::group(['prefix' => 'api/v1', 'before' => 'auth.custom'], function() {
 
 	Route::post('delete-payment', 'FeesController@destroy');
 	Route::post('delete-refund', 'RefundsController@destroy');
+
+	// ember-data
+	Route::resource('bcodes', 'BcodesController');
 
 	Route::get('fees', 'FeesController@search');
 	Route::get('load-unpaid', 'FeesController@unpaid');

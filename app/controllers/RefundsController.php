@@ -8,8 +8,8 @@ class RefundsController extends \BaseController {
 	public function __construct(Refund $model)
 	{
 		$this->model = $model;
-		$this->data['sy'] = Session::get('user.sy', '2014-2015');
-		$this->data['sem'] = Session::get('user.sem', '1');
+		$this->data['sy'] = Session::get('user.sem.sy', '2014-2015');
+		$this->data['sem'] = Session::get('user.sem.sem', '1');
 	}
 
 	public function check($id)

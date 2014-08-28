@@ -2,15 +2,24 @@ import Em from 'ember';
 import Base from './base';
 
 export default Base.extend({
-	bcodes: [
-		{v: 'FCB', name: 'FCB'},
-		{v: 'ALAY', name: 'Alay-lakad Inc.'},
-		{v: 'LGUTAG', name: 'LGU-Tagbilaran'},
-		{v: 'DOST', name: 'DOST'},
-		{v: 'CPG', name: 'CPG'}
-	],
+	init: function() {
+		this._super();
+		this._getBcodes();
+	},
 	bcode: 'FCB',
-	verfied: false,
+	data: [],
+
+	enSubmit: function() {
+		var d = this.get('data');
+
+		var l = this.get('data').filter(function(item) {
+			if (!Em.isEmpty(item.payee)) {
+				return item;
+			}
+		});
+
+		return d.length === l.length;
+	}.property('data.@each.payee'),
 
 	disb: function() {
 		return !this.get('csv') || !this.get('bcode') || this.get('g.isProc');
@@ -21,8 +30,6 @@ export default Base.extend({
 		parse: function() {
 			var self = this;
 			var total = 0;
-
-			this.set('verified', false);
 
 			Em.$("#csv").parse({
 				config: {
@@ -49,7 +56,7 @@ export default Base.extend({
 			// loop through data and get the studfullname of the id to verify
 			var data = this.get('data');
 
-			data.forEach(function(item) {
+			data.map(function(item) {
 				Em.set(item, 'proc', true);
 				Em.set(item, 'bcode', bcode);
 				self.get('g').getJSON('/students?', {q: item.studid, d: true})
@@ -58,7 +65,6 @@ export default Base.extend({
 						Em.set(item, 'payee', res.fullname);
 					});
 			});
-			this.set('verified', true);
 		},
 
 		// process payment for import

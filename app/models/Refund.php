@@ -194,7 +194,7 @@ class Refund extends \Eloquent {
 		// return student studid, studfullname, amt
 		$s = DB::select("SELECT studid, studfullname FROM student WHERE studid=?", array($studid));
 		$s[0]->amt = $excess;
-		$s = static::encode($s);
+		$s = static::_encode($s);
 
 		return $s[0];
 	}

@@ -40,5 +40,13 @@ export default Em.Controller.extend({
 					}
 				});
 		}
+	},
+
+	_getBcodes: function() {
+		var self = this;
+		this.get('g').getJSON('/bcodes')
+			.done(function(res) {
+				self.set('optsource', res['bcodes']);
+			});
 	}
 });

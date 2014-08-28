@@ -1,1 +1,50 @@
-LIST OF BCODES
+<div class="page-header">
+	<h3><i class="fa fa-angle-right"></i> Bcodes
+		{{#link-to 'bcodes.new' class="btn btn-warning"}} Add New {{/link-to}}
+	</h3>
+</div>
+<!-- TODO search
+<div class="row">
+	<div class="col-sm-9">
+		// filters here
+	</div>
+	<div class="col sm-3 text-right">
+		<div class="input-group">
+			{{input value=q class="form-control" placeholder="Search"}}
+			<span class="input-group-btn">
+				<button class="btn btn-warning">Search</button>
+			</span>
+		</div>	
+	</div>
+</div>
+-->
+<table class="table table-condensed table-hover">
+	<thead>
+		<tr>
+			<th>Code</th>
+			<th>Description</th>
+			<th>&nbsp;</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#each}}
+		<tr>
+			<td>
+				{{#link-to 'bcodes.edit' this}}{{bcode}}{{/link-to}}
+			</td>
+			<td>{{desc}}</td>
+			<td class="text-right">
+				{{#link-to 'bcodes.edit' this class="btn btn-default btn-sm"}}Edit{{/link-to}}
+				<a {{action 'delete' this}} class="btn btn-danger btn-sm">Delete</a>
+			</td>
+		</tr>
+		{{/each}}
+	</tbody>
+	<tfoot>
+		<tr>
+			<th>Code</th>
+			<th>Description</th>
+			<th>&nbsp;</th>
+		</tr>
+	</tfoot>
+</table>

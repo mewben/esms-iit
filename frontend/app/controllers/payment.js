@@ -2,27 +2,20 @@ import Em from 'ember';
 import Base from './base';
 
 export default Base.extend({
-	bcodes: [
-		{v: 'FCB', name: 'FCB'},
-		{v: 'ALAY', name: 'Alay-lakad Inc.'},
-		{v: 'LGUTAG', name: 'LGU-Tagbilaran'},
-		{v: 'DOST', name: 'DOST'},
-		{v: 'CPG', name: 'CPG'}
-	],
 	searchCat: [
 		{v: 'refno', name: 'Reference Number'},
 		{v: 'studid', name: 'Student Id'},
 		{v: 'payee', name: 'Last Name'}
 	],
-	bcode: 'FCB',
+	bcode: null,
 	cat: 'refno',
 	data: [],
 	succ: false,
 	searchRes: [],
 
 	disb: function() {
-		return !this.get('refno') || !this.get('payee') || !this.get('currentDate') || this.get('total') === 0 || this.get('succ') || this.get('g.isProc');
-	}.property('refno', 'payee', 'currentDate', 'total', 'succ'),
+		return !this.get('refno') || !this.get('bcode') || !this.get('payee') || !this.get('currentDate') || this.get('total') === 0 || this.get('succ') || this.get('g.isProc');
+	}.property('refno', 'bcode', 'payee', 'currentDate', 'total', 'succ'),
 
 	disb2: function() {
 		return !this.get('q') || this.get('g.isProc');

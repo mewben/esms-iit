@@ -5,7 +5,9 @@
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.2.*",
-		"maatwebsite/excel": "1.*"
+		"maatwebsite/excel": "1.*",
+		"barryvdh/laravel-cors": "dev-master",
+		"watson/validating": "0.9.*"
 	},
 	"autoload": {
 		"classmap": [

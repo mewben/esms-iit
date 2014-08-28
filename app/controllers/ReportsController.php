@@ -13,8 +13,8 @@ class ReportsController extends \BaseController {
 	{
 		$data = array(
 			'studid' => $id,
-			'sy' => Session::get('user.sy', '2014-2015'),
-			'sem' => Session::get('user.sem', '1')
+			'sy' => Session::get('user.sem.sy', '2014-2015'),
+			'sem' => Session::get('user.sem.sem', '1')
 		);
 		return Response::json($this->model->getCertBilling($data));
 	}

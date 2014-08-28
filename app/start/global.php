@@ -52,6 +52,8 @@ App::error(function(Exception $exception, $code)
 	$c = $exception->getCode();
 	if (isset($c) && $c == '409')
 		return Response::json($exception->getMessage(), $code);
+	elseif (isset($c) && $c == '408') // validation errors
+		return Response::json($exception->getMessage(), $code);
 });
 
 /*

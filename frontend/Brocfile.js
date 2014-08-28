@@ -49,5 +49,4 @@ app.import('vendor/toastr/toastr.min.js');
 app.import('vendor/custom/excelexport/jquery.battatech.excelexport.min.js');
 app.import('vendor/custom/script.js');
 
-
 module.exports = app.toTree();

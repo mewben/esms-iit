@@ -1,1 +1,8 @@
-ADD/EDIT
+<div class="page-header">
+	<h3>
+		{{#link-to 'bcodes.index'}}<i class="fa fa-angle-left"></i>{{/link-to}}
+		Bcodes
+		{{#link-to 'bcodes.new' class="btn btn-warning"}} Add New {{/link-to}}
+	</h3>
+</div>
+{{partial 'bcodes/form'}}

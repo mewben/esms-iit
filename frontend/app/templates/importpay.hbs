@@ -13,15 +13,16 @@
 			</div>
 			<div class="form-group">
 				<label>Report from: </label>
-				{{view Em.Select
-				content=bcodes
-				optionValuePath="content.v"
-				optionLabelPath="content.name"
-				value=bcode
-				class="form-control"}}
+				{{#if optsource}}
+					{{view Ember.Select
+						content=optsource
+						optionValuePath='content.bcode'
+						optionLabelPath='content.desc'
+						value=bcode
+						class='form-control'}}
+				{{/if}}
 			</div>
 			{{submit-spin saveText='Parse CSV File' disabled=disb isProc=g.isProc}}
-
 		</form>
 		<hr>
 		<div class="panel panel-default">
@@ -53,7 +54,7 @@
 	<div class="col-md-9">
 	{{#if data}}
 		<div class="text-right">
-			{{#if verified}}
+			{{#if enSubmit}}
 				{{button-spin saveText="Submit for Processing" action="submit" icon="fa-magic" disabled=g.isProc isProc=g.isProc}}
 			{{else}}
 				{{button-spin saveText="Verify Student ID" action="verify" icon="fa-check-square-o" disabled=g.isProc isProc=g.isProc}}

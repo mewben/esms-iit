@@ -46,7 +46,7 @@ class Report {
 
 		if (!$h)	throw new Exception('Student Not Enrolled in this Semester', 409);
 		
-		$h = static::encode($h);
+		$h = static::_encode($h);
 		$data['h'] = $h[0];
 
 		// Get the subjects enrolled with lec lab total units
@@ -111,6 +111,29 @@ class Report {
 		$data['currentDate'] = date('Y-m-d');
 		
 		return $data;
+	}
+
+	public function getCollectionSummary($q)
+	{
+		extract($q);
+
+		if($bcode == 'CASHIER') {
+			$r = DB::select("SELECT * FROM get_summaryofcollectionbydate(?, ?, ?, ?, ?)", array($datefrom, $dateto, $fund, '', ''));
+		} else {
+			$r = DB::select("SELECT * FROM get_summaryofcollectionbydate(?, ?, ?, ?, ?)", array($datefrom, $dateto, $fund, '1', $bcode));
+		}
+
+		// get total
+		$total = 0;
+
+		foreach ($r as $v) {
+			$total += $v->amt;
+		}
+
+		$ret['data'] = $r;
+		$ret['meta']['total'] = $total;
+
+		return $ret;
 	}
 
 	public function getCollections($q)

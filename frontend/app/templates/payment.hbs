@@ -42,12 +42,13 @@
 								</div>
 								<div class="col-sm-3">
 									<label>BCODE:</label>
-									{{view Em.Select
-										content=bcodes
-										optionValuePath="content.v"
-										optionLabelPath="content.name"
-										value=bcode
-										class="form-control"}}
+									{{view 'select-preload'
+										resource='bcodes'
+										content=optsource
+										ctrl='payment'
+										optionValuePath='content.bcode'
+										optionLabelPath='content.desc'
+										value=bcode}}
 								</div>
 								<div class="col-sm-3">
 									<label>DATE: (YYYY-MM-DD)</label>
@@ -85,7 +86,12 @@
 						</div>
 						<hr>
 							<label>Add Fee:</label>
-							{{view 'selectize' placeholder="Type Fee Code" value=feecode contentBinding="model"}}
+							<div {{bind-attr class='succ:hide'}}>
+								{{view 'selectize' placeholder="Type Fee Code" value=feecode contentBinding="model"}}
+							</div>
+							<div {{bind-attr class='not_succ:hide'}}>
+								<input type="text" class="form-control" placeholder="Type Fee Code">
+							</div>
 						<hr>
 						<div class="form-group">
 							<table class="table table-condensed table-striped">

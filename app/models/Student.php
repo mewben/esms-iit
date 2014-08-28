@@ -22,7 +22,7 @@ class Student extends \Eloquent {
 
 		if ($data) {
 			//$data = $model->toArray();
-			$r[0] = static::encode($data[0]);
+			$r[0] = static::_encode($data[0]);
 
 			if(isset($d)) { // direct return not array
 				return $r[0];
@@ -46,7 +46,7 @@ class Student extends \Eloquent {
 				->get(['studid', 'studfullname'])
 				->toArray();
 */
-		return static::encode($data);
+		return static::_encode($data);
 	}
 
 	public static function getStudentWithMajor($id, $sy, $sem)
@@ -57,7 +57,7 @@ class Student extends \Eloquent {
 				->where('sem', $sem);
 		})->get()->toArray();
 
-		$data = static::encode($data);
+		$data = static::_encode($data);
 		return $data[0];
 	}
 }
