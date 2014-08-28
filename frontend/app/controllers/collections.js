@@ -2,10 +2,10 @@ import Em from 'ember';
 import Base from './base';
 
 export default Base.extend({
-	bcodes: [
-		{v: 'CASHIER', name: 'CASHIER'},
-		{v: 'FCB', name: 'FCB'}
-	],
+	init: function() {
+		this._super();
+		this._getBcodes();
+	},
 	funds: [
 		{v: 'GF', name: 'General Fund'},
 		{v: 'STF', name: 'Special Trust Fund'},
@@ -25,8 +25,13 @@ export default Base.extend({
 
 	actions: {
 		preview: function() {
-			//var param = this._params()
-			// query to database get summary of collections
+			var self = this;
+			var param = this._params();
+			param.preview = true;
+			this.get('g').getJSON('/reports/collections?', param)
+				.done(function(res) {
+					self.set('res', res);
+				});
 		},
 		export: function() {
 			var param = this._params();

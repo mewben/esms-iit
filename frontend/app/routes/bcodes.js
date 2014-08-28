@@ -8,7 +8,6 @@ export default Em.Route.extend({
 	actions: {
 		delete: function(m) {
 			if(confirm(this.controllerFor('g').get('msg.del_confirm'))) {
-				//var m = this.currentModel,
 				var	route = this;
 
 				m.deleteRecord();

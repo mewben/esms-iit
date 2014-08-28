@@ -2,6 +2,11 @@ import Em from 'ember';
 import Base from './base';
 
 export default Base.extend({
+	init: function() {
+		this._super();
+		this._getBcodes();
+		this._getFees();
+	},
 	searchCat: [
 		{v: 'refno', name: 'Reference Number'},
 		{v: 'studid', name: 'Student Id'},
@@ -33,7 +38,7 @@ export default Base.extend({
 
 	fcChanged: function() {
 		var fcode = this.get('feecode');
-		var m = this.get('model');
+		var m = this.get('fees');
 		var d = this.get('data');
 
 		if (fcode) {

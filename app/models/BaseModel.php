@@ -9,7 +9,7 @@ class BaseModel extends \Eloquent {
 	public function store($input, $id = null)
 	{
 		$input = static::_sanitize($input);
-
+		
 		if(!isset($id))	$model = new static;
 		else 			$model = static::findOrFail($id);
 

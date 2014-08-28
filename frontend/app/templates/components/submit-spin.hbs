@@ -1,6 +1,6 @@
 <button type="submit" {{bind-attr class=":btn btnClass"}} {{bind-attr disabled="disabled"}}>
 	{{#if isProc}}
-		<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Processing ... 
+		<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> loading ... 
 	{{else}}
 		<i class="fa fa-send fa-fw"></i> {{saveText}}
 	{{/if}}

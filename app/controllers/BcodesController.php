@@ -16,7 +16,8 @@ class BcodesController extends \BaseController {
 
 	public function store()
 	{
-		return Response::json($this->model->store(Input::all()));
+		$data['bcode'] = $this->model->store(Input::all()['bcode']);
+		return Response::json($data);
 	}
 
 	public function update($id)

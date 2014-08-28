@@ -125,9 +125,8 @@ class Report {
 
 		// get total
 		$total = 0;
-
 		foreach ($r as $v) {
-			$total += $v->amt;
+			$total += $v->amount;
 		}
 
 		$ret['data'] = $r;

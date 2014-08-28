@@ -21,7 +21,11 @@ class ReportsController extends \BaseController {
 
 	public function collections()
 	{
-		return Response::json($this->model->getCollections(Input::all()));
+		if (Input::get('preview')) {
+			return Response::json($this->model->getCollectionSummary(Input::all()));
+		} else {
+			return Response::json($this->model->getCollections(Input::all()));
+		}
 	}
 
 	public function receivables()

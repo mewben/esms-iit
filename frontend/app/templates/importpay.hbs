@@ -13,9 +13,9 @@
 			</div>
 			<div class="form-group">
 				<label>Report from: </label>
-				{{#if optsource}}
+				{{#if bcodes}}
 					{{view Ember.Select
-						content=optsource
+						content=bcodes
 						optionValuePath='content.bcode'
 						optionLabelPath='content.desc'
 						value=bcode

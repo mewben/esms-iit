@@ -46,7 +46,15 @@ export default Em.Controller.extend({
 		var self = this;
 		this.get('g').getJSON('/bcodes')
 			.done(function(res) {
-				self.set('optsource', res['bcodes']);
+				self.set('bcodes', res['bcodes']);
+			});
+	},
+
+	_getFees: function() {
+		var self = this;
+		this.get('g').getJSON('/fees' )
+			.done(function(res) {
+				self.set('fees', res);
 			});
 	}
 });

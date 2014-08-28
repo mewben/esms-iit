@@ -34,6 +34,7 @@ Router.map(function() {
 	// Print
 	this.resource('print', function() {
 		this.route('certbilling', {path: 'certbilling/:studid'});
+		this.route('collections');
 		this.route('ledger', {path: 'ledger/:studid'});
 		this.route('sumbilling', {path: 'sumbilling/:sy/:sem'});
 	});

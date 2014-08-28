@@ -42,13 +42,14 @@
 								</div>
 								<div class="col-sm-3">
 									<label>BCODE:</label>
-									{{view 'select-preload'
-										resource='bcodes'
-										content=optsource
-										ctrl='payment'
-										optionValuePath='content.bcode'
-										optionLabelPath='content.desc'
-										value=bcode}}
+									{{#if bcodes}}
+										{{view Ember.Select
+											content=bcodes
+											optionValuePath='content.bcode'
+											optionLabelPath='content.desc'
+											value=bcode
+											class='form-control'}}
+									{{/if}}
 								</div>
 								<div class="col-sm-3">
 									<label>DATE: (YYYY-MM-DD)</label>
@@ -87,7 +88,12 @@
 						<hr>
 							<label>Add Fee:</label>
 							<div {{bind-attr class='succ:hide'}}>
-								{{view 'selectize' placeholder="Type Fee Code" value=feecode contentBinding="model"}}
+								{{#if fees}}
+									{{view 'selectize' 
+										placeholder="Type Fee Code" 
+										value=feecode 
+										opt=fees}}
+								{{/if}}
 							</div>
 							<div {{bind-attr class='not_succ:hide'}}>
 								<input type="text" class="form-control" placeholder="Type Fee Code">

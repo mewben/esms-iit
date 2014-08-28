@@ -64,7 +64,7 @@ BEGIN
         feecode,
         acctcode,
         feedesc,
-        SUM(amt) as amt
+        SUM(amt) as amount
       FROM collection_details
       LEFT JOIN collection_header USING(orno)
       LEFT JOIN fees USING(feecode)

@@ -8,7 +8,7 @@ export default Em.TextField.extend({
 	},
 
 	initt: function() {
-		var options = this.get('content');
+		var options = this.get('opt');
 
 		this.$().selectize({
 			maxItems: 1,

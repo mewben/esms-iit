@@ -5,7 +5,7 @@ export default Em.Route.extend({
 		print: function() {
 			window.print();
 		},
-		toprint: function(route, p, p2) {
+		toprint2: function(route, p, p2) {
 			var url;
 			if (p2) {
 				url = this.router.generate(route, p, p2);
@@ -13,6 +13,19 @@ export default Em.Route.extend({
 				url = this.router.generate(route, p);
 			}
 			window.open(url);
-		}
+		},
+		toprint: function(route) {
+			
+		},
+
+		test: function() {
+			var param = {
+				order: 'asc',
+				where: 'klerj'
+			};
+			var t = this.router.generate('print.collections');
+			console.log(t);
+		},
+
 	}
 });

@@ -1,6 +1,6 @@
 <button type="button" {{action 'click'}} {{bind-attr class=":btn btnClass"}} {{bind-attr disabled="disabled"}}>
 	{{#if isProc}}
-		<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Processing ... 
+		<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Loading ... 
 	{{else}}
 		<i {{bind-attr class=":fa :fa-fw icon"}}></i> {{saveText}}
 	{{/if}}
