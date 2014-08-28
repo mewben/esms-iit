@@ -115,6 +115,7 @@ class Report {
 
 	public function getCollectionSummary($q)
 	{
+		$ret['res']['meta'] = $q;
 		extract($q);
 
 		if($bcode == 'CASHIER') {
@@ -129,10 +130,13 @@ class Report {
 			$total += $v->amount;
 		}
 
-		$ret['data'] = $r;
-		$ret['meta']['total'] = $total;
+		$ret['res']['data'] = $r;
+		$ret['res']['meta']['total'] = $total;
 
-		return $ret;
+		if(isset($print) && $print)
+			return $ret;
+		else
+			return $ret['res'];
 	}
 
 	public function getCollections($q)

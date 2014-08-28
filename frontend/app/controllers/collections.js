@@ -23,11 +23,16 @@ export default Base.extend({
 		return EsmsUiENV.ApiHost + 'reports/ReportCollections.xlsx';
 	}.property('tlink'),
 
+	params: function() {
+		var p = this._params(true);
+		p.print = true;
+		return p;
+	}.property('cashier', 'bcode', 'datefrom', 'dateto', 'fund'),
+
 	actions: {
 		preview: function() {
 			var self = this;
-			var param = this._params();
-			param.preview = true;
+			var param = this._params(true);
 			this.get('g').getJSON('/reports/collections?', param)
 				.done(function(res) {
 					self.set('res', res);
@@ -39,18 +44,22 @@ export default Base.extend({
 		}
 	},
 
-	_params: function() {
-		var bcode;
+	_params: function(preview) {
+		var bcode, desc;
 		if (this.get('cashier')) {
 			bcode = 'CASHIER';
+			desc = 'Cashier Collections';
 		} else {
 			bcode = this.get('bcode');
+			desc = this.get('sbcode.desc');
 		}
 		return {
 			bcode: bcode,
 			datefrom: this.get('datefrom'),
 			dateto: this.get('dateto'),
-			fund: this.get('fund')
+			fund: this.get('fund'),
+			desc: desc,
+			preview: preview
 		};
 	}
 });

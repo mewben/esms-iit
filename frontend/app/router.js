@@ -9,6 +9,7 @@ Router.map(function() {
 
 	// Actions
 	this.route('payment');
+	this.route('refund');
 
 	// Automate
 	this.route('importpay');
@@ -22,7 +23,6 @@ Router.map(function() {
 		this.route('ledger', {path: ':studid'});
 	});
 	this.route('receivables');
-	this.route('refund');
 	this.route('sumbilling');
 
 	// Manage

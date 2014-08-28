@@ -14,18 +14,14 @@ export default Em.Route.extend({
 			}
 			window.open(url);
 		},
-		toprint: function(route) {
-			
-		},
 
-		test: function() {
-			var param = {
-				order: 'asc',
-				where: 'klerj'
-			};
-			var t = this.router.generate('print.collections');
-			console.log(t);
-		},
-
+		toprint: function(route, param) {
+			var p = '';
+			if (param) {
+				p = '?' + Em.$.param(param);
+			}
+			var url = this.router.generate(route);
+			window.open(url+p);
+		}
 	}
 });

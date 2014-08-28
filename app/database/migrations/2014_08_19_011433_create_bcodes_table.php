@@ -25,7 +25,9 @@ class CreateBcodesTable extends Migration {
 			array('bcode' => 'FCB', 'desc' => 'First Consolidated Bank'),
 			array('bcode' => 'RF', 'desc' => 'From Refund'),
 			array('bcode' => 'ALAY', 'desc' => 'Alay-lakad Inc.'),
-			array('bcode' => 'LGUTAG', 'desc' => 'LGU-Tagbilaran')
+			array('bcode' => 'LGUTAG', 'desc' => 'LGU-Tagbilaran'),
+			array('bcode' => 'CPG', 'desc' => 'CPG'),
+			array('bcode' => 'DOST', 'desc' => 'Department of Science & Technology')
 		));
 
 		$e = DB::select("SELECT 1 FROM pg_constraint WHERE conname = 'bulk_collection_header_bcode_fk'");
@@ -43,7 +45,8 @@ class CreateBcodesTable extends Migration {
 		DB::unprepared('GRANT SELECT ON TABLE bcodes TO srgb_view_all;');
 		DB::unprepared('GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE bcodes TO srgb_cashiertmp;');
 		DB::unprepared('GRANT SELECT ON TABLE bcodes TO srgb_faculty;');
-		DB::unprepared('GRANT SELECT ON TABLE bcodes TO srgb_registrar;'); 
+		DB::unprepared('GRANT SELECT ON TABLE bcodes TO srgb_registrar;');
+		DB::unprepared('GRANT USAGE, SELECT ON SEQUENCE bcodes_id_seq TO srgb_admin;');
 	}
 
 	/**

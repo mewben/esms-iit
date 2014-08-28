@@ -57,66 +57,11 @@
 		</div>	
 	</div>
 	<div class="col-md-9">
-	{{#if res}}
-		<div class="hide">
-			{{to-print to='print.collections' p=details.studid act='toprint'}}
-			<button {{action 'test'}} class="btn btn-default">Test</button>
-			<hr>
-		</div>
-		<h3>Summary of Collection</h3>
-		<table class="table table-condensed table-bordered">
-			<tbody>
-				<tr>
-					<td width="18%">Collection From:</td>
-					<td>
-						<strong>
-							{{#if cashier}}
-								Cashier Collections
-							{{else}}
-								{{sbcode.desc}}
-							{{/if}}
-						</strong>
-					</td>
-				</tr>
-				<tr>
-					<td>Date Range:</td>
-					<td><strong>{{format-date datefrom ''}} - {{format-date dateto ''}}</strong></td>
-				</tr>
-				<tr>
-					<td>Fund:</td>
-					<td><strong>{{fund}}</strong></td>
-				</tr>
-			</tbody>
-		</table>
+	{{!#if res}}
+		{{to-print to='print.collections' p=params act='toprint'}}
 		<hr>
-		<table class="table table-condensed table-hover">
-			<thead>
-				<tr>
-					<th>&nbsp;</th>
-					<th>Fee Code</th>
-					<th>Description</th>
-					<th>Account Code</th>
-					<th class="text-right">Amount (Php)</th>
-				</tr>
-			</thead>
-			<tbody>
-				{{#each res.data}}
-				<tr>
-					<td>{{num}}.</td>
-					<td>{{feecode}}</td>
-					<td>{{feedesc}}</td>
-					<td>{{acctcode}}</td>
-					<td class="text-right">{{format-currency amount}}</td>
-				</tr>
-				{{/each}}
-			</tbody>
-			<tfoot>
-				<tr>
-					<th colspan="4" class="text-right">Total:</th>
-					<th class="text-right">{{format-currency res.meta.total}}</th>
-				</tr>
-			</tfoot>
-		</table>
-	{{/if}}
+		<h3>Summary of Collection</h3>
+		{{partial 'reports/sumcollection'}}
+	{{!/if}}
 	</div>
 </div>
