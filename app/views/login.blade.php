@@ -25,7 +25,7 @@
 			</div>
 			<button type="submit" class="btn btn-warning"><i class="fa fa-automobile fa-fw"></i> Log in</button>
 			<div>
-				<h2>eSMS ext <em class="text-muted">v0.3.2</em></h2>
+				<h2>eSMS ext <em class="text-muted">v0.3.3</em></h2>
 				<em class="text-muted">Bohol Island State University - Main Campus</em>
 			</div>
 		</form>

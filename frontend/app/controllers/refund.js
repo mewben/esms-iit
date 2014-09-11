@@ -25,6 +25,7 @@ export default Base.extend({
 		checkRefund: function(studid) {
 			var self = this;
 			// check refund in current semester.
+			this._reset();
 			this.get('g').getJSON('/refund-check/' + studid)
 				.done(function(res) {
 					self.setProperties({
@@ -33,7 +34,6 @@ export default Base.extend({
 						amt: res.amt,
 						succ: false
 					});
-					self._reset();
 				});
 		},
 
@@ -97,7 +97,8 @@ export default Base.extend({
 	_reset: function() {
 		this.setProperties({
 			refno: '',
-			remarks: ''
+			remarks: '',
+			amt: 0
 		});
 	}
 });

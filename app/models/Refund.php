@@ -68,11 +68,10 @@ class Refund extends \Eloquent {
 	 */
 	public function process($q)
 	{
-		$q['bcode'] = 'RF'; // Hardcode bcode for Refund
 		extract($q);
+		$bcode = 'RF'; // Hardcode bcode for Refund
 
 		$excess = self::checkRefund($studid, $sy, $sem);
-
 		$total_ass = 0;
 		$total_paid = 0;
 
@@ -90,7 +89,7 @@ class Refund extends \Eloquent {
 			$d_paid[$v->feecode] = $v->amt;
 		}
 
-		$diff = array_diff_assoc($d_ass, $d_paid);
+		$diff = array_diff_assoc($d_paid, $d_ass);
 
 		// Prepare the data to be inserted in the refund_details
 		$i = 0;
@@ -104,6 +103,10 @@ class Refund extends \Eloquent {
 		}
 
 		// Separate into Payment or Refund
+		$p = array();
+		$r = array();
+		$t1 = 0;
+		$t2 = 0;
 		foreach ($ins as $v) {
 			if($v['amt'] < 0) {
 				// insert into bulk_collection_header
@@ -111,23 +114,28 @@ class Refund extends \Eloquent {
 					'feecode' => $v['feecode'],
 					'amt' => $v['amt'] * -1
 				);
+				$t1 += $v['amt'] * -1;
 			} else {
 				// insert into refund_header
 				$r['details'][] = array(
 					'feecode' => $v['feecode'],
 					'amt' => $v['amt']
 				);
+				$t2 += $v['amt'];
 			}
 		}
 
+		//check if data to be inserted is correct
+		if ($excess - $t1 - $t2 != 0) 	throw new Exception("Amounts not equal.. Notify the developer.", 409);
+
 		// Save to bulk_collection_header
-		if (isset($p) && count($p['details']) > 0) {
+		if (isset($p['details']) && count($p['details']) > 0) {
 			$p['h'] = $q;
 			(new Import)->payment($p);
 		}
 
 		// Save refund
-		if (isset($r) && count($r['details']) > 0) {
+		if (isset($r['details']) && count($r['details']) > 0) {
 			$r['h'] = $q;
 			self::make($r);
 		}
