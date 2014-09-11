@@ -14,23 +14,35 @@ class Student extends \Eloquent {
 	public function search($q)
 	{
 		extract($q);
-		// search for id
-		//$model = static::find($q);
-		$data = DB::table('studfullnames')
-				->where('studid', $q)
-				->get(['studid', 'fullname']);
 
-		if ($data) {
-			//$data = $model->toArray();
-			$r[0] = static::_encode($data[0]);
+		if (is_array($q)) {
 
-			if(isset($d)) { // direct return not array
-				return $r[0];
-			} else {
-				return $r;
-			}
+			$data = DB::table('studfullnames')
+				->whereIn('studid', $q)
+				->get(array('studid', 'fullname'));
+
+			return static::_encode($data);
+
 		} else {
-			return static::searchByLastName($q);
+
+			// search for id
+			//$model = static::find($q);
+			$data = DB::table('studfullnames')
+					->where('studid', $q)
+					->get(['studid', 'fullname']);
+
+			if ($data) {
+				//$data = $model->toArray();
+				$r[0] = static::_encode($data[0]);
+
+				if(isset($d)) { // direct return not array
+					return $r[0];
+				} else {
+					return $r;
+				}
+			} else {
+				return static::searchByLastName($q);
+			}
 		}
 	}
 

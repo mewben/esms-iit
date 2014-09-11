@@ -21,10 +21,15 @@ class ReportsController extends \BaseController {
 
 	public function collections()
 	{
-		if (Input::get('preview')) {
+		if (Input::get('preview'))
 			return Response::json($this->model->getCollectionSummary(Input::all()));
-		} else {
-			return Response::json($this->model->getCollections(Input::all()));
+		else {
+			$data = $this->model->getCollections(Input::all());
+			Excel::create('Collections', function($excel) use ($data) {
+				$excel->sheet('New Sheet', function($sheet) use ($data) {
+					$sheet->loadView('collections')->with('data', $data);
+				});
+			})->export('csv');
 		}
 	}
 

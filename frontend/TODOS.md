@@ -7,6 +7,8 @@
 	* Lec/Lab Units Summary by Course 
 
 
+	- GENERAL
+	* Display menus depending on user role
 	* DONE - Load unpaid assessment returns negative
 	* DONE - Certificate of Billing Error if &ntilde;
 	* - Report of Collections Last Row Wrong formula

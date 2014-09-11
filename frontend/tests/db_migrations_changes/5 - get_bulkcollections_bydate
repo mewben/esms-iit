@@ -39,7 +39,7 @@ BEGIN
 				AND chargeto=prm_ChargeTo 
 				AND coalesce(amt,0)<>0
 				AND bcode=prm_bcode
-			ORDER BY paydate,refno,acctcode,subacctcode
+			ORDER BY paydate,refno,feecode,subacctcode
 
 			LOOP
 				rst.paydate 	:= collection_rec.paydate;
@@ -70,7 +70,7 @@ BEGIN
 			WHERE (paydate BETWEEN prm_datefrom AND prm_dateto) 
 				AND chargeto=prm_ChargeTo 
 				AND coalesce(amt,0)<>0
-			ORDER BY paydate,orno,acctcode,subacctcode
+			ORDER BY paydate,orno,feecode,subacctcode
 
 			LOOP
 				rst.paydate 	:= collection_rec.paydate;

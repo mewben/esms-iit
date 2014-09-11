@@ -14,6 +14,7 @@ export default Base.extend({
 	cashier: false,
 	bcode: null,
 	fund: 'STF',
+	tdata: [],
 
 	disb: function() {
 		return !this.get('datefrom') || (!this.get('cashier') && !this.get('bcode')) || !this.get('dateto') || this.get('g.isProc');
@@ -23,6 +24,7 @@ export default Base.extend({
 		return EsmsUiENV.ApiHost + 'reports/ReportCollections.xlsx';
 	}.property('tlink'),
 
+	// for print preview
 	params: function() {
 		var p = this._params(true);
 		p.print = true;
@@ -36,11 +38,19 @@ export default Base.extend({
 			this.get('g').getJSON('/reports/collections?', param)
 				.done(function(res) {
 					self.set('res', res);
+					/*self.set('res', res.summary);
+					res.tdata.forEach(function(item) {
+						if (item.payee.indexOf('\u00c3\u0091') !== -1) {
+							item.payee = item.payee.replace('\u00c3\u0091', 'Ñ');
+						}
+					});
+					self.set('tdata', res.tdata);*/
 				});
-		},
+		}, 
+
 		export: function() {
 			var param = this._params();
-			window.open(EsmsUiENV.ApiHost + EsmsUiENV.Api + '/reports/collections?' + Em.$.param(param));	
+			window.open(EsmsUiENV.ApiHost + EsmsUiENV.Api + '/reports/collections?' + Em.$.param(param));
 		}
 	},
 

@@ -35,6 +35,7 @@ class Import {
 			throw new Exception('Excess payment. Please use the Note payment module and set the excess to TUITIONFEE.', 409);
 		
 		try {
+			//dd($data);
 			// 3. Save to bulk_collection_header
 			BulkCollectionHeader::create($data);
 
@@ -42,7 +43,8 @@ class Import {
 			DB::table('bulk_collection_details')->insert($details);
 			
 		} catch (Exception $e) {
-			throw new Exception('This reference number is already saved.', 409);
+			throw new Exception($e->getMessage());
+			//throw new Exception('This reference number is already saved.', 409);
 		}
 		return true;
 	}

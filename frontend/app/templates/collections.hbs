@@ -57,11 +57,11 @@
 		</div>	
 	</div>
 	<div class="col-md-9">
-	{{!#if res}}
+	{{#if res}}
 		{{to-print to='print.collections' p=params act='toprint'}}
 		<hr>
 		<h3>Summary of Collection</h3>
 		{{partial 'reports/sumcollection'}}
-	{{!/if}}
+	{{/if}}
 	</div>
 </div>

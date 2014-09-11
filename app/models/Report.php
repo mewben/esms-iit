@@ -139,103 +139,44 @@ class Report {
 			return $ret['res'];
 	}
 
+	// for export
 	public function getCollections($q)
 	{
 		extract($q);
+
 		if ($bcode == 'CASHIER') {
 			$rep = DB::select("SELECT * FROM get_bulkcollections_bydate(?, ?, ?, ?, ?)", array($datefrom, $dateto, $fund, '', ''));
 		} else {
 			$rep = DB::select("SELECT * FROM get_bulkcollections_bydate(?, ?, ?, ?, ?)", array($datefrom, $dateto, $fund, '1', $bcode));
 		}
-		
-		$exp = [];
-		$summary = [];
-		if ($rep) {
-			$c = 1;
-			foreach ($rep as $k => $v) {
-				$summary[$v->acctcode]['name'] = $v->acctname;
-				$summary[$v->acctcode]['total'][] = $v->amount;
-				if ((isset($rep[$k - 1]->refno) && $rep[$k - 1]->refno != $v->refno) || $k == 0) {
-					$exp[$k] = array(
-						$v->paydate,
-						$v->refno,
-						$v->studid,
-						$v->payee,
-						$v->acctcode,
-						$v->acctname,
-						$v->amount,
-						'=SUM(G'. ($k+1) .':G'. ($k+1) .')'
-					);
-					if ($c > 1) {
-						$exp[$k - $c][7] = '=SUM(G' . ($k - $c + 1) . ':G' . ($k) . ')';
-						$c = 1;
-					}
-				} else {
-					$exp[$k] = array(
-						'',
-						'',
-						'',
-						'',
-						$v->acctcode,
-						$v->acctname,
-						$v->amount
-					);
 
-					if ($k == (count($rep) - 1)) {
-						if ($c > 1) {
-							$exp[$k - $c][7] = '=SUM(G' . ($k - $c + 1) . ':G' . ($k + 1) . ')';
-							$c = 1;
-						}
-					}
+		$ret = array();
+		$data = array();
+		$i = 1;
+		foreach ($rep as $key => $value) {
+			$value->payee = static::_encode($value->payee);
+			if (array_key_exists($value->refno, $data)) {
+				$data[$value->refno]->adtl[] = $value;
 
-					$c++;
-				}
+				$num_adtl = count($data[$value->refno]->adtl);
+
+				$data[$value->refno]->s2 = $data[$value->refno]->s1 + $num_adtl;
+			
+			} else {
+				$value->i = $i;
+				$value->s1 = $key+1;
+				$value->s2 = $key+1;
+				
+				$data[$value->refno] = $value;
+				
+				$i++;
 			}
-
-			$x = count($exp);
-			$exp[$x++] = array(
-				'',
-				'',
-				'',
-				'',
-				'',
-				'',
-				'TOTAL:',
-				'=SUM(H1:H' . ($x -1) . ')'
-			);
 		}
+		
+		$ret['data'] = array_values($data);
+		$ret['meta']['total'] = count($rep);
 
-		$exp[$x++] = array();
-		$exp[$x++] = array('', '', '', 'SUMMARY:');
-		$c = $x;
-		foreach ($summary as $k => $v) {
-			$exp[$x][] = '';
-			$exp[$x][] = '';
-			$exp[$x][] = '';
-			$exp[$x][] = '';
-			$exp[$x]['code'] = $k;
-			$exp[$x]['name'] = $v['name'];
-			$exp[$x]['total'] = array_sum($v['total']);
-			$x++;
-		}
-		$exp[$x] = array(
-			'',
-			'',
-			'',
-			'',
-			'TOTAL:',
-			'',
-			'=SUM(G' . $c . ':G' . $x . ')'
-		);
-
-		Excel::create('Collections', function($excel) use ($exp) {
-			$excel->setTitle('Our new awesome title');
-			$excel->setDescription('A demonstration');
-
-			$excel->sheet('Sheet 1', function($sheet) use ($exp) {
-				$sheet->fromArray($exp, null, 'A1', false, false);
-			});
-		})->download('xlsx');
+		return $ret;
 	}
 
 	public function getReceivables($q)
