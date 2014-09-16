@@ -249,7 +249,7 @@ class Report {
 			$data['total'] += $v->amount;
 		}
 
-		if (isset($q['model']))	{ // for model structure
+		if (isset($q['print']))	{ // for model structure
 			$ret = [];
 			$ret['data'] = $data;
 			return $ret;

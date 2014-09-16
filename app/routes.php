@@ -21,10 +21,6 @@ Route::post('token', function() {
 	return Response::json($ret);
 });
 
-Route::get('test', function() {
-	(new Bcode)->store('dlf');
-});
-
 Route::get('login', function() {
 	return View::make('login')->with('bg', rand(1, 6));
 });
@@ -37,11 +33,6 @@ Route::get('logout', function() {
 Route::group(['prefix' => 'api/v1', 'before' => 'auth.custom'], function() {
 	//header("Access-Control-Allow-Origin: *");
 	//header("Access-Control-Allow-Methods: POST, GET, DELETE");
-
-	Route::get('test', function() {
-		//return Response::json(array('hello'));
-		return Response::json(array('error' => 'No access'), 401);
-	});
 
 	Route::post('change_semester', 'AdminController@change_semester');
 	Route::post('import-payment', 'ImportController@payments');

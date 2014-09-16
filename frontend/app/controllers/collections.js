@@ -38,13 +38,6 @@ export default Base.extend({
 			this.get('g').getJSON('/reports/collections?', param)
 				.done(function(res) {
 					self.set('res', res);
-					/*self.set('res', res.summary);
-					res.tdata.forEach(function(item) {
-						if (item.payee.indexOf('\u00c3\u0091') !== -1) {
-							item.payee = item.payee.replace('\u00c3\u0091', 'Ñ');
-						}
-					});
-					self.set('tdata', res.tdata);*/
 				});
 		}, 
 
