@@ -33,6 +33,20 @@ class ReportsController extends \BaseController {
 		}
 	}
 
+	public function refunds()
+	{
+		if (Input::get('preview'))
+			return Response::json($this->model->getRefundSummary(Input::all()));
+		else {
+			$data = $this->model->getRefunds(Input::all());
+			Excel::create('Refunds', function($excel) use ($data) {
+				$excel->sheet('New Sheet', function($sheet) use ($data) {
+					$sheet->loadView('collections')->with('data', $data);
+				});
+			})->export('csv');
+		}
+	}
+
 	public function receivables()
 	{
 		return Response::json($this->model->getReceivables(Input::all()));

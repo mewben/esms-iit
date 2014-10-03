@@ -5,7 +5,8 @@
     "EsmsUiENV": true,
     "accounting": true,
     "moment": true,
-    "toastr": true
+    "toastr": true,
+    "Pikaday": true
   },
   "browser" : true,
   "boss" : true,

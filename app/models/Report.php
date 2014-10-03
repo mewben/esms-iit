@@ -139,6 +139,28 @@ class Report {
 			return $ret['res'];
 	}
 
+	public function getRefundSummary($q)
+	{
+		$ret['res']['meta'] = $q;
+		extract($q);
+
+		$r = DB::select("SELECT * FROM get_summaryofrefundbydate(?, ?)", array($datefrom, $dateto));
+
+		// get total
+		$total = 0;
+		foreach ($r as $v) {
+			$total += $v->amount;
+		}
+
+		$ret['res']['data'] = $r;
+		$ret['res']['meta']['total'] = $total;
+
+		if(isset($print) && $print)
+			return $ret;
+		else
+			return $ret['res'];
+	}
+
 	// for export
 	public function getCollections($q)
 	{
@@ -149,6 +171,42 @@ class Report {
 		} else {
 			$rep = DB::select("SELECT * FROM get_bulkcollections_bydate(?, ?, ?, ?, ?)", array($datefrom, $dateto, $fund, '1', $bcode));
 		}
+
+		$ret = array();
+		$data = array();
+		$i = 1;
+		foreach ($rep as $key => $value) {
+			$value->payee = static::_encode($value->payee);
+			if (array_key_exists($value->refno, $data)) {
+				$data[$value->refno]->adtl[] = $value;
+
+				$num_adtl = count($data[$value->refno]->adtl);
+
+				$data[$value->refno]->s2 = $data[$value->refno]->s1 + $num_adtl;
+			
+			} else {
+				$value->i = $i;
+				$value->s1 = $key+1;
+				$value->s2 = $key+1;
+				
+				$data[$value->refno] = $value;
+				
+				$i++;
+			}
+		}
+		
+		$ret['data'] = array_values($data);
+		$ret['meta']['total'] = count($rep);
+
+		return $ret;
+	}
+
+	// for export
+	public function getRefunds($q)
+	{
+		extract($q);
+
+		$rep = DB::select("SELECT * FROM get_refunds_bydate(?, ?)", array($datefrom, $dateto));
 
 		$ret = array();
 		$data = array();

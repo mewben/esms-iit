@@ -23,6 +23,7 @@ Router.map(function() {
 		this.route('ledger', {path: ':studid'});
 	});
 	this.route('receivables');
+	this.route('refunds');
 	this.route('sumbilling');
 
 	// Manage

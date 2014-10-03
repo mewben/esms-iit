@@ -38,6 +38,7 @@ app.import('vendor/selectize/dist/js/standalone/selectize.min.js');
 // accounting
 app.import('vendor/accounting/accounting.min.js');
 app.import('vendor/moment/min/moment.min.js');
+app.import('vendor/pikaday/pikaday.js');
 
 // csv parse
 app.import('vendor/papa-parse/jquery.parse.min.js');
@@ -48,5 +49,7 @@ app.import('vendor/toastr/toastr.min.js');
 // custom
 app.import('vendor/custom/excelexport/jquery.battatech.excelexport.min.js');
 app.import('vendor/custom/script.js');
+
+app.import('vendor/pikaday/css/pikaday.css');
 
 module.exports = app.toTree();

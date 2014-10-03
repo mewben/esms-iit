@@ -1,0 +1,59 @@
+-- NEW QUERY
+
+CREATE OR REPLACE FUNCTION "srgb"."get_summaryofrefundbydate"(bpchar, bpchar)
+  RETURNS SETOF "srgb"."rptsummaryofbilling2type" AS $BODY$
+
+-- get_summaryofrefundbydate(bpchar, bpchar)
+-- added acctcode
+-- Desc: Shows the summary of collection in between dates by bcode or cashier
+-- Ex. get_summaryofrefundbydate('2014-07-01', '2014-07-31');
+
+
+DECLARE
+	/* Update History:
+ 	  	Sample Query: SELECT * FROM get_summaryofrefundbydate('2014-07-01', '2014-07-31');
+	*/
+   	
+   	prm_datefrom ALIAS FOR $1;
+    prm_dateto ALIAS FOR $2;
+
+   	collection_rec	 record;
+   	rst         	   rptsummaryofbilling2type%ROWTYPE;
+    v_num       integer;
+
+BEGIN
+  v_num := 0;
+  
+  FOR collection_rec IN
+    SELECT 
+      feecode,
+      acctcode,
+      feedesc,
+      SUM(amt) as amount
+    FROM refund_details
+    LEFT JOIN refund_header USING(refno)
+    LEFT JOIN fees USING(feecode)
+    WHERE (paydate BETWEEN prm_datefrom AND prm_dateto)
+      AND COALESCE(amt, 0)<>0
+    GROUP BY feecode, acctcode, feedesc
+    ORDER BY feecode, feedesc
+      
+                            
+        LOOP
+        v_num     := v_num + 1;
+
+        rst.num     := v_num;
+        rst.feecode := collection_rec.feecode; 
+        rst.feedesc := collection_rec.feedesc;
+        rst.amount  := collection_rec.amount;
+        rst.acctcode  := collection_rec.acctcode;
+
+        RETURN NEXT rst;
+        END LOOP;
+
+  RETURN; 
+END;
+$BODY$
+  	LANGUAGE 'plpgsql' VOLATILE;
+
+ALTER FUNCTION "srgb"."get_summaryofrefundbydate"(bpchar, bpchar) OWNER TO "postgres";

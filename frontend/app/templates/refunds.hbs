@@ -1,6 +1,6 @@
 <div class="page-header">
-	<h3><i class="fa fa-angle-right"></i> Report of Collections
-		<small>Retrieves collection details</small>
+	<h3><i class="fa fa-angle-right"></i> Report of Refunds
+		<small>Retrieves refund details</small>
 	</h3>
 </div>
 
@@ -11,40 +11,12 @@
 			<div class="panel-body">
 				<form role="form" {{action 'preview' on="submit"}}>
 					<div class="form-group">
-						<label>Get collection from:</label>
-						<div class="checkbox">
-							<label>
-								{{input type='checkbox' checked=cashier}} Cashier Collections
-							</label>
-						</div>
-						<div {{bind-attr class='cashier:hide'}}>
-							{{#if bcodes}}
-								{{view Ember.Select
-									content=bcodes
-									optionValuePath='content.bcode'
-									optionLabelPath='content.desc'
-									value=bcode
-									selection=sbcode
-									class='form-control'}}
-							{{/if}}
-						</div>
-					</div>
-					<div class="form-group">
 						<label>Date From:</label>
 						{{view 'date-picker' name='datefrom' value=datefrom}}
 					</div>
 					<div class="form-group">
 						<label>Date To:</label>
 						{{view 'date-picker' name='dateto' value=dateto}}
-					</div>
-					<div class="form-group">
-						<label>Fund:</label>
-						{{view Em.Select
-							content=funds
-							optionValuePath="content.v"
-							optionLabelPath="content.name"
-							value=fund
-							class="form-control"}}
 					</div>
 					<div class="form-group text-center">
 						<hr>
@@ -58,10 +30,10 @@
 	</div>
 	<div class="col-md-9">
 	{{#if res}}
-		{{to-print to='print.collections' p=params act='toprint'}}
+		{{to-print to='print.refunds' p=params act='toprint'}}
 		<hr>
-		<h3>Summary of Collection</h3>
-		{{partial 'reports/sumcollection'}}
+		<h3>Summary of Refunds</h3>
+		{{partial 'reports/sumrefund'}}
 	{{/if}}
 	</div>
 </div>

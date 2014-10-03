@@ -1,0 +1,55 @@
+-- NEW QUERY
+
+
+CREATE OR REPLACE FUNCTION "srgb"."get_refunds_bydate"(date, date)
+  RETURNS SETOF "srgb"."rptbulkcollectionstype" AS $BODY$
+
+-- get_refunds_bydate(date, date)
+-- Desc: Gets the refunds by date
+-- Ex: get_refunds_bydate('2014-06-01', '2014-07-01')
+-- Ex: get_refunds_bydate('2014-06-01', '2014-07-01')
+
+DECLARE
+  	prm_datefrom 	ALIAS FOR $1;
+   	prm_dateto 		ALIAS FOR $2;
+
+   	collection_rec 	record;
+   	rst         	rptbulkcollectionstype%ROWTYPE;
+	 
+BEGIN
+	FOR collection_rec IN 
+		SELECT
+			paydate,
+			refno,
+			studid,
+			payee,
+			CASE WHEN coalesce(subacctcode,'')='' THEN acctcode
+				ELSE trim(acctcode) || '(' || trim(subacctcode) || ')' 
+			END as acctcode,
+			feedesc,
+			amt
+		FROM refund_details 
+		LEFT JOIN refund_header USING(refno)
+		LEFT JOIN fees USING(feecode)
+		WHERE (paydate BETWEEN prm_datefrom AND prm_dateto) 
+			AND coalesce(amt,0)<>0
+		ORDER BY paydate,refno,feecode,subacctcode
+
+		LOOP
+			rst.paydate 	:= collection_rec.paydate;
+			rst.refno		:= collection_rec.refno;
+			rst.studid 		:= collection_rec.studid;
+			rst.payee		:= collection_rec.payee;
+			rst.acctcode	:= collection_rec.acctcode;
+			rst.acctname	:= collection_rec.feedesc;
+			rst.amount		:= collection_rec.amt;
+
+			RETURN NEXT rst;
+		END LOOP;
+  
+  	RETURN;
+END;
+$BODY$
+  	LANGUAGE 'plpgsql' VOLATILE;
+
+ALTER FUNCTION "srgb"."get_refunds_bydate"(date, date) OWNER TO "postgres";
