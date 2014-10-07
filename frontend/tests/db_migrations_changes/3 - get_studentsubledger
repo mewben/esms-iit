@@ -73,7 +73,7 @@ BEGIN
           			sem,
           			paydate as rdate,
           			'Refund - '|| refno as ref,
-          			1 as ord,
+          			2 as ord,
                  	SUM(coalesce(amt,0.00)) as debit,
                  	0.00 as credit
           		FROM refund_header
