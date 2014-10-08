@@ -21,6 +21,75 @@
         sem: '1'
       };
       window.currentDate = '2014-07-09';
+      window.menu = [
+        {
+          group: 'Actions',
+          print: false,
+          icon: 'fa-desktop',
+          items: [
+            {type: 'route', title : 'Payment', location : 'payment'},
+            {type: 'route', title : 'Refund', location : 'refund'}
+          ]
+        },
+        {
+          group: 'Automate',
+          print: false,
+          icon: 'fa-crosshairs',
+          items: [
+            {type: 'route', title : 'Import Payment', location : 'importpay'}
+          ]
+        },
+        {
+          group: 'Manage',
+          print: false,
+          icon: 'fa-list-alt',
+          items: [
+            {type: 'resource', title : 'BCodes', location : 'bcodes',
+              sub: [
+                {route: 'new', path : '/new'},
+                {route: 'edit', path : '/:id/edit'}
+              ]
+            }
+          ]
+        },
+        {
+          group: 'Reports',
+          print: false,
+          icon: 'fa-list-alt',
+          items: [
+            {type: 'route', title : 'Account Receivables', location : 'receivables'},
+            {type: 'route', title : 'Report of Collections', location : 'collections'},
+            {type: 'route', title : 'Summary of Billing', location : 'sumbilling'},
+            {type: 'route', title : 'Report of Refunds', location : 'refunds'},
+
+            {type: 'resource', title : 'Certificate of Billing', location : 'certbilling',
+              sub: [
+                {route: 'stud', path : ':studid'}
+              ]
+            },
+            {type: 'resource', title : 'Subsidiary Ledger', location : 'ledgers',
+              sub: [
+                {route: 'ledger', path : ':studid'}
+              ]
+            },
+          ]
+        },
+        {
+          group: 'Prints',
+          print: true,
+          icon: '',
+          items: [
+            {type: 'resource', title : 'Print', location : 'print',
+              sub: [
+                {route: 'certbilling', path : 'certbilling/:studid'},
+                {route: 'collections', path : ''},
+                {route: 'ledger', path : 'ledger/:studid'},
+                {route: 'sumbilling', path : ''},
+              ]
+            }
+          ]
+        }
+      ];
     </script>
     <script src="assets/vendor.js"></script>
     <script src="assets/esms-ui.js"></script>

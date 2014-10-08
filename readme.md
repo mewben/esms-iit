@@ -42,3 +42,6 @@ contains the production files. You need to copy them to `/public/`.
 - Bootstrap 3
 - Accounting.js
 - ExcelExport - Battatech
+
+### Refresh .gitignore
+git rm -r --cached .

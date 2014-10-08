@@ -6,6 +6,7 @@
     window.EmberENV = window.EsmsUiENV.EmberENV;
     window.sem = {{ json_encode($sem) }};
     window.currentDate = '{{$currentDate}}';
+    window.menu = {{ json_encode($menu) }};
   </script>
   <script src="assets/vendor.js"></script>
   <script src="assets/esms-ui.js"></script>

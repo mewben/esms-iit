@@ -25,9 +25,137 @@ class AdminController extends \BaseController {
 		$con['username'] = Input::get('username');
 		$con['password'] = Input::get('password');
 
+		try {
+			$role = DB::select("SELECT rolname FROM pg_authid a WHERE pg_has_role(?, a.oid, 'member');", [$con['username']]);
+		}
+		catch(Exception $e) {
+			return Redirect::to('login')->with('err', 'Login Failed.');
+		}
+
 		Config::set('database.connections.pgsql', $con);
 		try {
 			DB::connection()->getDatabaseName();
+
+			if($this->_in_array('srgb_accounting', $role)) {
+				$menu = [
+					[
+			          'group' => 'Actions',
+			          'print' => false,
+			          'icon' => 'fa-desktop',
+			          'items' => [
+			            ['type' => 'route', 'title'  => 'Refund', 'location'  => 'refund']
+			          ]
+			        ],
+			        [
+			        	'group' => 'Reports',
+			        	'print' => false,
+			        	'icon' => 'fa-list-alt',
+			        	'items' => [
+			        		['type' => 'route', 'title' => 'Account Receivables', 'location' => 'receivables'],
+			        		['type' => 'route', 'title' => 'Report of Collections', 'location' => 'collections'],
+			            	['type' => 'route', 'title' => 'Summary of Billing', 'location' => 'sumbilling'],
+			            	['type' => 'route', 'title' => 'Report of Refunds', 'location' => 'refunds'],
+
+			            	['type' => 'resource', 'title' => 'Certificate of Billing', 'location' => 'certbilling',
+				              'sub' => [
+				                ['route' => 'stud', 'path' => ':studid']
+				              ]
+				            ],
+				            ['type' => 'resource', 'title' => 'Subsidiary Ledger', 'location' => 'ledgers',
+				              'sub' => [
+				                ['route' => 'ledger', 'path' => ':studid']
+				              ]
+				            ]
+			        	]
+			        ],
+			        [
+			        	'group' => 'Prints',
+				          'print' => true,
+				          'icon' => '',
+				          'items' => [
+				            ['type' => 'resource', 'title' => 'Print', 'location' => 'print',
+				              'sub' => [
+				                ['route' => 'certbilling', 'path' => ':certbilling/ =>studid'],
+				                ['route' => 'collections', 'path' => ''],
+				                ['route' => 'ledger', 'path' => 'ledger/:studid'],
+				                ['route' => 'sumbilling', 'path' => ''],
+				              ]
+				            ]
+				          ]
+			        ]
+				];
+			} else {
+				$menu = [
+					[
+			          'group' => 'Actions',
+			          'print' => false,
+			          'icon' => 'fa-desktop',
+			          'items' => [
+			            ['type' => 'route', 'title'  => 'Payment', 'location'  => 'payment'],
+			            ['type' => 'route', 'title'  => 'Refund', 'location'  => 'refund']
+			          ]
+			        ],
+			        [
+			        	'group' => 'Automate',
+			        	'print' => false,
+			        	'icon' => 'fa-crosshairs',
+			        	'items' => [
+			        		['type' => 'route', 'title'  => 'Import Payment', 'location'  => 'importpay']
+			        	]
+			        ],
+			        [
+			        	'group' => 'Manage',
+			        	'print' => false,
+			        	'icon' => 'fa-list-alt',
+			        	'items' => [
+			        		['type' => 'resource', 'title' => 'BCodes', 'location' => 'bcodes',
+				              'sub' => [
+				                ['route' => 'new', 'path' => '/new'],
+				                ['route' => 'edit', 'paty' => ':/id/edit']
+				              ]
+				            ]
+			        	]
+			        ],
+			        [
+			        	'group' => 'Reports',
+			        	'print' => false,
+			        	'icon' => 'fa-list-alt',
+			        	'items' => [
+			        		['type' => 'route', 'title' => 'Account Receivables', 'location' => 'receivables'],
+			        		['type' => 'route', 'title' => 'Report of Collections', 'location' => 'collections'],
+			            	['type' => 'route', 'title' => 'Summary of Billing', 'location' => 'sumbilling'],
+			            	['type' => 'route', 'title' => 'Report of Refunds', 'location' => 'refunds'],
+
+			            	['type' => 'resource', 'title' => 'Certificate of Billing', 'location' => 'certbilling',
+				              'sub' => [
+				                ['route' => 'stud', 'path' => ':studid']
+				              ]
+				            ],
+				            ['type' => 'resource', 'title' => 'Subsidiary Ledger', 'location' => 'ledgers',
+				              'sub' => [
+				                ['route' => 'ledger', 'path' => ':studid']
+				              ]
+				            ]
+			        	]
+			        ],
+			        [
+			        	'group' => 'Prints',
+				          'print' => true,
+				          'icon' => '',
+				          'items' => [
+				            ['type' => 'resource', 'title' => 'Print', 'location' => 'print',
+				              'sub' => [
+				                ['route' => 'certbilling', 'path' => ':certbilling/ =>studid'],
+				                ['route' => 'collections', 'path' => ''],
+				                ['route' => 'ledger', 'path' => 'ledger/:studid'],
+				                ['route' => 'sumbilling', 'path' => ''],
+				              ]
+				            ]
+				          ]
+			        ]
+				];
+			}
+
 			$sem = Semester::where('current', '=', 't')->get()->toArray();
 			if (!$sem) {
 				$sem[0] = array('sy' => '2014-2015', 'sem' => '1');
@@ -37,10 +165,20 @@ class AdminController extends \BaseController {
 			Session::put('user.con', $con);
 			Session::put('user.sem', $sem[0]);
 			Session::put('user.currentDate', $currentDate);
+			Session::put('user.menu', $menu);
 
 			return Redirect::to('/');
 		} catch (Exception $e) {
 			return Redirect::to('login')->with('err', 'Login Failed.');
 		}
+	}
+
+	private function _in_array($q, $arr) {
+		foreach ($arr as $v) {
+			if($v->rolname == $q) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

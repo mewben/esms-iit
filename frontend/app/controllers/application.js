@@ -1,6 +1,7 @@
 import Base from './base';
 
 export default Base.extend({
+	menu: window.menu,
 	actions: {
 		changeSem: function() {
 			var self = this;

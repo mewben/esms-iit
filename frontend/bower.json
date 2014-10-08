@@ -19,6 +19,6 @@
     "toastr": "~2.0.3",
     "papa-parse": "~2.1.4",
     "selectize": "~0.10.1",
-    "pikaday": "~1.2.0"
+    "pikaday": "~1.2.0",
   }
 }
