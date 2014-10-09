@@ -73,6 +73,7 @@
 					<div class="col-sm-3">
 						{{button-spin action="issue" saveText='Issue Refund' disabled=disbissue isProc=g.isProc btnClass="btn-info btn-block"}}
 						<button type="button" class="btn btn-danger btn-block" {{action 'delete'}} {{bind-attr disabled="not_succ"}}><i class="fa fa-fw fa-trash-o"></i> Delete Refund</button>
+						{{#link-to 'ledgers.ledger' studid class='btn btn-info btn-block'}}<i class="fa fa-fw fa-book"></i> View Ledger{{/link-to}}
 					</div>
 				</div>
 			</div>
