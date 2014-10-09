@@ -22,11 +22,12 @@
 			<div class="panel-heading">Note Payment</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="col-sm-6">
+					<div class="col-sm-8">
 						<button type="button" class="btn btn-info" {{action 'new'}}><i class="fa fa-fw fa-cube"></i> New Payment</button>
 						<button type="button" class="btn btn-danger" {{action 'deleteP'}} {{bind-attr disabled="not_succ"}}><i class="fa fa-fw fa-trash-o"></i> Delete Payment</button>
+						{{#link-to 'ledgers.ledger' studid class="btn btn-info"}}<i class="fa fa-fw fa-book"></i> View Ledger{{/link-to}}
 					</div>
-					<div class="col-sm-6 text-right">
+					<div class="col-sm-4 text-right">
 						{{button-spin action="submit" saveText='Save Payment' disabled=disb isProc=g.isProc btnClass="btn-warning"}}
 						<button type="button" {{action 'cancel'}} class="btn btn-default">Cancel</button>
 					</div>
