@@ -10,4 +10,13 @@ class Subject {
 			throw new Exception($e->getMessage(), 409);
 		}
 	}
+
+	public static function getOfferedSubjects($subjcode, $sy, $sem)
+	{
+		try {
+			return DB::select("SELECT * FROM subject LEFT JOIN semsubject USING(subjcode) WHERE subjcode=? AND sy=? AND sem=?", array($subjcode, $sy, $sem));
+		} catch (Exception $e) {
+			throw new Exception($e->getMessage(), 409);
+		}
+	}
 }

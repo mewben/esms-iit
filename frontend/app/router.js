@@ -42,6 +42,11 @@ Router.map(function() {
 		this.route('sumbilling');
 	});
 
+	// Grade Module
+	this.resource('grades', function() {
+		this.route('grade', {path: '/:subjcode/:section'});
+	});
+
 });
 
 export default Router;

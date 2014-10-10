@@ -60,6 +60,8 @@ Route::group(['prefix' => 'api/v1', 'before' => 'auth.custom'], function() {
 	Route::get('reports/receivables', 'ReportsController@receivables');
 	Route::get('reports/refunds', 'ReportsController@refunds');
 	Route::get('reports/sumbilling', 'ReportsController@sumbilling');
+
+	Route::get('subjects', 'SubjectsController@search');
 });
 
 Route::get('/', array('before' => 'auth.custom', function()
