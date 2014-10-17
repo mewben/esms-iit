@@ -63,6 +63,7 @@ Route::group(['prefix' => 'api/v1', 'before' => 'auth.custom'], function() {
 
 	Route::get('subjects', 'SubjectsController@search');
 	Route::get('grades-update', 'RegistrationsController@updateGrade');
+	Route::get('grades/{subjcode}/{section}', 'GradesController@getBySubjectBySection');
 });
 
 Route::get('/', array('before' => 'auth.custom', function()
