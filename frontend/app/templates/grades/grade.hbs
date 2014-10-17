@@ -1,0 +1,97 @@
+{{!-- Grade Sheet Details --}}
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<div class="row">
+			<div class="col-sm-6">
+				Details
+			</div>
+			<div class="col-sm-6 text-right">
+				SY: <strong>2014-2015</strong>
+				SEM: <strong>2</strong>
+			</div>
+		</div>
+	</div>
+	<div class="panel-body">
+		<form>
+			<fieldset>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-3">
+							<label>Subject Code:</label>
+							{{input value=meta.subjcode class="form-control" disabled="disabled"}}
+						</div>
+						<div class="col-sm-9">
+							<label>Subject Description:</label>
+							{{input value=meta.subjdesc class="form-control" disabled="disabled"}}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-3">
+							<label>Department</label>
+							{{input value=meta.subjdept class="form-control" disabled="disabled"}}
+						</div>
+						<div class="col-sm-3">
+							<label>Section</label>
+							{{input value=meta.section class="form-control" disabled="disabled"}}
+						</div>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+		<hr>
+		<div class="row">
+			<div class="col-sm-8">
+				<button {{action 'save'}} type="button" class="btn btn-warning">Save</button>
+				<button type="button" class="btn btn-danger"><i class="fa fa-fw fa-lock"></i> Lock all Grades</button>
+				<button type="button" class="btn btn-success"><i class="fa fa-fw fa-file-excel-o"></i> Export to Excel</button>
+				<button type="button" class="btn btn-info"><i class="fa fa-fw fa-print"></i> Print Grades</button>
+				{{!-- {{#link-to 'ledgers.ledger' studid class="btn btn-info"}}<i class="fa fa-fw fa-print"></i> Print Grades{{/link-to}} --}}
+			</div>
+		</div>
+	</div>
+</div>
+
+{{!-- Grade Sheet --}}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		Grade Sheet
+	</div>
+	<div class="panel-body">
+		<table class="table table-condensed table-bordered table-striped table-hover grade">
+			<thead>
+				<tr>
+					<td>#</td>
+					<th>ID No.</th>
+					<th>Name</th>
+					<th class="text-right" width="7%">MT</th>
+					<th class="text-right" width="7%">FT</th>
+					<th class="text-right warning" width="7%">FG</th>
+					<th class="text-right" width="7%">Re-Ex</th>
+					<th>Remarks</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{#each data}}
+				<tr>
+					<td>{{inc-1 _view.contentIndex}}.</td>
+					<td>{{studid}}</td>
+					<td>{{fullname}}</td>
+					<td class="inp">
+						{{input value=prelim1 class="form-control text-right"}}
+					</td>
+					<td class="inp">
+						{{input value=prelim2 class="form-control text-right"}}
+					</td>
+					<td class="text-right warning">{{{compute-grade prelim1 prelim2}}}</td>
+					<td class="inp">
+						{{input value=gcompl class="form-control text-right"}}
+					</td>
+					<td>&nbsp;</td>
+				</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
+</div>
