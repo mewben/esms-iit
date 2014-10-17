@@ -62,7 +62,6 @@ Route::group(['prefix' => 'api/v1', 'before' => 'auth.custom'], function() {
 	Route::get('reports/sumbilling', 'ReportsController@sumbilling');
 
 	Route::get('subjects', 'SubjectsController@search');
-});
 
 Route::get('/', array('before' => 'auth.custom', function()
 {

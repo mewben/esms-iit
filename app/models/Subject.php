@@ -12,37 +12,12 @@ class Subject extends \Eloquent {
 		}
 	}
 
-	public static function search($q) {
+	public static function search($q)
+	{
 		extract($q);
 
-		if (is_array($q)) {
-
-			$data = DB::table('semsubject')
-				->whereIn('subjcode', $q)
-				->get(array('subjcode', 'section'));
-
-			return static::_encode($data);
-
-		} else {
-			$data = DB::table('semsubject')
-					->where('subjcode', $q)
-					->get(['subjcode', 'section']);
-
-			
-			$r[0] = static::_encode($data[0]);
-
-			if(isset($d)) {
-				return $r[0];
-			} else {
-				return $r;
-			}
-		}
-	}
-
-	public static function getOfferedSubjects($subjcode, $sy, $sem)
-	{
 		try {
-			return DB::select("SELECT * FROM subject LEFT JOIN semsubject USING(subjcode) WHERE subjcode=? AND sy=? AND sem=?", array($subjcode, $sy, $sem));
+			return DB::select("SELECT * FROM subject LEFT JOIN semsubject USING(subjcode) WHERE sy=? AND sem=? AND subjcode LIKE ?", array($sy, $sem, $subjcode.'%'));
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage(), 409);
 		}
