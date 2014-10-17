@@ -28,7 +28,13 @@
           icon: 'fa-desktop',
           items: [
             {type: 'route', title : 'Payment', location : 'payment'},
-            {type: 'route', title : 'Refund', location : 'refund'}
+            {type: 'route', title : 'Refund', location : 'refund'},
+            {type: 'resource', title : 'Grade Sheet', location : 'grades',
+              sub: [
+                {route: 'grade', path: '/:subjcode/:section'}
+              ]
+            },
+            {type: 'route', title : 'Student COR', location : 'cor'},
           ]
         },
         {

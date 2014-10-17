@@ -1,0 +1,105 @@
+<div class="page-header">
+	<h3><i class="fa fa-angle-right"></i> Certificate of Registration
+		<small>Show student's Certificate of Registration (COR).</small>
+	</h3>
+</div>
+
+<div class="row">
+	<div class="col-md-3">
+		{{partial 'partials/lookup-stud'}}
+		<hr>
+	</div>
+	<div class="col-md-9">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-sm-6">
+						Certificate of Registration
+					</div>
+					<div class="col-sm-6 text-right">
+						SY: <strong>1</strong>
+						SEM: <strong>2014-2015</strong>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<form role="form">
+					<fieldset>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<label>STUDENT ID:</label>
+									{{input value=studid class="form-control" disabled="disabled"}}
+								</div>
+								<div class="col-sm-9">
+									<label>NAME:</label>
+									{{input value=studname class="form-control" disabled="disabled"}}
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<label>COURSE:</label>
+									{{input value=studmajor class="form-control" disabled="disabled"}}
+								</div>
+								<div class="col-sm-3">
+									<label>YEAR:</label>
+									{{input value=studyr class="form-control" disabled="disabled"}}
+								</div>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Registered Subjects
+			</div>
+			<div class="panel-body">
+				<table class="table table-condensed table-bordered table-striped table-hover">
+					<thead>
+						<tr>
+							<th>Code</th>
+							<th>Section</th>
+							<th>Subject Description</th>
+							<th width="7%">Lec</th>
+							<th width="7%">Lab</th>
+							<th width="7%">MT</th>
+							<th width="7%">FT</th>
+							<th width="7%">FG</th>
+							<th width="7%">Re-Ex</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<a href="#">COMP 1</a>
+							</td>
+							<td>EE-2A</td>
+							<td>Computer Fundamentals and Programming</td>
+							<td>2</td>
+							<td>1</td>
+							<td>1.5</td>
+							<td>1.5</td>
+							<td>1.5</td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+
+				<hr>
+
+				<div class="row">
+					<div class="col-sm-6">
+						TOTAL LOAD UNITS: <strong>26</strong>
+					</div>
+					<div class="col-sm-6 text-right">
+						GPA: <strong>1.5</strong>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

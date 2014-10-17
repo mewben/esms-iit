@@ -1,0 +1,10 @@
+<form class="form-inline text-right" role="form" {{action 'lookup' on='submit'}}>
+	<div class="form-group">
+		<div class="input-group">
+			{{input value=subj placeholder="Subject Code" class="form-control" autofocus="autofocus"}}
+			<span class="input-group-btn">
+				{{submit-spin saveText='Lookup'}}
+			</span>
+		</div>
+	</div>
+</form>

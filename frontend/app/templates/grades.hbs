@@ -1,0 +1,138 @@
+<div class="page-header">
+	<h3><i class="fa fa-angle-right"></i> Grade Sheet
+		<small>Input student grades on specific subject.</small>
+	</h3>
+</div>
+
+<div class="row">
+	<div class="col-md-3">
+		{{partial 'partials/lookup-subj'}}
+		<hr>
+		{{!-- {{#if subjlist}}
+			<hr>
+			<div class="list-group">
+				{{#each}}
+					<a {{action 'qStudSelect' subjcode}} href="#" class="list-group-item list-group-item-warning">
+						<small>{{subjcode}} - {{section}}</small>
+					</a>
+				{{/each}}
+			</div>
+		{{/if}} --}}
+	</div>
+	<div class="col-md-9">
+		{{!-- Grade Sheet Details --}}
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-sm-6">
+						Details
+					</div>
+					<div class="col-sm-6 text-right">
+						SY: <strong>2014-2015</strong>
+						SEM: <strong>2</strong>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<form>
+					<fieldset>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<label>Subject Code:</label>
+									{{input value='EE 322' class="form-control" disabled="disabled"}}
+								</div>
+								<div class="col-sm-9">
+									<label>Subject Description:</label>
+									{{input value='Electrical Something' class="form-control" disabled="disabled"}}
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-3">
+									<label>Department</label>
+									{{input value='CEA' class="form-control" disabled="disabled"}}
+								</div>
+								<div class="col-sm-3">
+									<label>Section</label>
+									{{input value='EE3A' class="form-control" disabled="disabled"}}
+								</div>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+				<hr>
+				<div class="row">
+					<div class="col-sm-8">
+						<button type="button" class="btn btn-danger"><i class="fa fa-fw fa-lock"></i> Lock all Grades</button>
+						<button type="button" class="btn btn-success"><i class="fa fa-fw fa-file-excel-o"></i> Export to Excel</button>
+						<button type="button" class="btn btn-info"><i class="fa fa-fw fa-print"></i> Print Grades</button>
+						{{!-- {{#link-to 'ledgers.ledger' studid class="btn btn-info"}}<i class="fa fa-fw fa-print"></i> Print Grades{{/link-to}} --}}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{{!-- Grade Sheet --}}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Grade Sheet
+			</div>
+			<div class="panel-body">
+				<table class="table table-condensed table-bordered table-striped table-hover">
+					<thead>
+						<tr>
+							<td>#</td>
+							<th>ID No.</th>
+							<th>Name</th>
+							<th width="10%">MT</th>
+							<th width="10%">FT</th>
+							<th width="10%">FG</th>
+							<th>Remarks</th>
+							<th width="10%">Re-Ex</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td>016351</td>
+							<td>Libay, Phillip Glenn</td>
+							<td>
+								{{input class="form-control input-sm text-right" value='1.0'}}
+							</td>
+							<td>
+								{{input class="form-control input-sm text-right" value='1.0'}}
+							</td>
+							<td>
+								{{input class="form-control input-sm text-right" value='1.0'}}
+							</td>
+							<td>Excellent</td>
+							<td>
+								{{input class="form-control input-sm text-right"}}
+							</td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>016351</td>
+							<td>Yabil, John Peter Matthew</td>
+							<td>
+								{{input class="form-control input-sm text-right" value='5.0'}}
+							</td>
+							<td>
+								{{input class="form-control input-sm text-right" value='5.0'}}
+							</td>
+							<td>
+								{{input class="form-control input-sm text-right" value='5.0'}}
+							</td>
+							<td>Failed</td>
+							<td>
+								{{input class="form-control input-sm text-right"}}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
