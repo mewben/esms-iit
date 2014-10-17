@@ -39,6 +39,18 @@ export default Em.Controller.extend({
 						self.set('studlist', res);
 					}
 				});
+		},
+		searchSubj: function(subj, trans) {
+			var self = this;
+
+			this.get('g').getJSON('/subjects?', {q: subj})
+				.done(function(res) {
+					if(res.length === 1 && trans) {
+						self.transitionToRoute(trans, res[0].studid);
+					} else {
+						self.set('subjlist', res);
+					}
+				});
 		}
 	},
 

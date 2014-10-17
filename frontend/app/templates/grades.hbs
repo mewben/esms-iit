@@ -8,20 +8,16 @@
 	<div class="col-md-3">
 		{{partial 'partials/lookup-subj'}}
 		<hr>
-		<div class="list-group">
-			{{#link-to 'ledgers.ledger' studid class="list-group-item list-group-item-warning"}}
-				<small>EE322 - EE3A</small>
-			{{/link-to}}
-			{{#link-to 'ledgers.ledger' studid class="list-group-item list-group-item-warning"}}
-				<small>EE322 - EE3B</small>
-			{{/link-to}}
-			{{#link-to 'ledgers.ledger' studid class="list-group-item list-group-item-warning"}}
-				<small>EE322 - COE3A</small>
-			{{/link-to}}
-			{{#link-to 'ledgers.ledger' studid class="list-group-item list-group-item-warning"}}
-				<small>EE322 - COE3B</small>
-			{{/link-to}}
-		</div>
+		{{!-- {{#if subjlist}}
+			<hr>
+			<div class="list-group">
+				{{#each}}
+					<a {{action 'qStudSelect' subjcode}} href="#" class="list-group-item list-group-item-warning">
+						<small>{{subjcode}} - {{section}}</small>
+					</a>
+				{{/each}}
+			</div>
+		{{/if}} --}}
 	</div>
 	<div class="col-md-9">
 		{{!-- Grade Sheet Details --}}
