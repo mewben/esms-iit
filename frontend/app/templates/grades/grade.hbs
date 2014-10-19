@@ -42,12 +42,12 @@
 		</form>
 		<hr>
 		<div class="row">
-			<div class="col-sm-8">
+			<div class="col-sm-12">
 				<button {{action 'save'}} type="button" class="btn btn-warning">Save</button>
-				<button type="button" class="btn btn-danger"><i class="fa fa-fw fa-lock"></i> Lock all Grades</button>
-				<button type="button" class="btn btn-success"><i class="fa fa-fw fa-file-excel-o"></i> Export to Excel</button>
-				<button type="button" class="btn btn-info"><i class="fa fa-fw fa-print"></i> Print Grades</button>
-				{{!-- {{#link-to 'ledgers.ledger' studid class="btn btn-info"}}<i class="fa fa-fw fa-print"></i> Print Grades{{/link-to}} --}}
+				<button type="button" class="btn btn-danger" disabled><i class="fa fa-fw fa-lock"></i> Lock all Grades</button>
+				<button type="button" class="btn btn-primary" disabled><i class="fa fa-fw fa-unlock"></i> Unlock all Grades</button>
+				<button type="button" class="btn btn-success" disabled><i class="fa fa-fw fa-file-excel-o"></i> Export to Excel</button>
+				<button type="button" class="btn btn-info" disabled><i class="fa fa-fw fa-print"></i> Print Grades</button>
 			</div>
 		</div>
 	</div>

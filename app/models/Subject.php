@@ -12,14 +12,19 @@ class Subject extends \Eloquent {
 		}
 	}
 
-	public static function search($q)
+	public static function search($data)
 	{
-		extract($q);
+		extract($data);
 
-		try {
-			return DB::select("SELECT * FROM subject LEFT JOIN semsubject USING(subjcode) WHERE sy=? AND sem=? AND subjcode LIKE ?", array($sy, $sem, $subjcode.'%'));
-		} catch (Exception $e) {
-			throw new Exception($e->getMessage(), 409);
-		}
+		return DB::select("
+			SELECT *
+			FROM subject
+			LEFT JOIN semsubject
+			USING(subjcode)
+			WHERE
+				sy=? AND
+				sem=? AND
+				subjcode LIKE ?
+		", array($sy, $sem, $subjcode.'%'));
 	}
 }

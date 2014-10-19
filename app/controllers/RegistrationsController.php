@@ -13,6 +13,10 @@ class RegistrationsController extends \BaseController {
 	public function updateGrade() {
 		return Response::json($this->model->updateGrades());
 	}
+
+	public function getStudentCor() {
+		return Response::json($this->model->getStudentSubjects());
+	}
 }
 
  ?>

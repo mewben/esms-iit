@@ -10,9 +10,8 @@ class SubjectsController extends \BaseController {
 		$this->data['sem'] = Session::get('user.sem.sem', '1');
 	}
 
-	public function search($subjcode) {
-		$this->data['subjcode'] = $subjcode;
-
+	public function search() {
+		$this->data['subjcode'] = Input::get('q');
 		return Response::json($this->model->search($this->data));
 	}
 }

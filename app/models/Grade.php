@@ -41,4 +41,40 @@ class Grade {
  		//print_r($data);
 		return $data;
 	}
+
+	public function save($data)
+	{
+		foreach ($data as $v) {
+			extract($v);
+
+			$ave = ($prelim1 + $prelim2) / 2;
+			$grade = floor($ave * 10) / 10;
+
+			DB::statement("
+				UPDATE registration
+				SET
+					prelim1=?,
+					prelim2=?,
+					grade=?,
+					gcompl=?
+				WHERE
+					studid=? AND
+					subjcode=? AND
+					section=? AND
+					sy=? AND
+					sem=?
+			", array(
+				$prelim1,
+				$prelim2,
+				$grade,
+				$gcompl,
+				$studid,
+				$subjcode,
+				$section,
+				$sy,
+				$sem
+			));
+		}
+		return true;
+	}
 }
