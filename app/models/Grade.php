@@ -51,9 +51,9 @@ class Grade {
 	public function store($data)
 	{
 		foreach ($data as $v) {
-			//extract($v);
-
 			if($v->prelim1 && !$v->prelim2) {
+				$prelim1 = number_format($v->prelim1, 1);
+
 				//update prelim1
 				DB::statement("
 					UPDATE registration
@@ -65,46 +65,54 @@ class Grade {
 						section=? AND
 						sy=? AND
 						sem=?
-				", array(
-					$v->prelim1,
-					$v->studid,
-					$v->subjcode,
-					$v->section,
-					$v->sy,
-					$v->sem
-				));
+				", array($prelim1, $v->studid, $v->subjcode, $v->section, $v->sy, $v->sem));
 			}
 
 			elseif ($v->prelim1 && $v->prelim2) {
 				//compute final grade
 				$ave = ($v->prelim1 + $v->prelim2) / 2;
-				$grade = floor($ave * 10) / 10;
+				$round = floor($ave * 10) / 10;
+				
+				$grade = number_format($round, 1);
+				$prelim1 = number_format($v->prelim1, 1);
+				$prelim2 = number_format($v->prelim2, 1);
 
-				//update grade
-				DB::statement("
-					UPDATE registration
-					SET
-						prelim1=?,
-						prelim2=?,
-						grade=?,
-						gcompl=?
-					WHERE
-						studid=? AND
-						subjcode=? AND
-						section=? AND
-						sy=? AND
-						sem=?
-				", array(
-					$v->prelim1,
-					$v->prelim2,
-					$grade,
-					$v->gcompl,
-					$v->studid,
-					$v->subjcode,
-					$v->section,
-					$v->sy,
-					$v->sem
-				));
+				if(!$v->gcompl) {
+					//update grade
+					DB::statement("
+						UPDATE registration
+						SET
+							prelim1=?,
+							prelim2=?,
+							grade=?
+						WHERE
+							studid=? AND
+							subjcode=? AND
+							section=? AND
+							sy=? AND
+							sem=?
+					", array($prelim1, $prelim2, $grade, $v->studid, $v->subjcode, $v->section, $v->sy, $v->sem));
+				}
+
+				else {
+					$gcompl = number_format($v->gcompl, 1);
+
+					//update grade
+					DB::statement("
+						UPDATE registration
+						SET
+							prelim1=?,
+							prelim2=?,
+							grade=?,
+							gcompl=?
+						WHERE
+							studid=? AND
+							subjcode=? AND
+							section=? AND
+							sy=? AND
+							sem=?
+					", array($prelim1, $prelim2, $grade, $gcompl, $v->studid, $v->subjcode, $v->section, $v->sy, $v->sem));
+				}
 			}
 		}
 		return true;

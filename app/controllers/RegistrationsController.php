@@ -14,8 +14,9 @@ class RegistrationsController extends \BaseController {
 		return Response::json($this->model->updateGrades());
 	}
 
-	public function getStudentCor() {
-		return Response::json($this->model->getStudentSubjects());
+	public function getStudentCor($id) {
+		$this->data['studid'] = $id;
+		return Response::json($this->model->getStudentSubjects($this->data));
 	}
 }
 
