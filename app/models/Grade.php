@@ -78,7 +78,8 @@ class Grade {
 			elseif ($v->prelim1 && $v->prelim2) {
 				//compute final grade
 				$ave = ($v->prelim1 + $v->prelim2) / 2;
-				$grade = floor($ave * 10) / 10;
+				$round = floor($ave * 10) / 10;
+				$grade = number_format($round, 1);
 
 				//update grade
 				DB::statement("
