@@ -19,6 +19,11 @@ export default Em.Controller.extend({
 		return !this.get('stud') || this.get('g.isProc');
 	}.property('stud'),
 
+	// search subject enable submit button
+	disbQSubj: function() {
+		return !this.get('subj') || this.get('g.isProc');
+	}.property('subj'),
+
 	actions: {
 		search: function(url, param) {
 			var self = this;
@@ -40,15 +45,17 @@ export default Em.Controller.extend({
 					}
 				});
 		},
-		searchSubj: function(subj, trans) {
+		searchSubj: function(subjcode, trans) {
 			var self = this;
 
-			this.get('g').getJSON('/subjects?', {q: subj})
+			this.get('g').getJSON('/subjects?', {q: subjcode})
 				.done(function(res) {
 					if(res.length === 1 && trans) {
-						self.transitionToRoute(trans, res[0].studid);
+						self.transitionToRoute(trans, res[0].subjcode, res[0].section);
+						console.log(res);
 					} else {
 						self.set('subjlist', res);
+						console.log(res);
 					}
 				});
 		}

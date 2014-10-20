@@ -45,7 +45,7 @@ Router.map(function() {
 
 	// Grade Module
 	this.resource('grades', function() {
-		this.route('grade', {path: ':subjcode/:section'});
+		this.route('grade', {path: '/:subjcode/:section'});
 	});
 
 });
