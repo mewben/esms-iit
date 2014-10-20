@@ -8,8 +8,8 @@
     window.currentDate = '{{$currentDate}}';
     window.menu = {{ json_encode($menu) }};
   </script>
-  <script src="assets/vendor.js"></script>
-  <script src="assets/esms-ui.js"></script>
+  <script src="assets/vendor.js?v=0.3.3"></script>
+  <script src="assets/esms-ui.js?v=0.3.3"></script>
   <script>
     window.EsmsUi = require('esms-ui/app')['default'].create(EsmsUiENV.APP);
   </script>

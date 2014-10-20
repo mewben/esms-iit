@@ -6,15 +6,13 @@ class SubjectsController extends \BaseController {
 
 	public function __construct(Subject $model) {
 		$this->model = $model;
+		$this->data['sy'] = Session::get('user.sem.sy', '2014-2015');
+		$this->data['sem'] = Session::get('user.sem.sem', '1');
 	}
 
 	public function search() {
-		//Search subject
-		// if (Input::get('q'))
-		// 	return Response::json($this->model->search(Input::all()));
-
-		// return Response::json(['err'=>'Error'], 409);
-		return Response::json($this->model->getOfferedSubjects('HUM 2', '2014-2015', '1'));
+		$this->data['subjcode'] = Input::get('q');
+		return Response::json($this->model->search($this->data));
 	}
 }
 
