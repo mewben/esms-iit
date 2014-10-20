@@ -1,0 +1,85 @@
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<div class="row">
+			<div class="col-sm-6">
+				Certificate of Registration
+			</div>
+			<div class="col-sm-6 text-right">
+				SY: <strong>{{meta.sy}}</strong>
+				SEM: <strong>{{meta.sem}}</strong>
+			</div>
+		</div>
+	</div>
+	<div class="panel-body">
+		<form role="form">
+			<fieldset>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-3">
+							<label>STUDENT ID:</label>
+							{{input value=meta.studid class="form-control" disabled="disabled"}}
+						</div>
+						<div class="col-sm-9">
+							<label>NAME:</label>
+							{{input value=meta.studfullname class="form-control" disabled="disabled"}}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-3">
+							<label>COURSE:</label>
+							{{input value=meta.studmajor class="form-control" disabled="disabled"}}
+						</div>
+						<div class="col-sm-3">
+							<label>YEAR:</label>
+							{{input value=meta.studlevel class="form-control" disabled="disabled"}}
+						</div>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		Registered Subjects
+	</div>
+	<div class="panel-body">
+		<table class="table table-condensed table-bordered table-striped table-hover">
+			<thead>
+				<tr>
+					<th>Code</th>
+					<th>Section</th>
+					<th>Subject Description</th>
+					<th width="7%">Lab</th>
+					<th width="7%">Lec</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{#each subj}}
+				<tr>
+					<td>
+						{{#link-to 'grades.grade' subjcode section}}
+							{{subjcode}}
+						{{/link-to}}
+					</td>
+					<td>{{section}}</td>
+					<td>{{subjdesc}}</td>
+					<td>{{subjlab}}</td>
+					<td>{{subjlec}}</td>
+				</tr>
+				{{/each}}
+			</tbody>
+		</table>
+		<hr>
+		<div class="row">
+			<div class="col-sm-6">
+				TOTAL LOAD UNITS: <strong>26</strong>
+			</div>
+			{{!-- <div class="col-sm-6 text-right">
+				GPA: <strong>1.5</strong>
+			</div> --}}
+		</div>
+	</div>
+</div>

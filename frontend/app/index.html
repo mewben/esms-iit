@@ -29,12 +29,16 @@
           items: [
             {type: 'route', title : 'Payment', location : 'payment'},
             {type: 'route', title : 'Refund', location : 'refund'},
-            {type: 'resource', title : 'Grade Sheet', location : 'grades',
+            {type: 'resource', title : 'Grades', location : 'grades',
               sub: [
                 {route: 'grade', path: '/:subjcode/:section'}
               ]
             },
-            {type: 'route', title : 'Student COR', location : 'cor'},
+            {type: 'resource', title : 'Registration', location : 'registrations',
+              sub: [
+                {route: 'registration', path: '/:studid'}
+              ]
+            },
           ]
         },
         {
