@@ -1,0 +1,24 @@
+<div class="page-header">
+	<h3><i class="fa fa-angle-right"></i> Certificate of Registration
+		<small>Show student's Certificate of Registration (COR).</small>
+	</h3>
+</div>
+
+<div class="row">
+	<div class="col-md-3">
+		{{partial 'partials/lookup-stud'}}
+		<hr>
+		{{#if studlist}}
+			<div class="list-group">
+				{{#each studlist}}
+					{{#link-to 'registrations.registration' studid class="list-group-item list-group-item-warning"}}
+						<small>{{studid}} - {{fullname}}</small>
+					{{/link-to}}
+				{{/each}}
+			</div>
+		{{/if}}
+	</div>
+	<div class="col-md-9">
+		{{outlet}}
+	</div>
+</div>

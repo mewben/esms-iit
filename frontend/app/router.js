@@ -10,7 +10,6 @@ Router.map(function() {
 	// Actions
 	this.route('payment');
 	this.route('refund');
-	this.route('cor');
 
 	// Automate
 	this.route('importpay');
@@ -46,6 +45,11 @@ Router.map(function() {
 	// Grade Module
 	this.resource('grades', function() {
 		this.route('grade', {path: '/:subjcode/:section'});
+	});
+
+	// Registration Module
+	this.resource('registrations', function() {
+		this.route('registration', {path: '/:studid'});
 	});
 
 });
