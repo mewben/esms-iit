@@ -20,10 +20,10 @@
 				SELECT *
 				FROM registration
 				WHERE
-					studid = '016351' AND
-					sy = '2014-2015' AND
-					sem = '1'
-			");
+					studid=? AND
+					sy=? AND
+					sem=?
+			", array($studid, $sy, $sem));
 
 			$data['meta'] = DB::select("
 				SELECT
@@ -35,10 +35,10 @@
 				LEFT JOIN semstudent
 				USING(studid)
 				WHERE
-					studid = '016351' AND
-					sy = '2014-2015' AND
-					sem = '1'
-			");
+					studid=? AND
+					sy=? AND
+					sem=?
+			", array($studid, $sy, $sem));
 
 			return $data;
 		}

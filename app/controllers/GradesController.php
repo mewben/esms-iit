@@ -23,55 +23,12 @@ class GradesController extends \BaseController {
 		return Response::json($this->model->getStudentsBySection($this->data));
 	}
 
-	public function save() {
-		// $data = [
-		// 	[
-		// 		'grade_enc' => null,
-		// 		'lock' => null,
-
-		// 		'prelim1' => null,
-		// 		'prelim2' => null,
-		// 		'grade' => null,
-		// 		'gcompl' => null,
-
-		// 		'studid' => null,
-		// 		'subjcode' => null,
-		// 		'section' => null,
-		// 		'sy' => null,
-		// 		'sem' => null
-		// 	],
-		// 	[
-		// 		'grade_enc' => '',
-		// 		'lock' => '',
-
-		// 		'prelim1' => '1.3',
-		// 		'prelim2' => '1.3',
-		// 		'grade' => '',
-		// 		'gcompl' => '',
-
-		// 		'studid' => '009322',
-		// 		'subjcode' => 'EE 514',
-		// 		'section' => 'EE5',
-		// 		'sy' => '2014-2015',
-		// 		'sem' => '1'
-		// 	],
-		// 	[
-		// 		'grade_enc' => '',
-		// 		'lock' => '',
-
-		// 		'prelim1' => '3.2',
-		// 		'prelim2' => '3.1',
-		// 		'grade' => '',
-		// 		'gcompl' => '3.0',
-
-		// 		'studid' => '008784',
-		// 		'subjcode' => 'EE 514',
-		// 		'section' => 'EE5',
-		// 		'sy' => '2014-2015',
-		// 		'sem' => '1'
-		// 	]
-		// ];
-		//return Response::json($this->model->save($data));
+	public function saveGrade() {
+		return Response::json($this->model->store(json_decode(Input::get('data'))));
+		//dd(json_decode(Input::get('data')));
 	}
 
+	public function lockGrade() {
+		return Response::json($this->model->lock(json_decode(Input::get('data')), Input::get('lock')));
+	}
 }

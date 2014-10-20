@@ -91,8 +91,13 @@ class AdminController extends \BaseController {
 			          'print' => false,
 			          'icon' => 'fa-desktop',
 			          'items' => [
-			            ['type' => 'route', 'title'  => 'Payment', 'location'  => 'payment'],
-			            ['type' => 'route', 'title'  => 'Refund', 'location'  => 'refund']
+			          	['type' => 'route', 'title'  => 'Payment', 'location'  => 'payment'],
+			            ['type' => 'route', 'title'  => 'Refund', 'location'  => 'refund'],
+			            ['type' => 'resource', 'title' => 'Grades', 'location' => 'grades',
+			            	'sub' => [
+			            		['route' => 'grade', 'path' => '/:subjcode/:section']
+			            	]
+			            ]
 			          ]
 			        ],
 			        [

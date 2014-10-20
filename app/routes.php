@@ -42,7 +42,8 @@ Route::group(['prefix' => 'api/v1', 'before' => 'auth.custom'], function() {
 	Route::post('delete-payment', 'FeesController@destroy');
 	Route::post('delete-refund', 'RefundsController@destroy');
 
-	Route::post('grades-update', 'GradesController@save');
+	Route::post('grades-update', 'GradesController@saveGrade');
+	Route::post('grades-lock', 'GradesController@lockGrade');
 
 	// ember-data
 	Route::resource('bcodes', 'BcodesController');

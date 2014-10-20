@@ -7,8 +7,8 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="assets/vendor.css" media="all">
-    <link rel="stylesheet" href="assets/esms-ui.css" media="all">
+    <link rel="stylesheet" href="assets/vendor.css?v=0.3.3" media="all">
+    <link rel="stylesheet" href="assets/esms-ui.css?v=0.3.3" media="all">
   </head>
   <body>
     @yield('content')
