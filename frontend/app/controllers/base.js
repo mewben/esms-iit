@@ -52,10 +52,8 @@ export default Em.Controller.extend({
 				.done(function(res) {
 					if(res.length === 1 && trans) {
 						self.transitionToRoute(trans, res[0].subjcode, res[0].section);
-						console.log(res);
 					} else {
 						self.set('subjlist', res);
-						console.log(res);
 					}
 				});
 		}

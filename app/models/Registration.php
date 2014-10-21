@@ -1,6 +1,8 @@
 <?php 
 
 	class Registration extends \Eloquent {
+		use \Helper;
+
 		protected $table = 'registration';
 		protected $fillable = [
 			'prelim1',
@@ -12,25 +14,32 @@
 		];
 		public $timestamps = false;
 
-		public function getStudentSubjects() {
+		public function getStudentSubjects($q) {
+			extract($q);
+
 			//Get subjects all enrolled subject of a student
 			$data = [];
 
 			$data['subj'] = DB::select("
-				SELECT *
+				SELECT
+					sy, sem, studid, subjcode, section, prelim1, prelim2, grade, gcompl, subjdesc, subjlec, subjlab
 				FROM registration
+				LEFT JOIN subject
+				USING(subjcode)
 				WHERE
 					studid=? AND
 					sy=? AND
 					sem=?
 			", array($studid, $sy, $sem));
 
-			$data['meta'] = DB::select("
+			$meta = DB::select("
 				SELECT
 					studid,
 					studfullname,
 					studmajor,
-					studlevel
+					studlevel,
+					sy,
+					sem
 				FROM student
 				LEFT JOIN semstudent
 				USING(studid)
@@ -39,8 +48,11 @@
 					sy=? AND
 					sem=?
 			", array($studid, $sy, $sem));
+			if($meta) {
+				$data['meta'] = $meta[0];
+			}
 
-			return $data;
+			return static::_encode($data);
 		}
 	}
 

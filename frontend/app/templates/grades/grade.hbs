@@ -6,8 +6,8 @@
 				Details
 			</div>
 			<div class="col-sm-6 text-right">
-				SY: <strong>2014-2015</strong>
-				SEM: <strong>2</strong>
+				SY: <strong>{{meta.sy}}</strong>
+				SEM: <strong>{{meta.sem}}</strong>
 			</div>
 		</div>
 	</div>
@@ -43,7 +43,7 @@
 		<hr>
 		<div class="row">
 			<div class="col-sm-12">
-				<button {{action 'save'}} type="button" class="btn btn-warning">Save</button>
+				<button {{action 'save'}} type="button" class="btn btn-warning"><i class="fa fa-fw fa-save"></i> Save</button>
 				{{#if meta.lock}}
 					<button {{action 'lock' false}}type="button" class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i> Unlock all Grades</button>
 				{{else}}
@@ -82,19 +82,32 @@
 					<td>{{gr.studid}}</td>
 					<td>{{gr.fullname}}</td>
 					<td class="inp">
-						{{input value=gr.prelim1 class="form-control text-right" maxLength="3" disabled=meta.lock}}
+						{{input value=gr.prelim1 class="form-control text-right" maxLength="3" disabled=lock}}
 					</td>
 					<td class="inp">
-						{{input value=gr.prelim2 class="form-control text-right" maxLength="3" disabled=meta.lock}}
+						{{input value=gr.prelim2 class="form-control text-right" maxLength="3" disabled=lock}}
 					</td>
 					<td class="text-right warning">{{{compute-grade gr.prelim1 gr.prelim2}}}</td>
 					<td class="inp">
-						{{input value=gr.gcompl class="form-control text-right" maxLength="3" disabled=meta.lock}}
+						{{input value=gr.gcompl class="form-control text-right" maxLength="3" disabled=lock}}
 					</td>
 					<td>&nbsp;</td>
 				</tr>
 				{{/each}}
 			</tbody>
 		</table>
+		<hr>
+		<div class="row">
+			<div class="col-sm-12">
+				<button {{action 'save'}} type="button" class="btn btn-warning"><i class="fa fa-fw fa-save"></i> Save</button>
+				{{#if meta.lock}}
+					<button {{action 'lock' false}}type="button" class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i> Unlock all Grades</button>
+				{{else}}
+					<button {{action 'lock' true}} type="button" class="btn btn-danger"><i class="fa fa-fw fa-lock"></i> Lock all Grades</button>
+				{{/if}}
+				<button type="button" class="btn btn-success" disabled><i class="fa fa-fw fa-file-excel-o"></i> Export to Excel</button>
+				<button type="button" class="btn btn-info" disabled><i class="fa fa-fw fa-print"></i> Print Grades</button>
+			</div>
+		</div>
 	</div>
 </div>

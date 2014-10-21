@@ -25,6 +25,7 @@ class Subject extends \Eloquent {
 				sy=? AND
 				sem=? AND
 				subjcode LIKE ?
-		", array($sy, $sem, $subjcode.'%'));
+			ORDER BY subjcode
+		", array($sy, $sem, strtoupper($subjcode).'%'));
 	}
 }
