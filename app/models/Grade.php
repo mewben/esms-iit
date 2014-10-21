@@ -45,7 +45,7 @@ class Grade {
 		$data['meta']->section = $section;
 
  		//print_r($data);
-		return $data;
+		return static::_encode($data);
 	}
 
 	public function store($data)

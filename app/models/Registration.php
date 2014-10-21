@@ -1,6 +1,8 @@
 <?php 
 
 	class Registration extends \Eloquent {
+		use \Helper;
+
 		protected $table = 'registration';
 		protected $fillable = [
 			'prelim1',
@@ -46,9 +48,11 @@
 					sy=? AND
 					sem=?
 			", array($studid, $sy, $sem));
-			$data['meta'] = $meta[0];
+			if($meta) {
+				$data['meta'] = $meta[0];
+			}
 
-			return $data;
+			return static::_encode($data);
 		}
 	}
 
