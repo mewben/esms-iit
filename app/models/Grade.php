@@ -75,7 +75,7 @@ class Grade {
 				//compute final grade
 				$ave = ($v->prelim1 + $v->prelim2) / 2;
 				$nf = number_format($ave, 2);
-				$grade = floor($nf * 10) / 10;
+				$grade = number_format(floor($nf * 10) / 10, 1);
 
 				$prelim1 = number_format($v->prelim1, 1);
 				$prelim2 = number_format($v->prelim2, 1);
