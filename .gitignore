@@ -32,3 +32,23 @@ frontend/vendor/*
 /frontend/coverage
 /frontend/npm-debug.log
 /frontend/testem.log
+
+
+
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/emberf/dist
+/emberf/tmp
+
+# dependencies
+/emberf/node_modules
+/emberf/bower_components
+
+# misc
+/emberf/.sass-cache
+/emberf/connect.lock
+/emberf/coverage/*
+/emberf/libpeerconnection.log
+/emberfnpm-debug.log
+/emberftestem.log
