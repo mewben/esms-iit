@@ -51,7 +51,7 @@ class Grade {
 	public function store($data)
 	{
 		foreach ($data as $v) {
-			if($v->prelim1 && !$v->prelim2) {
+			if(is_numeric($v->prelim1) && !$v->prelim2) {
 				$prelim1 = number_format($v->prelim1, 1);
 
 				//update prelim1
@@ -67,8 +67,7 @@ class Grade {
 						sem=?
 				", array($prelim1, $v->studid, $v->subjcode, $v->section, $v->sy, $v->sem));
 			}
-
-			elseif ($v->prelim1 && $v->prelim2) {
+			elseif (is_numeric($v->prelim1) && is_numeric($v->prelim2)) {
 				//$round = floor($ave * 10) / 10;
 				//$grade = number_format($round, 1);
 
@@ -96,7 +95,6 @@ class Grade {
 							sem=?
 					", array($prelim1, $prelim2, $grade, $v->studid, $v->subjcode, $v->section, $v->sy, $v->sem));
 				}
-
 				else {
 					$gcompl = number_format($v->gcompl, 1);
 
@@ -116,6 +114,40 @@ class Grade {
 							sem=?
 					", array($prelim1, $prelim2, $grade, $gcompl, $v->studid, $v->subjcode, $v->section, $v->sy, $v->sem));
 				}
+			}
+			elseif (is_numeric($v->prelim1) && !is_numeric($v->prelim2)) {
+				//update grade
+				$prelim1 = number_format($v->prelim1, 1);
+				$prelim2 = strtoupper($v->prelim2);
+				DB::statement("
+						UPDATE registration
+						SET
+							prelim1=?,
+							prelim2=?
+						WHERE
+							studid=? AND
+							subjcode=? AND
+							section=? AND
+							sy=? AND
+							sem=?
+					", array($prelim1, $prelim2, $v->studid, $v->subjcode, $v->section, $v->sy, $v->sem));
+			}
+			elseif (!is_numeric($v->prelim1) || !is_numeric($v->prelim2)) {
+				$prelim1 = strtoupper($v->prelim1);
+				$prelim2 = strtoupper($v->prelim2);
+				//update grade
+				DB::statement("
+						UPDATE registration
+						SET
+							prelim1=?,
+							prelim2=?
+						WHERE
+							studid=? AND
+							subjcode=? AND
+							section=? AND
+							sy=? AND
+							sem=?
+					", array($prelim1, $prelim2, $v->studid, $v->subjcode, $v->section, $v->sy, $v->sem));
 			}
 		}
 		return true;
