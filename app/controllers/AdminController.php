@@ -36,7 +36,7 @@ class AdminController extends \BaseController {
 		try {
 			DB::connection()->getDatabaseName();
 
-			if($this->_in_array('srgb_accounting', $role)) {
+			if($this->_in_array('ngas_admin', $role)) {
 				$menu = [
 					[
 			          'group' => 'Actions',
