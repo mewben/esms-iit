@@ -7,10 +7,25 @@ export default Ember.ObjectController.extend({
 		return this.get('meta.lock') || false;
 	}.property('meta.lock'),
 
+	oData: null,
+
 	actions: {
 		save: function() {
+			var oData = this.get('oData');
+			var iData = [];
 			var data = {};
-			data.data = JSON.stringify(this.get('data'));
+
+			this.get('data').forEach(function(v, i) {
+				if(oData[i]['prelim1'] !== v.prelim1 || oData[i]['prelim2'] !== v.prelim2 || oData[i]['gcompl'] !== v.gcompl) {
+					v.isChanged = true;
+				} else {
+					v.isChanged = false;
+				}
+
+				iData[i] = v;
+			});
+
+			data.data = JSON.stringify(iData);
 
 			this.get('g').post('/grades-update', data)
 				.done(function() {
