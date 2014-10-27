@@ -46,6 +46,40 @@ class Student extends \Eloquent {
 		}
 	}
 
+	public function searchBySyBySem($q) {
+		extract($q);
+
+		if(is_numeric($search)) {
+			//By ID
+			$data = DB::select("
+				SELECT *
+				FROM student
+				LEFT JOIN semstudent
+				USING(studid)
+				WHERE
+					studid=? AND
+					sem=? AND
+					sy=?
+			", array($search, $sem, $sy));
+
+			return static::_encode($data);
+		} else {
+			//By Lastname or Fullname
+			$data = DB::select("
+				SELECT *
+				FROM student
+				LEFT JOIN semstudent
+				USING(studid)
+				WHERE
+					studfullname LIKE ? AND
+					sem=? AND
+					sy=?
+			", array(strtoupper($search).'%', $sem, $sy));
+
+			return static::_encode($data);
+		}
+	}
+
 	public function searchByLastName($q)
 	{
 		$data = DB::table('studfullnames')
@@ -71,5 +105,20 @@ class Student extends \Eloquent {
 
 		$data = static::_encode($data);
 		return $data[0];
+	}
+
+	public static function searchByLastNameBySyBySem($q) {
+		extract($q);
+
+		$data = DB::select("
+			SELECT *
+			FROM student
+			LEFT JOIN semstudent
+			USING(studid)
+			WHERE
+				sem=? AND
+				sy=? AND
+				studfullname LIKE ?
+		", array($sem, $sy, strtoupper($search).'%'));
 	}
 }

@@ -45,6 +45,18 @@ export default Em.Controller.extend({
 					}
 				});
 		},
+		searchStudReg: function(id, trans) {
+			var self = this;
+
+			this.get('g').getJSON('/students-registration?', {q: id})
+				.done(function(res) {
+					if(res.length === 1 && trans) {
+						self.transitionToRoute(trans, res[0].studid);
+					} else {
+						self.set('studlist', res);
+					}
+				});
+		},
 		searchSubj: function(subjcode, trans) {
 			var self = this;
 
