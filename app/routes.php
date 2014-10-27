@@ -57,6 +57,7 @@ Route::group(['prefix' => 'api/v1', 'before' => 'auth.custom'], function() {
 	Route::get('refund-search', 'RefundsController@search');
 
 	Route::get('students', 'StudentsController@search');
+	Route::get('students-registration', 'StudentsController@searchReg');
 	Route::get('reports/certbilling/{id}', 'ReportsController@certbilling');
 	Route::get('reports/collections', 'ReportsController@collections');
 	Route::get('reports/ledgers/{id}', 'ReportsController@ledger');

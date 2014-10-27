@@ -6,13 +6,13 @@
 
 <div class="row">
 	<div class="col-md-3">
-		{{partial 'partials/lookup-stud'}}
+		{{partial 'partials/lookup-studreg'}}
 		<hr>
 		{{#if studlist}}
 			<div class="list-group">
 				{{#each studlist}}
 					{{#link-to 'registrations.registration' studid class="list-group-item list-group-item-warning"}}
-						<small>{{studid}} - {{fullname}}</small>
+						<small>{{studid}} - {{studfullname}}</small>
 					{{/link-to}}
 				{{/each}}
 			</div>
