@@ -24,8 +24,6 @@ class Grade {
 			ORDER BY fullname
 		", array($sy, $sem, $subjcode, $section));
 
-		$rec = static::_encode($rec);
-
 		$data['data'] = $rec;
 
 		// meta

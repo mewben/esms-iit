@@ -54,6 +54,10 @@
 					<th>Subject Description</th>
 					<th width="7%">Lab</th>
 					<th width="7%">Lec</th>
+					<th width="7%">MT</th>
+					<th width="7%">FT</th>
+					<th width="7%">FG</th>
+					<th width="7%">Re-Ex</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -68,11 +72,15 @@
 					<td>{{subjdesc}}</td>
 					<td>{{subjlab}}</td>
 					<td>{{subjlec}}</td>
+					<td>{{prelim1}}</td>
+					<td>{{prelim2}}</td>
+					<td>{{grade}}</td>
+					<td>{{gcompl}}</td>
 				</tr>
 				{{/each}}
 			</tbody>
 		</table>
-		{{!-- <hr>
+		<hr>
 		<div class="row">
 			<div class="col-sm-6">
 				TOTAL LOAD UNITS: <strong>26</strong>
@@ -80,6 +88,6 @@
 			<div class="col-sm-6 text-right">
 				GPA: <strong>1.5</strong>
 			</div>
-		</div> --}}
+		</div>
 	</div>
 </div>
