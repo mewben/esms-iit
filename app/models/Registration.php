@@ -22,7 +22,7 @@
 
 			$data['subj'] = DB::select("
 				SELECT
-					sy, sem, studid, subjcode, section, prelim1, prelim2, grade, gcompl, subjdesc, subjlec, subjlab
+					sy, sem, studid, subjcode, section, prelim1, prelim2, grade, gcompl, subjdesc, subjlec, subjlab, subjlec_units, subjlab_units, subjgpa
 				FROM registration
 				LEFT JOIN subject
 				USING(subjcode)
