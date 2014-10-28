@@ -19,7 +19,7 @@ export default Ember.ObjectController.extend({
 			lec += Number(v.subjlec_units);
 			lab += Number(v.subjlab_units);
 
-			if(Number(v.subjgpa) === 1) {
+			if(Number(v.subjgpa) === 1 && v.prelim1 && v.prelim2) {
 				lecgpa += Number(v.subjlec_units);
 				labgpa += Number(v.subjlab_units);
 
