@@ -14,15 +14,10 @@ export default Ember.ObjectController.extend({
 		var unitsgpa = 0;
 		var total = 0;
 		var gpa = 0;
-		var compl = 0;
 
 		this.get('subj').forEach(function(v) {
 			lec += Number(v.subjlec_units);
 			lab += Number(v.subjlab_units);
-
-			if(v.prelim1 && v.prelim2) {
-				compl++;
-			}
 
 			if(Number(v.subjgpa) === 1 && v.prelim1 && v.prelim2) {
 				lecgpa += Number(v.subjlec_units);
