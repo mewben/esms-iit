@@ -38,8 +38,9 @@ Router.map(function() {
 		this.route('collections');
 		this.route('refunds');
 		this.route('ledger', {path: 'ledger/:studid'});
-		//this.route('sumbilling', {path: 'sumbilling/:sy/:sem'});
 		this.route('sumbilling');
+		this.route('grade');
+		this.route('print');
 	});
 
 	// Grade Module

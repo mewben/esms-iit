@@ -3,22 +3,10 @@ import Ember from 'ember';
 export default Ember.ObjectController.extend({
 	needs: 			'g',
 	g: 				Ember.computed.alias('controllers.g'),
-	//isreex: true,
 
 	lock: function() {
 		return this.get('meta.lock') || false;
 	}.property('meta.lock'),
-	// lockre: function() {
-	// 	this.get('data').forEach(function(v) {
-	// 		var ave = ((Number(v.prelim1) - 0) + (Number(v.prelim2) - 0)) / 2;
-	// 		var res = parseFloat(ave.toPrecision(12));
-	// 		var fix = Math.floor(res * 10) / 10;
-
-	// 		if(fix.toFixed(1) > 3) {
-	// 			this.set('isreex', false);
-	// 		}
-	// 	});
-	// }.observes('data'),
 
 	oData: null,
 
