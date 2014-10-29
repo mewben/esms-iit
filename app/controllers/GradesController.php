@@ -17,7 +17,7 @@ class GradesController extends \BaseController {
 	 */
 	public function getBySubjectBySection($subjcode, $section)
 	{
-		$this->data['subjcode'] = $subjcode;
+		$this->data['subjcode'] = urldecode($subjcode);
 		$this->data['section'] = $section;
 
 		return Response::json($this->model->getStudentsBySection($this->data));

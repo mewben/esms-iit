@@ -62,6 +62,11 @@ export default Em.Controller.extend({
 
 			this.get('g').getJSON('/subjects?', {q: subjcode})
 				.done(function(res) {
+					res.forEach(function(v) {
+						v.subjcoded = encodeURIComponent(v.subjcode);
+						console.log(v.subjcoded);
+					});
+
 					if(res.length === 1 && trans) {
 						self.transitionToRoute(trans, res[0].subjcode, res[0].section);
 					} else {

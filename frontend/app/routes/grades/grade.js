@@ -4,7 +4,7 @@ export default Ember.Route.extend({
 
 	model: function(params) {
 		//get model from php
-		return this.controllerFor('g').getJSON('/grades/' + params.subjcode + '/' + params.section);
+		return this.controllerFor('g').getJSON('/grades/' + encodeURIComponent(params.subjcode) + '/' + params.section);
 	},
 
 	setupController: function(controller, model) {
