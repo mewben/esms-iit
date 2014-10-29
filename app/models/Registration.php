@@ -32,6 +32,11 @@
 					sem=?
 			", array($studid, $sy, $sem));
 
+			//encode uricomponents
+			foreach ($data['subj'] as $v) {
+				$v->subjcoded = rawurlencode($v->subjcode);
+			}
+
 			$meta = DB::select("
 				SELECT
 					studid,
