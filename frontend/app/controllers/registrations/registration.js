@@ -15,15 +15,23 @@ export default Ember.ObjectController.extend({
 		var total = 0;
 		var gpa = 0;
 
+		var subjwgrade = 0;
+		var subjforgpa = 0;
+
 		this.get('subj').forEach(function(v) {
 			lec += Number(v.subjlec_units);
 			lab += Number(v.subjlab_units);
 
 			if(Number(v.subjgpa) === 1 && v.prelim1 && v.prelim2) {
+				subjwgrade++;
+			}
+
+			if(Number(v.subjgpa)) {
 				lecgpa += Number(v.subjlec_units);
 				labgpa += Number(v.subjlab_units);
 
 				total += Number(v.grade) * (Number(v.subjlec_units) + Number(v.subjlab_units));
+				subjforgpa++;
 			}
 		});
 		//compute total units
@@ -34,6 +42,11 @@ export default Ember.ObjectController.extend({
 		gpa = total / unitsgpa;
 		//set property values
 		this.set('studunits', units);
-		this.set('studgpa', gpa);
+		if(subjwgrade === subjforgpa) {
+			this.set('studgpa', gpa.toFixed(5));
+		}
+		else {
+			this.set('studgpa', 'N/A');
+		}
 	}.observes('subj')
 });
