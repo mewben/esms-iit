@@ -64,11 +64,10 @@ export default Em.Controller.extend({
 				.done(function(res) {
 					res.forEach(function(v) {
 						v.subjcoded = encodeURIComponent(v.subjcode);
-						console.log(v.subjcoded);
 					});
 
 					if(res.length === 1 && trans) {
-						self.transitionToRoute(trans, res[0].subjcode, res[0].section);
+						self.transitionToRoute(trans, res[0].subjcoded, res[0].section);
 					} else {
 						self.set('subjlist', res);
 					}
