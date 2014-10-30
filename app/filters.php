@@ -75,6 +75,7 @@ Route::filter('beforelogin', function()
 
 	try {
 		DB::connection()->getDatabaseName();
+		Session::put('user.con', $con);
 	}
 	catch(exception $e) {
 		return Redirect::to('login')->with('err', 'Login Failed.');

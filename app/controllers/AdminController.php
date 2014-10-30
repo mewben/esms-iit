@@ -159,7 +159,6 @@ class AdminController extends \BaseController {
 		} 
 		$currentDate = date('Y-m-d');
 			
-		Session::put('user.con', Input::get('username'));
 		Session::put('user.sem', $sem[0]);
 		Session::put('user.currentDate', $currentDate);
 		Session::put('user.menu', $menu);
