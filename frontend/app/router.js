@@ -39,7 +39,7 @@ Router.map(function() {
 		this.route('refunds');
 		this.route('ledger', {path: 'ledger/:studid'});
 		this.route('sumbilling');
-		this.route('grade');
+		this.route('gradesheet');
 		this.route('print');
 	});
 

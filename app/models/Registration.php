@@ -35,6 +35,7 @@
 			//encode uricomponents
 			foreach ($data['subj'] as $v) {
 				$v->subjcoded = rawurlencode($v->subjcode);
+				$v->isEmpty = "";
 			}
 
 			$meta = DB::select("

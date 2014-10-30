@@ -31,6 +31,16 @@ export default Ember.ObjectController.extend({
 					subjwgrade++;
 				}
 			}
+
+			if(v.grade > 3) {
+				if(!v.prelim1 || !v.prelim2 || !v.gcompl) {
+					v.isEmpty = "danger";
+				}
+			} else {
+				if(!v.prelim1 || !v.prelim2) {
+					v.isEmpty = "danger";
+				}
+			}
 			
 			if(Number(v.subjgpa)) {
 				lecgpa += Number(v.subjlec_units);
@@ -54,5 +64,5 @@ export default Ember.ObjectController.extend({
 		} else {
 			this.set('studgpa', 'N/A');
 		}
-	}.observes('subj')
+	}.observes('subj'),
 });
