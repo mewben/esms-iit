@@ -55,7 +55,7 @@
 		Registered Subjects
 	</div>
 	<div class="panel-body">
-		<table class="table table-condensed table-bordered table-striped table-hover">
+		<table class="table table-condensed table-bordered table-hover">
 			<thead>
 				<tr>
 					<th width="20%">Code</th>
@@ -71,7 +71,7 @@
 			</thead>
 			<tbody>
 				{{#each subj}}
-				<tr>
+				<tr {{bind-attr class="isEmpty"}}>
 					<td>
 						{{#link-to 'grades.grade' subjcoded section}}
 							{{subjcode}}
@@ -81,10 +81,10 @@
 					<td>{{subjdesc}}</td>
 					<td>{{subjlec_units}}</td>
 					<td>{{subjlab_units}}</td>
-					<td>{{prelim1}}</td>
-					<td>{{prelim2}}</td>
-					<td>{{{compute-grade prelim1 prelim2}}}</td>
-					<td>{{gcompl}}</td>
+					<td>{{fail-grade prelim1}}</td>
+					<td>{{fail-grade prelim2}}</td>
+					<td>{{fail-grade grade}}</td>
+					<td>{{fail-grade gcompl}}</td>
 				</tr>
 				{{/each}}
 			</tbody>

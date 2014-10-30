@@ -24,7 +24,7 @@ Route::post('token', function() {
 Route::get('login', function() {
 	return View::make('login')->with('bg', rand(1, 6));
 });
-Route::post('login', 'AdminController@doLogin');
+Route::post('login', array('before' => 'beforelogin', 'uses' => 'AdminController@doLogin'));
 Route::get('logout', function() {
 	Session::flush();
 	return Redirect::to('/login');

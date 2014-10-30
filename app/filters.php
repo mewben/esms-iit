@@ -64,6 +64,22 @@ Route::filter('auth.custom', function()
 	}
 });
 
+Route::filter('beforelogin', function()
+{
+	$con = Config::get('database.connections.pgsql');
+
+	$con['username'] = Input::get('username');
+	$con['password'] = Input::get('password');
+
+	Config::set('database.connections.pgsql', $con);
+
+	try {
+		DB::connection()->getDatabaseName();
+	}
+	catch(exception $e) {
+		return Redirect::to('login')->with('err', 'Login Failed.');
+	}
+});
 /*
 |--------------------------------------------------------------------------
 | Guest Filter
