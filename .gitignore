@@ -52,3 +52,5 @@ frontend/vendor/*
 /emberf/libpeerconnection.log
 /emberfnpm-debug.log
 /emberftestem.log
+
+/.idea

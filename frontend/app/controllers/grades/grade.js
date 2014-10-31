@@ -1,8 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
-	needs: 			'g',
-	g: 				Ember.computed.alias('controllers.g'),
+	needs:  'g',
+	g: 	    Ember.computed.alias('controllers.g'),
 	lock: function() {
 		return this.get('meta.lock') || false;
 	}.property('meta.lock'),
