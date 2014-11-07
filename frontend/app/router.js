@@ -40,6 +40,7 @@ Router.map(function() {
 		this.route('ledger', {path: 'ledger/:studid'});
 		this.route('sumbilling');
 		this.route('gradesheet');
+		this.route('assesments');
 		this.route('print');
 	});
 
@@ -51,6 +52,9 @@ Router.map(function() {
 	// Registration Module
 	this.resource('registrations', function() {
 		this.route('registration', {path: '/:studid'});
+	});
+	this.resource('assesments', function() {
+		this.route('assesment', {path: '/:studid'});
 	});
 
 });

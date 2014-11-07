@@ -1,0 +1,110 @@
+<table class="table borderless table-condensed print-assessment">
+	<tbody>
+		<tr>
+			<td width="15%">Student Name</td>
+			<td>: <strong>{{h.studfullname2}}</strong></td>
+			<td width="15%">Student ID</td>
+			<td>: <strong>{{h.studid}}</strong></td>
+		</tr>
+		<tr>
+			<td width="15%">Course &amp; Year</td>
+			<td>: <strong>{{h.studmajor}} - {{h.studlevel}}</strong></td>
+			<td width="15%">Scholarship</td>
+			<td>: <strong>{{h.scholarstatus}}</strong></td>
+		</tr>
+		<tr>
+			<td width="15%">School Year</td>
+			<td>: <strong>{{h.sy}}</strong></td>
+			<td width="15%">Sem</td>
+			<td>: <strong>{{h.sem}}</strong></td>
+		</tr>
+	</tbody>
+</table>
+<hr>
+<div class="row">
+	<div class="col-xs-6">
+		<table class="table table-striped table-condensed print-assessment">
+			<thead>
+				<tr>
+					{{!-- <th>No.</th> --}}
+					<th>FEECODE</th>
+					<th>FEEDESC</th>
+					<th class="text-right">AMOUNT</th>
+				</tr>
+			</thead>
+			<tbody>
+			{{#each misc}}
+				<tr>
+					{{!-- <td>{{inc-1 _view.contentIndex}}.</td> --}}
+					<td>{{feecode}}</td>
+					<td>{{feedesc}}</td>
+					<td class="text-right">{{format-currency amt}}</td>
+				</tr>
+			{{/each}}
+			</tbody>
+		</table>
+	</div>
+	<div class="col-xs-6">
+		<table class="table table-striped table-condensed print-assessment">
+			<thead>
+				<tr>
+					{{!-- <th>No.</th> --}}
+					<th>FEECODE</th>
+					<th>FEEDESC</th>
+					<th class="text-right">AMOUNT</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					{{!-- <td>{{misclength}}</td> --}}
+					<td>{{reg.feecode}}</td>
+					<td>{{reg.feedesc}}</td>
+					<td class="text-right">{{format-currency reg.amt}}</td>
+				</tr>
+				<tr>
+					{{!-- <td>&nbsp;</td> --}}
+					<td>{{tui.feecode}}</td>
+					<td>{{tui.feedesc}}</td>
+					<td class="text-right">{{format-currency tui.amt}}</td>
+				</tr>
+				{{#if lab}}
+				<tr>
+					{{!-- <td>&nbsp;</td> --}}
+					<td>{{lab.feecode}}</td>
+					<td>{{lab.feedesc}}</td>
+					<td class="text-right">{{format-currency lab.amt}}</td>
+				</tr>
+				{{/if}}
+				{{#if comp}}
+				<tr>
+					{{!-- <td>&nbsp;</td> --}}
+					<td>{{comp.feecode}}</td>
+					<td>{{comp.feedesc}}</td>
+					<td class="text-right">{{format-currency comp.amt}}</td>
+				</tr>
+				{{/if}}
+				<tr>
+					{{!-- <td>&nbsp;</td> --}}
+					<td>&nbsp;</td>
+					<td><strong>Total Assessment</strong></td>
+					<td class="text-right"><strong>{{format-currency h.t_as}}</strong></td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="text-center">
+			<span><strong>-----NOTHING FOLLOWS-----</strong></span>
+		</div>
+		<br>
+		<br>
+		<br>
+		<br>
+		<div class="text-center col-xs-4 col-xs-offset-8" style="border-top: 1px solid #000;">
+			<span><strong>Assessor</strong></span>
+		</div>
+		<br>
+		<br>
+		<br>
+		<br>
+		<span>Date: <em>{{format-date currentDate ''}}</em></span>
+	</div>	
+</div>

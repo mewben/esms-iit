@@ -89,6 +89,11 @@ class AdminController extends \BaseController {
 				            	'sub' => [
 				            		['route' => 'registration', 'path' => '/:studid']
 				            	]
+				            ],
+				            ['type' => 'resource', 'title' => 'Assesment', 'location' => 'assesments',
+				            	'sub' => [
+				            		['route' => 'assesment', 'path' => '/:studid']
+				            	]
 				            ]
 				          ]
 				        ],
