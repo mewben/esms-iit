@@ -2,7 +2,7 @@
 	<div class="panel-heading">
 		<div class="row">
 			<div class="col-sm-6">
-				Assesment of Student <strong>{{params}}</strong>
+				Assesment of Student
 			</div>
 			<div class="col-sm-6 text-right">
 				SY: <strong>{{h.sy}}</strong>
@@ -40,11 +40,14 @@
 			</fieldset>
 		</form>
 		<hr>
-		<div>
-			<button type="button" class="btn btn-success" disabled><i class="fa fa-fw fa-refresh"></i> Refresh Assesment</button>
-			<button type="button" class="btn btn-danger" disabled><i class="fa fa-fw fa-eraser"></i> Clear Assesment</button>
-			{{to-print to='print.assesments' p=params act='toprint'}}
-			<button type="button" class="btn btn-info" disabled><i class="fa fa-fw fa-print"></i> Print Temporary COR</button>
+		<div class="row">
+			<div class="col-sm-6">
+				<button type="button" class="btn btn-success" disabled><i class="fa fa-fw fa-refresh"></i> Refresh Assesment</button>
+				<button type="button" class="btn btn-danger" disabled><i class="fa fa-fw fa-eraser"></i> Clear Assesment</button>
+			</div>
+			<div class="col-sm-6">
+				{{to-print to='print.assesments' p=params act='toprint'}}
+			</div>
 		</div>
 	</div>
 </div>

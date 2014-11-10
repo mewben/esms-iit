@@ -4,6 +4,17 @@ export default Ember.ObjectController.extend({
 	studunits: null,
 	studgpa: null,
 
+	params: function() {
+		var p = this._params(true);
+		return p;
+	}.property('meta.studid'),
+
+	_params: function() {
+		return {
+			studid: this.get('meta.studid'),
+		};
+	},
+
 	computegpaunits: function() {
 		var lec = 0;
 		var lab = 0;

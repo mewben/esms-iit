@@ -20,13 +20,12 @@
 		</tr>
 	</tbody>
 </table>
-<hr>
+<hr class="printhr">
 <div class="row">
 	<div class="col-xs-6">
 		<table class="table table-striped table-condensed print-assessment">
 			<thead>
 				<tr>
-					{{!-- <th>No.</th> --}}
 					<th>FEECODE</th>
 					<th>FEEDESC</th>
 					<th class="text-right">AMOUNT</th>
@@ -35,12 +34,16 @@
 			<tbody>
 			{{#each misc}}
 				<tr>
-					{{!-- <td>{{inc-1 _view.contentIndex}}.</td> --}}
 					<td>{{feecode}}</td>
 					<td>{{feedesc}}</td>
 					<td class="text-right">{{format-currency amt}}</td>
 				</tr>
 			{{/each}}
+				<tr>
+					<td>&nbsp;</td>
+					<td><strong>Total Miscellaneous</strong></td>
+					<td class="text-right"><strong>{{format-currency h.t_misc}}</strong></td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
@@ -48,7 +51,6 @@
 		<table class="table table-striped table-condensed print-assessment">
 			<thead>
 				<tr>
-					{{!-- <th>No.</th> --}}
 					<th>FEECODE</th>
 					<th>FEEDESC</th>
 					<th class="text-right">AMOUNT</th>
@@ -56,20 +58,12 @@
 			</thead>
 			<tbody>
 				<tr>
-					{{!-- <td>{{misclength}}</td> --}}
 					<td>{{reg.feecode}}</td>
 					<td>{{reg.feedesc}}</td>
 					<td class="text-right">{{format-currency reg.amt}}</td>
 				</tr>
-				<tr>
-					{{!-- <td>&nbsp;</td> --}}
-					<td>{{tui.feecode}}</td>
-					<td>{{tui.feedesc}}</td>
-					<td class="text-right">{{format-currency tui.amt}}</td>
-				</tr>
 				{{#if lab}}
 				<tr>
-					{{!-- <td>&nbsp;</td> --}}
 					<td>{{lab.feecode}}</td>
 					<td>{{lab.feedesc}}</td>
 					<td class="text-right">{{format-currency lab.amt}}</td>
@@ -77,14 +71,22 @@
 				{{/if}}
 				{{#if comp}}
 				<tr>
-					{{!-- <td>&nbsp;</td> --}}
 					<td>{{comp.feecode}}</td>
 					<td>{{comp.feedesc}}</td>
 					<td class="text-right">{{format-currency comp.amt}}</td>
 				</tr>
 				{{/if}}
 				<tr>
-					{{!-- <td>&nbsp;</td> --}}
+					<td>{{tui.feecode}}</td>
+					<td>{{tui.feedesc}}</td>
+					<td class="text-right">{{format-currency tui.amt}}</td>
+				</tr>
+				<tr>
+					<td>MISCFEE</td>
+					<td>Miscellaneous Fee</td>
+					<td class="text-right">{{format-currency h.t_misc}}</td>
+				</tr>
+				<tr>
 					<td>&nbsp;</td>
 					<td><strong>Total Assessment</strong></td>
 					<td class="text-right"><strong>{{format-currency h.t_as}}</strong></td>
@@ -105,6 +107,6 @@
 		<br>
 		<br>
 		<br>
-		<span>Date: <em>{{format-date currentDate ''}}</em></span>
+		<div class="text-right"><span>Date: <em>{{format-date currentDate ''}}</em></span></div>
 	</div>	
 </div>

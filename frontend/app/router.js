@@ -41,6 +41,7 @@ Router.map(function() {
 		this.route('sumbilling');
 		this.route('gradesheet');
 		this.route('assesments');
+		this.route('grades');
 		this.route('print');
 	});
 
