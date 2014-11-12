@@ -1,0 +1,135 @@
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<div class="row">
+			<div class="col-sm-6">
+				Assesment of Student
+			</div>
+			<div class="col-sm-6 text-right">
+				SY: <strong>{{h.sy}}</strong>
+				SEM: <strong>{{h.sem}}</strong>
+			</div>
+		</div>
+	</div>
+	<div class="panel-body">
+		<form role="form">
+			<fieldset>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-3">
+							<label>STUDENT ID:</label>
+							{{input value=h.studid class="form-control" disabled="disabled"}}
+						</div>
+						<div class="col-sm-9">
+							<label>NAME:</label>
+							{{input value=h.studfullname2 class="form-control" disabled="disabled"}}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-3">
+							<label>COURSE:</label>
+							{{input value=h.studmajor class="form-control" disabled="disabled"}}
+						</div>
+						<div class="col-sm-3">
+							<label>YEAR:</label>
+							{{input value=h.studlevel class="form-control" disabled="disabled"}}
+						</div>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+		<hr>
+		<div>
+			{{#link-to 'registrations' class="btn btn-info"}}<i class="fa fa-fw fa-chevron-left"></i> Registration{{/link-to}}
+			<button type="button" class="btn btn-success" disabled><i class="fa fa-fw fa-refresh"></i> Refresh Assesment</button>
+			<button type="button" class="btn btn-danger" disabled><i class="fa fa-fw fa-eraser"></i> Clear Assesment</button>
+			<button type="button" class="btn btn-warning" {{action 'toprint' 'print.assesments' params}}><i class="fa fa-fw fa-print"></i> Print Assesment</button>
+			<button type="button" class="btn btn-warning" {{action 'toprint' 'print.tempcor' params}}><i class="fa fa-fw fa-print"></i> Temporary COR</button>
+		</div>
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		Assesment Details
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-hover grade">
+			<thead>
+				<tr>
+					<th>Code</th>
+					<th>Description</th>
+					<th width="15%">Amount</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>{{reg.feecode}}</td>
+					<td>{{reg.feedesc}}</td>
+					<td class="inp">{{input value=reg.amt class="form-control text-right"}}</td>
+				</tr>
+				<tr>
+					<td>{{tui.feecode}}</td>
+					<td>{{tui.feedesc}}</td>
+					<td class="inp">{{input value=tui.amt class="form-control text-right"}}</td>
+				</tr>
+				{{#if lab}}
+				<tr>
+					<td>{{lab.feecode}}</td>
+					<td>{{lab.feedesc}}</td>
+					<td class="inp">{{input value=lab.amt class="form-control text-right"}}</td>
+				</tr>
+				{{/if}}
+				<tr>
+					<td colspan="3">Miscellaneous Fee</td>
+				</tr>
+				{{#each misc}}
+				<tr>
+					<td>{{feecode}}</td>
+					<td>{{feedesc}}</td>
+					<td class="inp">{{input value=amt class="form-control text-right"}}</td>
+				</tr>
+				{{/each}}
+			</tbody>
+		</table>
+		<hr>
+		<div class="text-right">
+			<span>TOTAL ASSESMENT: <strong>{{format-currency h.t_as}}</strong></span>
+		</div>
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		Tuition Fee Breakdown
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-hover grade">
+			<thead>
+				<tr>
+					<th>Subject Code</th>
+					<th>Section</th>
+					<th>Lec</th>
+					<th>Lab</th>
+					<th>Credits</th>
+					<th width="12%">Tuition</th>
+					<th width="12%">Lab Fee</th>
+					<th width="12%">Comp</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{#each s}}
+				<tr>
+					<td>{{subjcode}}</td>
+					<td>{{section}}</td>
+					<td>{{subjlec}}</td>
+					<td>{{subjlab}}</td>
+					<td>{{subjcredit}}</td>
+					<td class="inp">{{input value=tuitionfee class="form-control text-right"}}</td>
+					<td class="inp">{{input value=labfee class="form-control text-right"}}</td>
+					<td class="inp">{{input value=compfee class="form-control text-right"}}</td>
+				</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
+</div>

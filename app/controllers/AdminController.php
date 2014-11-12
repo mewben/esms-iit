@@ -78,16 +78,21 @@ class AdminController extends \BaseController {
 				          'print' => false,
 				          'icon' => 'fa-desktop',
 				          'items' => [
-				          	['type' => 'route', 'title'  => 'Payment', 'location'  => 'payment'],
-				            ['type' => 'route', 'title'  => 'Refund', 'location'  => 'refund'],
-				            ['type' => 'resource', 'title' => 'Grades', 'location' => 'grades',
+				          	['type' => 'route', 'title'  => 'Note Payment', 'location'  => 'payment'],
+				            ['type' => 'route', 'title'  => 'Issue Refund', 'location'  => 'refund'],
+				            ['type' => 'resource', 'title' => 'Grade Sheet', 'location' => 'grades',
 				            	'sub' => [
 				            		['route' => 'grade', 'path' => '/:subjcode/:section']
 				            	]
 				            ],
-				            ['type' => 'resource', 'title' => 'Registration', 'location' => 'registrations',
+				            ['type' => 'resource', 'title' => 'Student Registration', 'location' => 'registrations',
 				            	'sub' => [
 				            		['route' => 'registration', 'path' => '/:studid']
+				            	]
+				            ],
+				            ['type' => 'resource', 'title' => 'Student Assesment', 'location' => 'assesments',
+				            	'sub' => [
+				            		['route' => 'assesment', 'path' => '/:studid']
 				            	]
 				            ]
 				          ]

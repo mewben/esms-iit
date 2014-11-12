@@ -1,0 +1,65 @@
+<table class="table borderless table-condensed print-assessment">
+	<tbody>
+		<tr>
+			<td width="15%">Student Name</td>
+			<td>: <strong>{{meta.studfullname}}</strong></td>
+			<td width="15%">S.Y. &amp; Sem</td>
+			<td>: SY: <strong>{{meta.sy}}</strong> - SEM: <strong>{{meta.sem}}</strong></td>
+		</tr>
+		<tr>
+			<td width="15%">Student ID</td>
+			<td>: <strong>{{meta.studid}}</strong></td>
+			<td width="15%">Load Units</td>
+			<td>: <strong>{{meta.units}}</strong></td>
+		</tr>
+		<tr>
+			<td width="15%">Course &amp; Year</td>
+			<td>: <strong>{{meta.studmajor}} - {{meta.studlevel}}</strong></td>
+			<td width="15%">GPA</td>
+			<td>: <strong>{{meta.gpa}}</strong></td>
+		</tr>
+	</tbody>
+</table>
+<hr class="printhr">
+<table class="table table-striped table-condensed print-assessment">
+	<thead>
+		<tr>
+			<th>SUBJECT CODE</th>
+			<th>SECTION</th>
+			<th width="40%">SUBJECT DESCRIPTION</th>
+			<th class="text-right" width="7%">UNIT</th>
+			<th class="text-right" width="7%">MT</th>
+			<th class="text-right" width="7%">FT</th>
+			<th class="text-right" width="7%">FG</th>
+			<th class="text-right" width="7%">Re</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#each subj}}
+		<tr>
+			<td>{{subjcode}}</td>
+			<td>{{section}}</td>
+			<td>{{subjdesc}}</td>
+			<td class="text-right" >{{subjcredit}}</td>
+			<td class="text-right" >{{prelim1}}</td>
+			<td class="text-right" >{{prelim2}}</td>
+			<td class="text-right" >{{grade}}</td>
+			<td class="text-right" >{{gcompl}}</td>
+		</tr>
+		{{/each}}
+	</tbody>
+</table>
+<div class="text-center">
+			<span><em>***NOTHING FOLLOWS***</em></span>
+		</div>
+<div class="row">
+	<div class="col-xs-4 col-xs-offset-8">
+		<div class="sign">
+			<hr>
+			<em>Certified by:</em><strong> Adelyn C. Ibarra</strong><br>
+			<em>Designation:</em><strong> Registrar</strong><br>
+			<em>Date Printed: {{format-date null 'MMM D, YYYY HH:mm:ss'}}</em>
+		</div>	
+	</div>
+</div>
+

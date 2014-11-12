@@ -27,7 +27,7 @@ class Report {
 
 		// Get headers
 		$h = DB::select("
-			SELECT studid, t1.sy, t1.sem, studfullname2, studmajor, studlevel, t2.amt AS tuiamt, t3.amt AS labamt 
+			SELECT studid, t1.sy, t1.sem, studfullname2, studmajor, studlevel, t2.amt AS tuiamt, t3.amt AS labamt, t4.schdesc as scholarstatus 
 			FROM semstudent AS t1 
 			LEFT JOIN student USING(studid)
 			LEFT JOIN tuitionmatrix_new AS t2
@@ -40,6 +40,10 @@ class Report {
 				ON (
 					t1.payment_sy = t3.sy AND
 					t1.payment_sem = t3.sem
+				)
+			LEFT JOIN scholar AS t4
+				ON (
+					t1.scholarstatus = t4.schcode
 				)
 			WHERE studid=? AND t1.sy=? AND t1.sem=? AND t3.subjcode='DEFAULT        ' AND registered=true
 		", array($studid, $sy, $sem));

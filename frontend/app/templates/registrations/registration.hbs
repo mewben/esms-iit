@@ -39,13 +39,10 @@
 				</div>
 			</fieldset>
 			<hr>
-			<div class="row">
-				<div class="col-sm-12">
-					<button type="button" class="btn btn-info" disabled><i class="fa fa-fw fa-print"></i> Print COR</button>
-					<button type="button" class="btn btn-info" disabled><i class="fa fa-fw fa-print"></i> Print Grade</button>
-					<button type="button" class="btn btn-success" disabled><i class="fa fa-fw fa-plus"></i> Add Subject</button>
-					<button type="button" class="btn btn-danger" disabled><i class="fa fa-fw fa-trash-o"></i> Delete Subject</button>
-				</div>
+			<div>
+				{{#link-to 'assesments.assesment' meta.studid class="btn btn-info"}}<i class="fa fa-fw fa-money"></i> View Assessment{{/link-to}}
+				<button type="button" class="btn btn-warning" {{action 'toprint' 'print.grades' params}}><i class="fa fa-fw fa-print"></i> Print Grades</button>
+				<button type="button" class="btn btn-warning" {{action 'toprint' 'print.finalcor' params}}><i class="fa fa-fw fa-print"></i> Print COR</button>
 			</div>
 		</form>
 	</div>
@@ -92,10 +89,10 @@
 		<hr>
 		<div class="row">
 			<div class="col-sm-6">
-				TOTAL LOAD UNITS: <strong>{{studunits}}</strong>
+				TOTAL LOAD UNITS: <strong>{{meta.units}}</strong>
 			</div>
 			<div class="col-sm-6 text-right">
-				GPA: <strong>{{studgpa}}</strong>
+				GPA: <strong>{{meta.gpa}}</strong>
 			</div>
 		</div>
 	</div>

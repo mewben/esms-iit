@@ -3,13 +3,12 @@ import Ember from 'ember';
 export default Ember.ObjectController.extend({
 	needs: 			'g',
 	g: 				Ember.computed.alias('controllers.g'),
+	oData: null,
 
 	lock: function() {
 		return this.get('meta.lock') || false;
 	}.property('meta.lock'),
-
-	oData: null,
-
+	
 	actions: {
 		save: function() {
 			var oData = this.get('oData');
