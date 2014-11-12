@@ -40,14 +40,12 @@
 			</fieldset>
 		</form>
 		<hr>
-		<div class="row">
-			<div class="col-sm-6">
-				<button type="button" class="btn btn-success" disabled><i class="fa fa-fw fa-refresh"></i> Refresh Assesment</button>
-				<button type="button" class="btn btn-danger" disabled><i class="fa fa-fw fa-eraser"></i> Clear Assesment</button>
-			</div>
-			<div class="col-sm-6">
-				{{to-print to='print.assesments' p=params act='toprint'}}
-			</div>
+		<div>
+			{{#link-to 'registrations' class="btn btn-info"}}<i class="fa fa-fw fa-chevron-left"></i> Registration{{/link-to}}
+			<button type="button" class="btn btn-success" disabled><i class="fa fa-fw fa-refresh"></i> Refresh Assesment</button>
+			<button type="button" class="btn btn-danger" disabled><i class="fa fa-fw fa-eraser"></i> Clear Assesment</button>
+			<button type="button" class="btn btn-warning" {{action 'toprint' 'print.assesments' params}}><i class="fa fa-fw fa-print"></i> Print Assesment</button>
+			<button type="button" class="btn btn-warning" {{action 'toprint' 'print.tempcor' params}}><i class="fa fa-fw fa-print"></i> Temporary COR</button>
 		</div>
 	</div>
 </div>

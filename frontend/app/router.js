@@ -42,6 +42,8 @@ Router.map(function() {
 		this.route('gradesheet');
 		this.route('assesments');
 		this.route('grades');
+		this.route('finalcor');
+		this.route('tempcor');
 		this.route('print');
 	});
 

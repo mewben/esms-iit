@@ -3,20 +3,20 @@
 		<tr>
 			<td width="15%">Student Name</td>
 			<td>: <strong>{{meta.studfullname}}</strong></td>
-			<td width="15%">S.Y. &amp; Sem</td>
-			<td>: SY: <strong>{{meta.sy}}</strong> - SEM: <strong>{{meta.sem}}</strong></td>
+			<td width="15%">School Year</td>
+			<td>: <strong>{{meta.sy}}</strong></td>
 		</tr>
 		<tr>
 			<td width="15%">Student ID</td>
 			<td>: <strong>{{meta.studid}}</strong></td>
-			<td width="15%">Load Units</td>
-			<td>: <strong>{{meta.units}}</strong></td>
+			<td width="15%">Semester</td>
+			<td>: <strong>{{meta.sem}}</strong></td>
 		</tr>
 		<tr>
 			<td width="15%">Course &amp; Year</td>
 			<td>: <strong>{{meta.studmajor}} - {{meta.studlevel}}</strong></td>
-			<td width="15%">GPA</td>
-			<td>: <strong>{{meta.gpa}}</strong></td>
+			<td width="15%">Load Units</td>
+			<td>: <strong>{{meta.units}}</strong></td>
 		</tr>
 	</tbody>
 </table>
@@ -26,12 +26,11 @@
 		<tr>
 			<th>SUBJECT CODE</th>
 			<th>SECTION</th>
-			<th width="40%">SUBJECT DESCRIPTION</th>
-			<th class="text-right" width="7%">UNIT</th>
-			<th class="text-right" width="7%">MT</th>
-			<th class="text-right" width="7%">FT</th>
-			<th class="text-right" width="7%">FG</th>
-			<th class="text-right" width="7%">Re</th>
+			<th width="45%">SUBJECT DESCRIPTION</th>
+			<th class="text-right" width="7%">LEC</th>
+			<th class="text-right" width="7%">LAB</th>
+			<th class="text-right" width="7%">UNITS</th>
+			<th class="text-right" width="9%">DEPT</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -40,11 +39,10 @@
 			<td>{{subjcode}}</td>
 			<td>{{section}}</td>
 			<td>{{subjdesc}}</td>
+			<td class="text-right" >{{format-number subjlec_units '2'}}</td>
+			<td class="text-right" >{{format-number subjlab_units '2'}}</td>
 			<td class="text-right" >{{subjcredit}}</td>
-			<td class="text-right" >{{prelim1}}</td>
-			<td class="text-right" >{{prelim2}}</td>
-			<td class="text-right" >{{grade}}</td>
-			<td class="text-right" >{{gcompl}}</td>
+			<td class="text-right" >{{subjdept}}</td>
 		</tr>
 		{{/each}}
 	</tbody>
