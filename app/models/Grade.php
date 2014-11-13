@@ -25,6 +25,16 @@ class Grade {
 		", array($sy, $sem, $subjcode, $section));
 
 		$data['data'] = $rec;
+		if($rec) {
+			$course = DB::select("
+				SELECT studmajor
+				FROM semstudent
+				WHERE
+					studid=? AND
+					sy=? AND
+					sem=?
+			", array($rec[0]->studid, $sy, $sem));
+		}
 
 		// meta
 		$subj = DB::select("
@@ -41,6 +51,12 @@ class Grade {
 
 		$data['meta'] = $subj[0];
 		$data['meta']->section = $section;
+		if($course) {
+			$data['meta']->course = $course[0]->studmajor;
+		} else {
+			$data['meta']->course = "";
+		}
+		
 
  		//print_r($data);
 		return static::_encode($data);
