@@ -45,7 +45,7 @@
 			}
 
 			//Set GPA and Load Units
-			$data['meta']->gpa = static::getGPA($data['subj']);
+			//$data['meta']->gpa = static::getGPA($data['subj']);
 			$data['meta']->units = static::getUnits($data['subj']);
 
 			return static::_encode($data);
@@ -82,6 +82,7 @@
 					$subjforgpa++;
 				}
 			}
+			
 			if($subjwgrade == $subjforgpa) {
 				$gpa = $total / ($lec + $lab);
 				return number_format($gpa, 5);
