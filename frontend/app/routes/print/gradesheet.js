@@ -1,7 +1,8 @@
-import Em from 'ember';
+import Ember from 'ember';
 
-export default Em.Route.extend({
+export default Ember.Route.extend({
 	model: function(params) {
-		console.log(params);
+		params.queryParams.subjcode = params.queryParams.subjcode.replace(/\+/g, ' ');
+		return this.controllerFor('g').getJSON('/grades/' + params.queryParams.subjcode + '/' + params.queryParams.section);
 	}
 });

@@ -1,0 +1,76 @@
+<table class="table borderless table-condensed print">
+	<tbody>
+		<tr>
+			<td width="10%">Course</td>
+			<td width="20%">: <strong>{{meta.block}}</strong></td>
+			<td width="10%">Subject</td>
+			<td colspan="2">: <strong>{{meta.subjdesc}}</strong></td>
+		</tr>
+		<tr>
+			<td>Yr. &amp; Sec.</td>
+			<td>: <strong>{{meta.section}}</strong></td>
+			<td>Instructor</td>
+			<td class="signlineb">: </td>
+			<td width="25%">&nbsp;</td>
+		<tr>
+			<td>SY - Sem</td>
+			<td>: <strong>{{meta.sy}}</strong> - <strong>{{meta.sem}}</strong></td>
+			<td>Adviser</td>
+			<td class="signlineb">: </td>
+			<td width="25%">&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+<hr class="printhr">
+<table class="table table-bordered table-condensed print">
+	<thead>
+		<tr>
+			<th class="text-center">#</th>
+			<th width="10%" class="text-center">ID NO.</th>
+			<th class="text-center">NAME OF STUDENT</th>
+			<th width="7%" class="text-center">MT</th>
+			<th width="7%" class="text-center">FT</th>
+			<th width="7%" class="text-center">FG</th>
+			<th width="7%" class="text-center">RE</th>
+			<th width="12%" class="text-center">REMARKS</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#each gr in data}}
+		<tr>
+			<td>{{inc-1 _view.contentIndex}}.</td>
+			<td>{{gr.studid}}</td>
+			<td>{{gr.fullname}}</td>
+			<td class="text-center">{{gr.prelim1}}</td>
+			<td class="text-center">{{gr.prelim2}}</td>
+			<td class="text-center">{{gr.grade}}</td>
+			<td class="text-center">{{gr.gcompl}}</td>
+			<td>{{gr.remarks}}</td>
+		</tr>
+		{{/each}}
+		<tr>
+			<td colspan="8" class="text-center">***<em>NOTHING FOLLOWS</em>***</td>
+		</tr>
+	</tbody>
+</table>
+<br>
+<table class="table borderless table-condensed print">
+	<tbody>
+		<tr>
+			<td width="12%">Submitted By</td>
+			<td class="signlineb">: </td>
+			<td width="18%">Signature (Mid Term)</td>
+			<td width="11%" class="signlineb">: </td>
+			<td width="18%">Signature (Final Term)</td>
+			<td width="11%" class="signlineb">: </td>
+		</tr>
+		<tr>
+			<td>Approved By</td>
+			<td class="signlineb">: </td>
+			<td>Signature (Mid Term)</td>
+			<td class="signlineb">: </td>
+			<td>Signature (Final Term)</td>
+			<td class="signlineb">: </td>
+		</tr>
+	</tbody>
+</table>

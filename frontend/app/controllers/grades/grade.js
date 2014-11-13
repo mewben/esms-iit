@@ -8,6 +8,19 @@ export default Ember.ObjectController.extend({
 	lock: function() {
 		return this.get('meta.lock') || false;
 	}.property('meta.lock'),
+
+	params: function() {
+		var p = this._params(true);
+		console.log(p)
+		return p;
+	}.property('meta.subjcode'),
+
+	_params: function() {
+		return {
+			subjcode: this.get('meta.subjcode'),
+			section: this.get('meta.section')
+		};
+	},
 	
 	actions: {
 		save: function() {
