@@ -31,7 +31,7 @@
 
 			$meta = DB::select("
 				SELECT
-					studid, studfullname, studmajor, studlevel, sy, sem
+					studid, studfullname, studmajor, studlevel, sy, sem, studmajor, regdate
 				FROM student
 				LEFT JOIN semstudent
 				USING(studid)

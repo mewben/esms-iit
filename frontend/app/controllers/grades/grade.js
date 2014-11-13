@@ -11,7 +11,6 @@ export default Ember.ObjectController.extend({
 
 	params: function() {
 		var p = this._params(true);
-		console.log(p)
 		return p;
 	}.property('meta.subjcode'),
 
