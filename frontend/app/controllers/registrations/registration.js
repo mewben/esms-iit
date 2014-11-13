@@ -1,7 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
-	studunits: null,
 	studgpa: null,
 
 	params: function() {
@@ -16,10 +15,6 @@ export default Ember.ObjectController.extend({
 	},
 
 	computegpaunits: function() {
-		var lec = 0;
-		var lab = 0;
-		var units = 0;
-
 		var lecgpa = 0;
 		var labgpa = 0;
 		var grade = 0;
@@ -30,9 +25,6 @@ export default Ember.ObjectController.extend({
 		var subjforgpa = 0;
 
 		this.get('subj').forEach(function(v) {
-			lec += Number(v.subjlec_units);
-			lab += Number(v.subjlab_units);
-			
 			if(v.grade > 3) {
 				if(Number(v.subjgpa) === 1 && v.prelim1 && v.prelim2 && v.gcompl) {
 					subjwgrade++;
@@ -66,10 +58,8 @@ export default Ember.ObjectController.extend({
 			}
 		});
 		
-		units = lec + lab;
 		gpa = total / (lecgpa + labgpa);
 
-		this.set('studunits', units);
 		if(subjwgrade === subjforgpa) {
 			this.set('studgpa', gpa.toFixed(5));
 		} else {

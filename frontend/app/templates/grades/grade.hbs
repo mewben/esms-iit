@@ -43,18 +43,15 @@
 		<hr>
 		<div class="row">
 			<div class="col-sm-9">
-				<button {{action 'save'}} type="button" class="btn btn-warning"><i class="fa fa-fw fa-save"></i> Save</button>
+				<button {{action 'save'}} type="button" class="btn btn-success"><i class="fa fa-fw fa-save"></i> Save</button>
 				{{#if meta.lock}}
 					<button {{action 'lock' false}}type="button" class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i> Unlock all Grades</button>
 				{{else}}
 					<button {{action 'lock' true}} type="button" class="btn btn-danger"><i class="fa fa-fw fa-lock"></i> Lock all Grades</button>
 				{{/if}}
 				<button type="button" class="btn btn-success" disabled><i class="fa fa-fw fa-file-excel-o"></i> Export to Excel</button>
-				<button type="button" class="btn btn-info" disabled><i class="fa fa-fw fa-print"></i> Print Grade</button>
+				<button type="button" class="btn btn-warning" {{action 'toprint' 'print.gradesheet' params}}><i class="fa fa-fw fa-print"></i> Print Grading Sheet</button>
 			</div>
-			{{!-- <div class="col-sm-3">
-				{{to-print to='print.gradesheet' p=params act='toprint'}}
-			</div> --}}
 		</div>
 	</div>
 </div>
@@ -102,14 +99,14 @@
 		<hr>
 		<div class="row">
 			<div class="col-sm-9">
-				<button {{action 'save'}} type="button" class="btn btn-warning"><i class="fa fa-fw fa-save"></i> Save</button>
+				<button {{action 'save'}} type="button" class="btn btn-success"><i class="fa fa-fw fa-save"></i> Save</button>
 				{{#if meta.lock}}
 					<button {{action 'lock' false}}type="button" class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i> Unlock all Grades</button>
 				{{else}}
 					<button {{action 'lock' true}} type="button" class="btn btn-danger"><i class="fa fa-fw fa-lock"></i> Lock all Grades</button>
 				{{/if}}
 				<button type="button" class="btn btn-success" disabled><i class="fa fa-fw fa-file-excel-o"></i> Export to Excel</button>
-				<button type="button" class="btn btn-info" disabled><i class="fa fa-fw fa-print"></i> Print Grade</button>
+				<button type="button" class="btn btn-warning" {{action 'toprint' 'print.gradesheet' params}}><i class="fa fa-fw fa-print"></i> Print Grading Sheet</button>
 			</div>
 			{{!-- <div class="col-sm-3">
 				{{to-print to='print.gradesheet' p=params act='toprint'}}
