@@ -25,7 +25,7 @@ export default Ember.ObjectController.extend({
 		var subjforgpa = 0;
 
 		this.get('subj').forEach(function(v) {
-			if(v.grade > 3) {
+			if(v.grade > 3 && v.grade < 5) {
 				if(Number(v.subjgpa) === 1 && v.prelim1 && v.prelim2 && v.gcompl) {
 					subjwgrade++;
 				}
@@ -35,7 +35,7 @@ export default Ember.ObjectController.extend({
 				}
 			}
 
-			if(v.grade > 3) {
+			if(v.grade > 3 && v.grade < 5) {
 				if(!v.prelim1 || !v.prelim2 || !v.gcompl) {
 					v.isEmpty = "danger";
 				}
@@ -48,10 +48,10 @@ export default Ember.ObjectController.extend({
 			if(Number(v.subjgpa)) {
 				lecgpa += Number(v.subjlec_units);
 				labgpa += Number(v.subjlab_units);
-				if(!v.gcompl) {
-					grade = Number(v.grade);
-				} else {
+				if(v.grade > 3 && v.grade < 5) {
 					grade = Number(v.gcompl);
+				} else {
+					grade = Number(v.grade);
 				}
 				total += grade * (Number(v.subjlec_units) + Number(v.subjlab_units));
 				subjforgpa++;
