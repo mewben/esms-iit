@@ -57,7 +57,6 @@ class Grade {
 			$data['meta']->course = "";
 		}
 		
-
  		//print_r($data);
 		return static::_encode($data);
 	}
