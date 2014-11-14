@@ -46,14 +46,16 @@ export default Ember.ObjectController.extend({
 			}
 			
 			if(Number(v.subjgpa)) {
-				lecgpa += Number(v.subjlec_units);
-				labgpa += Number(v.subjlab_units);
-				if(v.grade > 3 && v.grade < 5) {
-					grade = Number(v.gcompl);
-				} else {
-					grade = Number(v.grade);
+				if(!isNaN(v.prelim1) && !isNaN(v.prelim2)) {
+					lecgpa += Number(v.subjlec_units);
+					labgpa += Number(v.subjlab_units);
+					if(v.grade > 3 && v.grade < 5) {
+						grade = Number(v.gcompl);
+					} else {
+						grade = Number(v.grade);
+					}
+					total += grade * (Number(v.subjlec_units) + Number(v.subjlab_units));
 				}
-				total += grade * (Number(v.subjlec_units) + Number(v.subjlab_units));
 				subjforgpa++;
 			}
 		});
