@@ -16,6 +16,11 @@ export default Base.extend({
 	not_succ: function() {
 		return !this.get('succ');
 	}.property('succ'),
+	total: function() {
+		return this.get('det').reduce(function(t, p) {
+			return t + (p.amount - 0);
+		}, 0);
+	}.property('det.@each.amount'),
 
 	actions: {
 		lookup: function() {
@@ -31,7 +36,8 @@ export default Base.extend({
 					self.setProperties({
 						studid: res.studid,
 						payee: res.studfullname,
-						amt: res.amt,
+						amt: res.amount,
+						det: res.detail,
 						succ: false
 					});
 				});

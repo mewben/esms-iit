@@ -199,9 +199,36 @@ class Refund extends \Eloquent {
 
 		$excess = self::checkRefund($studid, $sy, $sem);
 
+		// get assessment
+		$ass = DB::select("SELECT * FROM ass_details WHERE studid=? AND sy=? AND sem=?", array($studid, $sy, $sem));
+		// get paid with details
+		$paid = DB::select("SELECT * FROM get_paiddetails(?,?,?)", array($studid, $sy, $sem));
+
+		// Transform arrays into feecodes key
+		foreach ($ass as $v) {
+			$d_ass[$v->feecode] = $v->amt;
+		}
+		foreach ($paid as $v) {
+			$d_paid[$v->feecode] = $v->amt;
+		}
+		$diff = array_diff_assoc($d_paid, $d_ass);
+
+		$i = 0;
+		foreach ($ass as $val) {
+			foreach ($diff as $k => $v) {
+				if($val->feecode === $k) {
+					$d_ref[$i] = new stdClass();
+					$d_ref[$i]->feecode = $k;
+					$d_ref[$i]->amount = number_format(($v - $val->amt), 2);
+					$i++;
+				}
+			}
+		}
+
 		// return student studid, studfullname, amt
 		$s = DB::select("SELECT studid, studfullname FROM student WHERE studid=?", array($studid));
-		$s[0]->amt = $excess;
+		$s[0]->amount = $excess;
+		$s[0]->detail = $d_ref;
 		$s = static::_encode($s);
 
 		return $s[0];
