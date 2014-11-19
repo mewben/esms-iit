@@ -85,11 +85,12 @@ class Refund extends \Eloquent {
 		$i = 0;
 		$t = 0;
 		foreach ($detail as $v) {
-			$data['d'][$i]['refno'] = $refno;
-			$data['d'][$i]['feecode'] = $v['feecode'];
-			$data['d'][$i]['amt'] = $v['amount'];
-
-			$t += $v['amount'];
+			if ($v['amount'])  {		
+				$data['d'][$i]['refno'] = $refno;
+				$data['d'][$i]['feecode'] = $v['feecode'];
+				$data['d'][$i]['amt'] = $v['amount'];
+				$t += $v['amount'];
+			}
 			$i++;
 		}
 
