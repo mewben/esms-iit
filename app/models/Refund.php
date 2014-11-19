@@ -69,77 +69,38 @@ class Refund extends \Eloquent {
 	public function process($q)
 	{
 		extract($q);
-		$bcode = 'RF'; // Hardcode bcode for Refund
 
 		$excess = self::checkRefund($studid, $sy, $sem);
-		$total_ass = 0;
-		$total_paid = 0;
 
-		// get assessment
-		$ass = DB::select("SELECT * FROM ass_details WHERE studid=? AND sy=? AND sem=?", array($studid, $sy, $sem));
+		// Refund Header Contents
+		$data['h']['sy'] = $sy;
+		$data['h']['sem'] = $sem;
+		$data['h']['studid'] = $studid;
+		$data['h']['refno'] = $refno;
+		$data['h']['payee'] = $payee;
+		$data['h']['remarks'] = $remarks;
+		$data['h']['paydate'] = $paydate;
 
-		// get paid with details
-		$paid = DB::select("SELECT * FROM get_paiddetails(?,?,?)", array($studid, $sy, $sem));
-
-		// Transform arrays into feecodes key
-		foreach ($ass as $v) {
-			$d_ass[$v->feecode] = $v->amt;
-		}
-		foreach ($paid as $v) {
-			$d_paid[$v->feecode] = $v->amt;
-		}
-
-		$diff = array_diff_assoc($d_paid, $d_ass);
-
-		// Prepare the data to be inserted in the refund_details
+		// Refund Detail Contents
 		$i = 0;
-		foreach ($diff as $k => $v) {
-			$d_ass[$k] = isset($d_ass[$k]) ? $d_ass[$k] : 0;
-			$d_paid[$k] = isset($d_paid[$k]) ? $d_paid[$k] : 0;
+		$t = 0;
+		foreach ($detail as $v) {
+			$data['d'][$i]['refno'] = $refno;
+			$data['d'][$i]['feecode'] = $v['feecode'];
+			$data['d'][$i]['amt'] = $v['amount'];
 
-			$ins[$i]['feecode'] = $k;
-			$ins[$i]['amt'] = $d_paid[$k] - $d_ass[$k];
+			$t += $v['amount'];
 			$i++;
 		}
 
-		// Separate into Payment or Refund
-		$p = array();
-		$r = array();
-		$t1 = 0;
-		$t2 = 0;
-		foreach ($ins as $v) {
-			if($v['amt'] < 0) {
-				// insert into bulk_collection_header
-				$p['details'][] = array(
-					'feecode' => $v['feecode'],
-					'amt' => $v['amt'] * -1
-				);
-				$t1 += $v['amt'] * -1;
-			} else {
-				// insert into refund_header
-				$r['details'][] = array(
-					'feecode' => $v['feecode'],
-					'amt' => $v['amt']
-				);
-				$t2 += $v['amt'];
-			}
-		}
+		if($t > $excess)	throw new Exception("Amount refunded is greater than the refundable amount.", 409);
 
-		//check if data to be inserted is correct
-		if ($excess - $t1 - $t2 != 0) 	throw new Exception("Amounts not equal.. Notify the developer.", 409);
-
-		// Save to bulk_collection_header
-		if (isset($p['details']) && count($p['details']) > 0) {
-			$p['h'] = $q;
-			(new Import)->payment($p);
-		}
-
-		// Save refund
-		if (isset($r['details']) && count($r['details']) > 0) {
-			$r['h'] = $q;
-			self::make($r);
-		}
-		return true;
+		// Insert to refund
+		DB::transaction(function() use ($data) {
+			Refund::create($data['h']);
+			DB::table('refund_details')->insert($data['d']);
+			return true;
+		});
 	}
 
 

@@ -50,7 +50,8 @@ export default Base.extend({
 				studid: 	this.get('studid'),
 				payee: 		this.get('payee'),
 				paydate: 	this.get('currentDate'),
-				remarks: 	this.get('remarks')
+				remarks: 	this.get('remarks'),
+				detail: 	this.get('det')
 			};
 
 			this.get('g').post('/refund', param)
