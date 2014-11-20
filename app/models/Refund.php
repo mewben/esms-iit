@@ -165,6 +165,17 @@ class Refund extends \Eloquent {
 		$ass = DB::select("SELECT * FROM ass_details WHERE studid=? AND sy=? AND sem=?", array($studid, $sy, $sem));
 		// get paid with details
 		$paid = DB::select("SELECT * FROM get_paiddetails(?,?,?)", array($studid, $sy, $sem));
+		// get refunded
+		$refunded = DB::select("
+			SELECT *
+			FROM refund_header
+			LEFT JOIN refund_details
+			USING(refno)
+			WHERE
+				studid=? AND
+				sy=? AND
+				sem=?
+		", array($studid, $sy, $sem));
 
 		// Transform arrays into feecodes key
 		foreach ($ass as $v) {
@@ -173,8 +184,23 @@ class Refund extends \Eloquent {
 		foreach ($paid as $v) {
 			$d_paid[$v->feecode] = $v->amt;
 		}
+		foreach ($refunded as $v) {
+			$d_refunded[$v->feecode] = $v->amt;
+		}
 		$diff = array_diff_assoc($d_paid, $d_ass);
 
+		// Remove refunded amount
+		if($refunded) {
+			foreach($d_refunded as $k => $v) {
+				$pi = $d_ass[$k] - $d_paid[$k] - $v;
+				if($pi != 0)	unset($diff[$k]);
+			}
+		}
+
+		// DELETED ENTRY ON ASSESSMENT ARE NOT SHOWN ON REFUND BREAKDOWN!!!
+		// NEED TO CHECK IF ENTRIES IN PAYMENT DON'T EXCESS IN ASSESMENT
+
+		// Finalize refund breakdown
 		$i = 0;
 		foreach ($ass as $val) {
 			foreach ($diff as $k => $v) {
@@ -187,7 +213,7 @@ class Refund extends \Eloquent {
 			}
 		}
 
-		// return student studid, studfullname, amt
+		// Return student studid, studfullname, amt
 		$s = DB::select("SELECT studid, studfullname FROM student WHERE studid=?", array($studid));
 		$s[0]->amount = $excess;
 		$s[0]->detail = $d_ref;
