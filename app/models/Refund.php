@@ -69,77 +69,39 @@ class Refund extends \Eloquent {
 	public function process($q)
 	{
 		extract($q);
-		$bcode = 'RF'; // Hardcode bcode for Refund
 
 		$excess = self::checkRefund($studid, $sy, $sem);
-		$total_ass = 0;
-		$total_paid = 0;
 
-		// get assessment
-		$ass = DB::select("SELECT * FROM ass_details WHERE studid=? AND sy=? AND sem=?", array($studid, $sy, $sem));
+		// Refund Header Contents
+		$data['h']['sy'] = $sy;
+		$data['h']['sem'] = $sem;
+		$data['h']['studid'] = $studid;
+		$data['h']['refno'] = $refno;
+		$data['h']['payee'] = $payee;
+		$data['h']['remarks'] = $remarks;
+		$data['h']['paydate'] = $paydate;
 
-		// get paid with details
-		$paid = DB::select("SELECT * FROM get_paiddetails(?,?,?)", array($studid, $sy, $sem));
-
-		// Transform arrays into feecodes key
-		foreach ($ass as $v) {
-			$d_ass[$v->feecode] = $v->amt;
-		}
-		foreach ($paid as $v) {
-			$d_paid[$v->feecode] = $v->amt;
-		}
-
-		$diff = array_diff_assoc($d_paid, $d_ass);
-
-		// Prepare the data to be inserted in the refund_details
+		// Refund Detail Contents
 		$i = 0;
-		foreach ($diff as $k => $v) {
-			$d_ass[$k] = isset($d_ass[$k]) ? $d_ass[$k] : 0;
-			$d_paid[$k] = isset($d_paid[$k]) ? $d_paid[$k] : 0;
-
-			$ins[$i]['feecode'] = $k;
-			$ins[$i]['amt'] = $d_paid[$k] - $d_ass[$k];
+		$t = 0;
+		foreach ($detail as $v) {
+			if ($v['amount'])  {		
+				$data['d'][$i]['refno'] = $refno;
+				$data['d'][$i]['feecode'] = $v['feecode'];
+				$data['d'][$i]['amt'] = $v['amount'];
+				$t += $v['amount'];
+			}
 			$i++;
 		}
 
-		// Separate into Payment or Refund
-		$p = array();
-		$r = array();
-		$t1 = 0;
-		$t2 = 0;
-		foreach ($ins as $v) {
-			if($v['amt'] < 0) {
-				// insert into bulk_collection_header
-				$p['details'][] = array(
-					'feecode' => $v['feecode'],
-					'amt' => $v['amt'] * -1
-				);
-				$t1 += $v['amt'] * -1;
-			} else {
-				// insert into refund_header
-				$r['details'][] = array(
-					'feecode' => $v['feecode'],
-					'amt' => $v['amt']
-				);
-				$t2 += $v['amt'];
-			}
-		}
+		if($t > $excess)	throw new Exception("Amount refunded is greater than the refundable amount.", 409);
 
-		//check if data to be inserted is correct
-		if ($excess - $t1 - $t2 != 0) 	throw new Exception("Amounts not equal.. Notify the developer.", 409);
-
-		// Save to bulk_collection_header
-		if (isset($p['details']) && count($p['details']) > 0) {
-			$p['h'] = $q;
-			(new Import)->payment($p);
-		}
-
-		// Save refund
-		if (isset($r['details']) && count($r['details']) > 0) {
-			$r['h'] = $q;
-			self::make($r);
-		}
-		return true;
+		// Insert to refund
+		DB::transaction(function() use ($data) {
+			Refund::create($data['h']);
+			DB::table('refund_details')->insert($data['d']);
+			return true;
+		});
 	}
 
 
@@ -199,9 +161,84 @@ class Refund extends \Eloquent {
 
 		$excess = self::checkRefund($studid, $sy, $sem);
 
-		// return student studid, studfullname, amt
+		// get assessment
+		$ass = DB::select("SELECT * FROM ass_details WHERE studid=? AND sy=? AND sem=?", array($studid, $sy, $sem));
+		// get paid with details
+		$paid = DB::select("SELECT * FROM get_paiddetails(?,?,?)", array($studid, $sy, $sem));
+		// get refunded
+		$refunded = DB::select("
+			SELECT *
+			FROM refund_header
+			LEFT JOIN refund_details
+			USING(refno)
+			WHERE
+				studid=? AND
+				sy=? AND
+				sem=?
+		", array($studid, $sy, $sem));
+
+		// Transform arrays into feecodes key
+		foreach ($ass as $v) {
+			$d_ass[$v->feecode] = $v->amt;
+		}
+		foreach ($paid as $v) {
+			$d_paid[$v->feecode] = $v->amt;
+		}
+		foreach ($refunded as $v) {
+			$d_refunded[$v->feecode] = $v->amt;
+		}
+		$diff = array_diff_assoc($d_paid, $d_ass);
+
+		// Remove refunded amount
+		if($refunded) {
+			foreach($d_refunded as $k => $v) {
+				if (array_key_exists($k, $d_ass)) {
+					$pi = $d_paid[$k] - $d_ass[$k] - $v;
+					if($pi <= 0) {
+						unset($diff[$k]);
+					} else {
+						$diff[$k] = number_format($pi, 2);
+					}
+				} else {
+					$pi = $d_paid[$k] - $v;
+					if($pi <= 0) {
+						unset($diff[$k]);
+					} else {
+						$diff[$k] = number_format($pi, 2);
+					}
+				}
+			}
+		}
+
+		//Prepare refund details
+		$i = 0;
+		foreach ($ass as $val) {
+			foreach ($diff as $k => $v) {
+				if($val->feecode === $k) {
+					$d_ref[$i] = new stdClass();
+					$d_ref[$i]->feecode = $k;
+					if ($refunded && array_key_exists($k, $d_refunded)) {
+						$d_ref[$i]->amount = $v;
+					} else {
+						$d_ref[$i]->amount = number_format(($v - $val->amt), 2);
+					}
+					$i++;
+				}
+			}
+		}
+		foreach ($diff as $key => $val) {
+			if(!array_key_exists($key, $d_ass)) {
+				$delfee = new stdClass();
+				$delfee->feecode = $key;
+				$delfee->amount = number_format($val, 2);
+				array_push($d_ref, $delfee);
+			}
+		}
+
+		// Return student studid, studfullname, amt
 		$s = DB::select("SELECT studid, studfullname FROM student WHERE studid=?", array($studid));
-		$s[0]->amt = $excess;
+		$s[0]->amount = $excess;
+		$s[0]->detail = $d_ref;
 		$s = static::_encode($s);
 
 		return $s[0];

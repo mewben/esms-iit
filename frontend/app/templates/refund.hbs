@@ -32,6 +32,12 @@
 				</div>
 			</div>
 			<div class="panel-body">
+				<div>
+					{{button-spin action="issue" saveText='Issue Refund' disabled=disbissue isProc=g.isProc btnClass="btn-info"}}
+					<button type="button" class="btn btn-danger" {{action 'delete'}} {{bind-attr disabled="not_succ"}}><i class="fa fa-fw fa-trash-o"></i> Delete Refund</button>
+					{{#link-to 'ledgers.ledger' studid class='btn btn-info'}}<i class="fa fa-fw fa-book"></i> View Ledger{{/link-to}}
+				</div>
+				<hr>
 				<form role="form">
 					<fieldset {{bind-attr disabled="succ"}}>
 					<div class="form-group">
@@ -66,14 +72,35 @@
 				</form>
 				<hr>
 				<div class="row">
-					<div class="col-sm-9 text-center">
+					<div class="col-sm-4 text-center refund-amt">
 						<h2 class="no-margin no-padding"><small>Php</small> {{format-currency amt}}</h2>
 						<small class="text-muted">REFUND</small>
 					</div>
-					<div class="col-sm-3">
-						{{button-spin action="issue" saveText='Issue Refund' disabled=disbissue isProc=g.isProc btnClass="btn-info btn-block"}}
-						<button type="button" class="btn btn-danger btn-block" {{action 'delete'}} {{bind-attr disabled="not_succ"}}><i class="fa fa-fw fa-trash-o"></i> Delete Refund</button>
-						{{#link-to 'ledgers.ledger' studid class='btn btn-info btn-block'}}<i class="fa fa-fw fa-book"></i> View Ledger{{/link-to}}
+					<div class="col-sm-8">
+						<table class="table table-condensed table-striped">
+							<thead>
+								<th width="25%">CODE</th>
+								<th>DESCRIPTION</th>
+								<th width="15%" class="text-right">AMOUNT(Php)</th>
+							</thead>
+							<tbody>
+								{{#if amt}}
+									{{#each det}}
+									<tr>
+										<td>{{feecode}}</td>
+										<td>&nbsp;</td>
+										<td>
+											{{input class="form-control input-sm text-right" value=amount}}
+										</td>
+									</tr>
+									{{/each}}
+									<tr class="warning">
+										<td colspan="2" class="text-right"><strong>TOTAL:</strong></td>
+										<td class="text-right"><strong>{{format-currency total}}</strong></td>
+									</tr>
+								{{/if}}
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>

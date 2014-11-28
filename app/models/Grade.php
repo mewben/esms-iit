@@ -51,7 +51,7 @@ class Grade {
 
 		$data['meta'] = $subj[0];
 		$data['meta']->section = $section;
-		if($course) {
+		if($rec) {
 			$data['meta']->course = $course[0]->studmajor;
 		} else {
 			$data['meta']->course = "";
