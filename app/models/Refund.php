@@ -192,24 +192,46 @@ class Refund extends \Eloquent {
 		// Remove refunded amount
 		if($refunded) {
 			foreach($d_refunded as $k => $v) {
-				$pi = $d_ass[$k] - $d_paid[$k] - $v;
-				if($pi != 0)	unset($diff[$k]);
+				if (array_key_exists($k, $d_ass)) {
+					$pi = $d_paid[$k] - $d_ass[$k] - $v;
+					if($pi <= 0) {
+						unset($diff[$k]);
+					} else {
+						$diff[$k] = number_format($pi, 2);
+					}
+				} else {
+					$pi = $d_paid[$k] - $v;
+					if($pi <= 0) {
+						unset($diff[$k]);
+					} else {
+						$diff[$k] = number_format($pi, 2);
+					}
+				}
 			}
 		}
 
-		// DELETED ENTRY ON ASSESSMENT ARE NOT SHOWN ON REFUND BREAKDOWN!!!
-		// NEED TO CHECK IF ENTRIES IN PAYMENT DON'T EXCESS IN ASSESMENT
-
-		// Finalize refund breakdown
+		//Prepare refund details
 		$i = 0;
 		foreach ($ass as $val) {
 			foreach ($diff as $k => $v) {
 				if($val->feecode === $k) {
 					$d_ref[$i] = new stdClass();
 					$d_ref[$i]->feecode = $k;
-					$d_ref[$i]->amount = number_format(($v - $val->amt), 2);
+					if ($refunded && array_key_exists($k, $d_refunded)) {
+						$d_ref[$i]->amount = $v;
+					} else {
+						$d_ref[$i]->amount = number_format(($v - $val->amt), 2);
+					}
 					$i++;
 				}
+			}
+		}
+		foreach ($diff as $key => $val) {
+			if(!array_key_exists($key, $d_ass)) {
+				$delfee = new stdClass();
+				$delfee->feecode = $key;
+				$delfee->amount = number_format($val, 2);
+				array_push($d_ref, $delfee);
 			}
 		}
 

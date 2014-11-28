@@ -35,7 +35,7 @@ export default Base.extend({
 		preview: function() {
 			var self = this;
 			var param = this._params(true);
-			this.get('g').getJSON('/reports/certbilling/', param)
+			this.get('g').getJSON('/reports/collections?', param)
 				.done(function(res) {
 					self.set('res', res);
 				});
