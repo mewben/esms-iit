@@ -1,0 +1,65 @@
+// ibox widget
+.ibox {
+	position: relative;
+	clear: both;
+	margin-bottom: 25px;
+	margin-top: 0;
+	padding: 0;
+
+	.ibox-title {
+		background-color: #fff;
+		border-color: $border-color;
+		border-image: none;
+		border-style: solid solid none;
+		border-width: 4px 0 0;
+		color: inherit;
+		margin-bottom: 0;
+		//padding: 14px 15px 7px;
+		padding: 6px 15px 4px;
+		min-height: 48px;
+
+		h5 {
+			display: inline-block;
+			font-size: 14px;
+			margin: 0 0 7px;
+			padding: 0;
+			text-overflow: ellipsis;
+			float: left;
+			font-weight: 600;
+		}
+
+		.label {
+			float: left;
+			margin-left: 4px;
+		}
+
+		.ibox-tools {
+			display: inline-block;
+			float: right;
+			margin-top: 0;
+			position: relative;
+			padding: 0;
+
+			a {
+				cursor: pointer;
+				margin-left: 15px;
+				color: darken($gray-lighter, 15%);
+				font-size: 13px;
+				line-height: 32px;
+				border-left: 1px solid darken($gray-lighter, 15%);
+				padding-left: 7px;
+			}
+		}
+	}
+
+	.ibox-content {
+		clear: both;
+		color: $gray;
+		background-color: #fff;
+		padding: 15px 20px 20px;
+		border-color: $border-color;
+		border-image: none;
+		border-style: solid solid none;
+		border-width: 1px 0;
+	}
+}

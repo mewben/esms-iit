@@ -1,0 +1,63 @@
+<div class="row border-bottom wrapper white-bg page-heading">
+	<div class="col-md-9">
+		<div class="toolbar">
+			{{#link-to 'fees.new' class="btn btn-primary"}}
+				{{fa-icon "plus-circle"}} Add New
+			{{/link-to}}
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="toolbar">
+			<div class="input-group">
+				{{input value=q class="form-control" placeholder="Search..."}}
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-default">{{fa-icon "search"}}</button>
+				</span>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row animated fadeIn">
+	<div class="col-md-12">
+		<div class="wrapper wrapper-content">
+			<div class="ibox">
+				<div class="ibox-title">
+					<h5>
+						List Example <small>Shows list of something</small>
+					</h5>
+					<div class="ibox-tools">
+						<a href="#">{{fa-icon "wrench"}}</a>
+					</div>
+				</div>
+				<div class="ibox-content">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>{{i-check}}</th>
+								<th>Code</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>{{i-check}}</td>
+								<td>FCB2</td>
+								<td>First Consolidated Bank</td>
+							</tr>
+							<tr>
+								<td>{{i-check}}</td>
+								<td>ESGP-PA</td>
+								<td>Pantawid</td>
+							</tr>
+							<tr>
+								<td>{{i-check}}</td>
+								<td>CHATTO</td>
+								<td>Gov. Edgar Chatto Subsidy</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

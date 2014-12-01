@@ -1,0 +1,11 @@
+<div class="control-pagination">
+	<span class="page-iteration">
+		Displayed Records: {{meta.records}} of {{meta.total}}
+		{{#if meta.hasPrev}}
+		<button {{action 'prev'}} class="btn btn-xs btn-default"><i class="fa fa-fw fa-chevron-left"></i></button>
+		{{/if}}
+		{{#if meta.hasNext}}
+		<button {{action 'next'}} class="btn btn-xs btn-default"><i class="fa fa-fw fa-chevron-right"></i></button>
+		{{/if}}
+	</span>
+</div>

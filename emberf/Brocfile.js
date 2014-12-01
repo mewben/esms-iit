@@ -4,6 +4,8 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 var app = new EmberApp();
 
+app.import("bower_components/animate.css/animate.min.css");
+app.import("bower_components/hint.css/hint.base.min.css");
 // Use `app.import` to add additional libraries to the generated
 // output files.
 //

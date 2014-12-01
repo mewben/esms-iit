@@ -1,0 +1,101 @@
+<div class="row border-bottom wrapper white-bg page-heading">
+	<div class="col-md-9">
+		<div class="toolbar">
+			{{#link-to 'bcodes.new' class="btn btn-primary"}}
+				{{fa-icon "plus-circle"}} Add New
+			{{/link-to}}
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="toolbar">
+			<div class="input-group">
+				{{input value=q class="form-control" placeholder="Search..."}}
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-default">{{fa-icon "search"}}</button>
+				</span>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row animated fadeIn">
+	<div class="col-md-12">
+		<div class="wrapper wrapper-content">
+			<div class="ibox">
+				<div class="ibox-title">
+					{{#link-to 'bcodes.new' class="btn btn-primary"}}
+						{{fa-icon "plus-circle"}} Add New
+					{{/link-to}}
+					{{!-- <h5>
+						List Example <small>Shows list of something </small>
+					</h5> --}}
+					<div class="ibox-tools">
+						<a href="#">{{fa-icon "wrench"}}</a>
+					</div>
+					<div class="ibox-tools">
+						<div class="input-group">
+							{{input value=q class="form-control" placeholder="Search..."}}
+							<span class="input-group-btn">
+								<button type="button" class="btn btn-default">{{fa-icon "search"}}</button>
+							</span>
+						</div>
+						
+					</div>
+				</div>
+				<div class="ibox-content">
+					<table class="table table-hover data">
+						<thead>
+							<tr>
+								<th class="list-checkbox">{{i-check}}</th>
+								<th class="list-action">&nbsp;</th>
+								<th class="sort-asc active"><span>Code</span></th>
+								<th class="sort-asc">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="nolink">{{i-check}}</td>
+								<td class="nolink">
+									<div class="btn-group">
+										<button class="btn btn-default btn-xs hint--top" data-hint="Edit">{{fa-icon "pencil fa-fw"}}</button>
+										<button class="btn btn-danger btn-xs hint--top" data-hint="Delete">{{fa-icon "trash-o fa-fw"}}</button>
+									</div>
+								</td>
+								<td><a href="#">FCB</a></td>
+								<td><a href="#">First Consolidated Bank</a></td>
+							</tr>
+							<tr>
+								<td class="nolink">{{i-check}}</td>
+								<td class="nolink">
+									<div class="btn-group">
+										<button class="btn btn-default btn-xs hint--top" data-hint="Edit">{{fa-icon "pencil fa-fw"}}</button>
+										<button class="btn btn-danger btn-xs hint--top" data-hint="Delete">{{fa-icon "trash-o fa-fw"}}</button>
+									</div>
+								</td>
+								<td><a href="#">ESGP-PA</a></td>
+								<td><a href="#">Pantawid</a></td>
+							</tr>
+							<tr>
+								<td class="nolink">{{i-check}}</td>
+								<td class="nolink">
+									<div class="btn-group">
+										<button class="btn btn-default btn-xs hint--top" data-hint="Edit">{{fa-icon "pencil fa-fw"}}</button>
+										<button class="btn btn-danger btn-xs hint--top" data-hint="Delete">{{fa-icon "trash-o fa-fw"}}</button>
+									</div>
+								</td>
+								<td><a href="#">CHATTO</a></td>
+								<td><a href="#">Gov. Edgar Chatto Subsidy</a></td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="4" class="list-pagination nolink">
+									{{partial 'partials/_pagination'}}
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,13 @@
+@mixin icon($icon) {
+	@include icon-f();
+	content: $icon;
+}
+
+@mixin icon-f() {
+	font-family: FontAwesome;
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: inherit;
+	-webkit-font-smoothing: antialiased;
+	*margin-right: .3em;
+}

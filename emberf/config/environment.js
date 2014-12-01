@@ -6,6 +6,7 @@ module.exports = function(environment) {
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
+    CORS: [],
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -25,6 +26,12 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     ENV.APP.LOG_VIEW_LOOKUPS = true;
+
+    ENV.HOST = 'http://server2.dev:8000';
+    ENV.API = 'api/v2';
+    ENV.ROOTURL= '/';
+    ENV.DOMAIN = 'http://server2.dev:8000';
+    ENV.CORS = ['http://server2.dev:8000'];
   }
 
   if (environment === 'test') {
@@ -37,10 +44,19 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     ENV.APP.rootElement = '#ember-testing';
+
+    ENV.HOST = 'http://server2.dev:8000';
+    ENV.API = 'api/v2';
+    ENV.ROOTURL= '/';
+    ENV.DOMAIN = 'http://server2.dev:8000';
+    ENV.CORS = ['http://server2.dev:8000'];
   }
 
   if (environment === 'production') {
-
+    ENV.HOST = '';
+    ENV.API = 'api/v2';
+    ENV.ROOTURL= '/';
+    ENV.DOMAIN = '/';
   }
 
   return ENV;

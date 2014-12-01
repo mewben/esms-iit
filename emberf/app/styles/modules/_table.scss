@@ -1,0 +1,75 @@
+@mixin th-icon($icon) {
+	> span {
+		&:after {
+			font-size: 14px;
+			line-height: 14px;
+			display: inline-block;
+			margin-left: 8px;
+			vertical-align: baseline;
+			@include opacity(.2);
+			@include icon($icon);
+		}
+		&:hover:after {
+			@include opacity(.6);
+		}
+	}
+}
+
+.table.data {
+	th {
+		&.list-checkbox {
+			width: 40px;
+		}
+		&.list-action {
+			width: 75px;
+		}
+
+		&.sort-asc,
+		&.sort-desc {
+			span {
+				cursor: pointer;
+				display: block;
+			}
+		}
+
+		&.sort-desc {
+			@include th-icon($angle-up);
+		}
+		&.sort-asc {
+			@include th-icon($angle-down);
+		}
+
+		&.active {
+			background-color: #fff;
+			span:after {
+				color: $brand-danger;
+				@include opacity(1);
+			}
+		}
+	}
+
+	tbody {
+		td {
+			padding: 3px 0 0 0;
+
+			&.nolink {
+				padding: 8px;
+			}
+
+			a {
+				display: block;
+				padding: 8px;
+				color: $text-color;
+				&:hover {
+					text-decoration: none;
+				}
+			}
+		}
+	}
+}
+.list-pagination {
+	font-size: 12px;
+	text-align: right;
+	padding-top: 20px !important;
+	color: lighten($text-color, 35%);
+}

@@ -1,0 +1,63 @@
+{{!-- Sidebar --}}
+<nav class="navbar-default navbar-static-side" role="navigation">
+	<div class="sidebar-collapse">
+		<ul class="nav" id="side-menu">
+			<li class="nav-header"><a href="/" class="brand">{{fa-icon "cube"}}</a></li>
+			<li>
+				<a href="/">
+					{{fa-icon "th-large"}}
+					<span class="nav-label">Dashboard</span>
+					<span class="fa arrow"></span>
+				</a>
+				<ul class="nav level-2">
+					<li><a href="/">Sub Item 1</a></li>
+					<li class="active"><a href="/">Sub Item 1</a></li>
+					<li><a href="/">Sub Item 1</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="/">
+					{{fa-icon "th-large"}}
+					<span class="nav-label">Actions</span>
+					<span class="fa arrow"></span>
+				</a>
+				<ul class="nav level-2">
+					<li><a href="/">Sub Item 1</a></li>
+					<li class="active"><a href="/">Sub Item 1</a></li>
+					<li><a href="/">Sub Item 1</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="/">
+					{{fa-icon "th-large"}}
+					<span class="nav-label">Settings</span>
+					<span class="fa arrow"></span>
+				</a>
+				<ul class="nav level-2">
+					<li><a href="/">Sub Item 1</a></li>
+					<li class="active"><a href="/">Sub Item 1</a></li>
+					<li><a href="/">Sub Item 1</a></li>
+				</ul>
+			</li>
+			{{#link-li}}
+				{{#link-to 'bcodes'}}
+					{{fa-icon "code"}}
+					<span class="nav-label">Manage</span>
+					<span class="fa arrow"></span>
+				{{/link-to}}
+				<ul class="nav level-2">
+					{{#link-li}}
+						{{#link-to 'bcodes'}}
+							B-Codes
+						{{/link-to}}
+					{{/link-li}}
+					{{#link-li}}
+						{{#link-to 'fees'}}
+							Fees
+						{{/link-to}}
+					{{/link-li}}
+				</ul>
+			{{/link-li}}
+		</ul>
+	</div>
+</nav>

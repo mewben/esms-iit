@@ -1,0 +1,269 @@
+
+body {
+	background-color: $sidebar-bg;
+}
+.navbar-static-side {
+	@include transition(all 0.5s);
+	background-color: $sidebar-bg;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: $sidebar-mini-width;
+	z-index: 101;
+	color: #a7b1c2;
+
+	.nav {
+		li,
+		a {
+			&:hover,
+			&:focus {
+				background-color: darken($sidebar-bg, 3%) !important;
+				color: #fff;
+			}
+		}
+
+		a {
+			font-size: 13px;
+			padding: 14px 20px 14px 25px;
+			//color: #b2b2b2;
+			color: #a7b1c2;
+			@include transition(all 0.5s);
+		}
+	}
+
+	> div > .nav > li.active > a{
+		background-color: darken($sidebar-bg, 3%);
+		border-left: 2px solid $brand-info;
+	}
+
+
+	@media (min-width: 768px) {
+		width: $sidebar-width;
+
+		> div > .nav > li.active {
+			background-color: darken($sidebar-bg, 3%);
+			border-left: 2px solid $brand-info;
+			> a {
+				color: #fff;
+				border-left: none;
+			}
+
+			&:hover > .level-2 {
+				//background-color: darken($sidebar-bg, 5%);
+				background-color: transparent;
+			}
+
+			.level-2 {
+				position: relative;
+				top: auto;
+				left: auto;
+				z-index: 3;
+				border-bottom: 1px solid #212121;
+
+				a {
+					padding-left: 50px;
+				}
+
+				li:last-child {
+					margin-bottom: 10px;
+				}
+			}
+		}
+	}
+
+	.nav > li > a {
+		font-size: 16px;
+		padding: 14px 20px 14px 22px;
+
+		@media (min-width: 768px) {
+			font-size: 13px;
+			i {
+				margin-right: 6px;
+			}
+			.arrow {
+				float: right;
+			}
+		}
+
+		.nav-label,
+		.arrow {
+			display: none;
+
+			@media (min-width: 768px) {
+				display: initial;
+			}
+		}
+	}
+
+	.nav > .nav-header > a {
+		font-size: 21px;
+		color: #fff;
+		text-align: center;
+		background-color: darken($sidebar-bg, 5%);
+
+		@media (min-width: 768px) {
+			padding: 28px 0;
+			font-size: 40px;
+		}
+	}
+
+	.level-2 {
+		position: absolute;
+		min-width: 160px;
+		left: $sidebar-mini-width;
+		top: -1000em;
+		width: auto;
+
+		a {
+			font-size: 13px !important;
+			padding-top: 7px !important;
+			padding-bottom: 7px !important;
+		}
+
+		li.active > a {
+			color: #fff;
+		}
+
+		@media (min-width: 768px) {
+			left: $sidebar-width;
+		}
+	}
+
+	li:hover > .level-2 {
+		top: 0;
+		background-color: darken($sidebar-bg, 10%);
+	}
+
+}
+
+/* 
+.navbar-static-side2 {
+	@include transition(all 0.5s);
+	background-color: $sidebar-bg;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 220px;
+	z-index: 101;
+	color: $gray-lighter;
+/* 
+	@media (min-width: 768px) {
+		z-index: 101;
+		position: absolute;
+		width: 220px;
+	} 
+
+	.nav-header {
+		padding: 33px 25px;
+		text-align: center;
+		background-color: darken($sidebar-bg, 5%);
+	}
+}
+
+.nav {
+	li {
+
+		&:hover,
+		&:focus {
+			background-color: darken($sidebar-bg, 3%);
+		}
+
+		a {
+			font-size: 13px;
+			padding: 14px 20px 14px 25px;
+			color: #a2a2a2;
+			i {
+				margin-right: 6px;
+			}
+
+			&:hover,
+			&:focus {
+				background-color: darken($sidebar-bg, 3%);
+				color: #fff;
+			}
+		}
+	}
+
+	.level-2 {
+		position: absolute;
+		min-width: 160px;
+		left: 220px;
+		top: -1000em;
+		width: auto;
+
+		a {
+			padding: 7px 10px;
+			padding-left: 50px;
+			color: #b2b2b2;
+		}
+
+		li.active a {
+			color: #fff;
+		}
+
+		li:last-child {
+			margin-bottom: 10px;
+		}
+	}
+
+	//:not(li.active) .level-2,
+	li:hover .level-2 {
+		top: 0;
+		background-color: #000;
+
+		a {
+			padding-left: 20px;
+		}
+
+		li:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	> li.active {
+		background-color: darken($sidebar-bg, 3%);
+		border-left: 2px solid $brand-info;
+
+		> a {color: #fff;}
+
+		.level-2 {
+			position: relative;
+			top: auto;
+			left: auto;
+			z-index: 3;
+		}
+
+		// active li hover reset
+		&:hover .level-2 {
+			background-color: transparent;
+			a {
+				padding-left: 50px;
+			}
+			li:last-child {
+				margin-bottom: 10px;
+			}
+		}
+	}
+
+	.arrow {
+		float: right;
+	}
+}
+
+body.mini-sidebar .navbar-static-side2 {
+	width: 70px;
+
+	.nav > li > a {
+		font-size: 16px;
+
+		.nav-label,
+		.arrow {
+			display: none;
+		}
+	}
+
+	li.active .level-2 {
+		position: absolute;
+		top: -1000em;
+	}
+} */

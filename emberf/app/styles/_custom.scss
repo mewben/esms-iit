@@ -1,0 +1,13 @@
+html,
+body,
+body > .ember-view,
+#wrapper {
+	height: 100%;
+}
+.hint:after, [data-hint]:after {
+	font-size: 9px;
+	border-radius: 4px;
+}
+#content-wrapper .navbar-default {
+	background-color: #fff;
+}

@@ -1,0 +1,151 @@
+// Auth
+
+.ent-login,
+.ent-signup,
+.ent-forgotten,
+.ent-reset {
+	color: $gray;
+	background: $login-bg;
+
+	#wrapper {
+		padding-top: 15px;
+	}
+
+	#content-wrapper {
+		background-color: transparent;
+		margin: 0;
+		min-height: inherit;
+		padding: 0;
+		height: 100%;
+	}
+
+	input {
+		outline: none;
+		line-height: 1.4em;
+		font-size: 1.1em;
+		font-weight: normal;
+		border: none;
+		color: #fff;
+		background: $gray-dark;
+		box-shadow: none;
+		margin: 0;
+		position: relative;
+		transition: background ease 0.25s;
+		&:focus {
+			border: none;
+			background: $gray;
+		}
+	}
+	input:-webkit-autofill {
+		-webkit-box-shadow: 0 0 0px 1000px $gray-light inset !important;
+	}
+
+	.navbar {
+		font-size: 0.8em;
+	}
+}
+
+.login-box,
+.signup-box,
+.forgotten-box,
+.reset-box {
+	max-width: 530px;
+	height: 90%;
+	margin: 0 auto;
+	padding: 0;
+	display: table;
+
+	@media (max-width: 630px) {
+		max-width: 264px;
+		text-align: center;
+	}
+}
+
+// Log in
+.login-form {
+	max-width: 530px;
+	color: $gray-light;
+	display: table-cell;
+	vertical-align: middle;
+
+	@media (max-width: 630px) {
+		max-width: 264px;
+	}
+
+	.email-wrap,
+	.password-wrap {
+		position: relative;
+		margin: 0 0 5px 0;
+		float: left;
+
+		@media (max-width: 630px) {
+			margin-bottom: 1em;
+		}
+	}
+
+	.email,
+	.password {
+		display: inline-block;
+		clear: both;
+		padding: 8px 0 8px 8px;
+		width: 216px;
+
+		@media (max-width: 630px) {
+			width: 264px;
+		}
+	}
+
+	.email-wrap {
+		margin-right: 3px;
+		@media (max-width: 630px) {
+			margin-right: 0;
+		}
+	}
+
+	@media (max-width: 630px) {
+		.email,
+		.password {
+			border-radius: 2px;
+		}
+	}
+
+	@media (min-width: 631px) {
+		.email {
+			border-radius: 2px 0 0 2px;
+		}
+		.password {
+			border-radius: 0 2px 2px 0;
+		}
+	}
+
+	button {
+		width: 85px;
+		height: 37px;
+		margin: 0 0 0 10px;
+		padding: 0.9em 1.37em;
+		min-height: 30px;
+		min-width: 80px;
+		box-shadow: rgba(255, 255, 255, 0.15) 0 1px 0 inset;
+		//border: none;
+
+		@media (max-width: 630px) {
+			margin: 0;
+			width: 100%;
+			margin-bottom: 1em;
+		}
+	}
+
+	.meta {
+		clear: both;
+		color: $gray;
+	}
+
+	a {
+		color: $gray;
+
+		&:hover {
+			color: lighten($gray, 5%);
+			text-decoration: none;
+		}
+	}
+}

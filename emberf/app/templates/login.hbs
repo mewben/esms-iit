@@ -1,0 +1,31 @@
+<section class="login-box fade-in">
+	<form {{action 'authenticate' on="submit"}} id="login" class="login-form">
+		<div class="email-wrap">
+			<span class="input-icon icon-user">
+				{{input value=identification id="identification" class="email" placeholder="Login" autofocus="autofocus"}}
+			</span>
+		</div>
+		<div class="password-wrap">
+			<span class="input-icon icon-lock">
+				{{input type="password" value=password id="password" class="password" placeholder="Enter password"}}
+			</span>
+		</div>
+		<button type="submit" class="btn btn-primary">Log in</button>
+		<section class="meta">
+			<a href="#">Forgot password?</a>
+		</section>
+	</form>
+</section>
+
+<nav class="navbar navbar-inverse navbar-fixed-bottom">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a href="/" class="navbar-brand"><span class="text-warning">eSMS.ext</span> | <small>Bohol Island State University</small></a>
+		</div>
+		<p class="navbar-text navbar-right">
+			by: <a href="mailto:melvinsoldia@bisu.edu.ph">Melvin Soldia, </a>
+			<a href="mailto:pglibay@bisu.edu.ph">Phillip Glenn Libay</a> |
+			<small>v0.4.0</small>
+		</p>
+	</div>
+</nav>

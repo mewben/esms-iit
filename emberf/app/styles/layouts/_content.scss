@@ -1,0 +1,62 @@
+#content-wrapper {
+	margin: 0 0 0 $sidebar-mini-width;
+	min-height: 1100px;
+	background-color: #f7f7f7;
+	padding: 0 15px;
+	position: relative;
+
+	@media (min-width: 768px) {
+		margin: 0 0 0 $sidebar-width;
+	}
+}
+
+.required {
+	color: $brand-danger;
+}
+
+.navbar-static-top {
+	margin-bottom: 0;
+}
+.border-bottom {
+	border-bottom: 1px solid $border-color;
+}
+
+.navbar-top-links {
+	&.navbar-right {
+		margin-right: 0;
+	}
+}
+
+.wrapper {
+	padding: 0 20px;
+}
+.wrapper-content {
+	padding: 15px 0 40px;
+}
+
+.white-bg {
+	background-color: #fff;
+}
+
+.page-heading {
+	//border-top: 4px solid red; //#e7eaec;
+	padding: 0 0 5px 0;
+}
+
+
+// Footer
+.footer {
+	background-color: #fff;
+	border-top: 1px solid $gray-lighter;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: 10px 20px;
+	font-size: 0.8em;
+}
+
+.toolbar {
+	margin-top: 15px;
+	margin-bottom: 10px;
+}
