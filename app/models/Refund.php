@@ -219,7 +219,8 @@ class Refund extends \Eloquent {
 					$d_ref[$i]->feecode = $k;
 					if ($refunded && array_key_exists($k, $d_refunded)) {
 						$d_ref[$i]->amount = $v;
-					} else {
+					}
+					else {
 						$d_ref[$i]->amount = number_format(($v - $val->amt), 2);
 					}
 					$i++;
