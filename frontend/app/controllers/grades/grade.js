@@ -41,26 +41,33 @@ export default Ember.ObjectController.extend({
 				}
 
 				// Check for inValid grades
-				if (Ember.$.isNumeric(v.prelim1)) {
-					valid1 = validGrades.some(function(vg) {
-						return Number(v.prelim1).toFixed(1) === vg.grade;
-					});
-				} else {
-					valid1 = validGrades.some(function(vg) {
-						return v.prelim1 === vg.grade;
-					});
+				if (v.prelim1) {
+					if (Ember.$.isNumeric(v.prelim1)) {
+						valid1 = validGrades.some(function(vg) {
+							return Number(v.prelim1).toFixed(1) === vg.grade;
+						});
+					} else {
+						valid1 = validGrades.some(function(vg) {
+							return v.prelim1 === vg.grade;
+						});
+					}
+					if (!valid1) {
+						invalidCount++;
+					}
 				}
-				if (Ember.$.isNumeric(v.prelim2)) {
-					valid2 = validGrades.some(function(vg) {
-						return v.prelim2 === vg.grade;
-					});
-				} else {
-					valid2 = validGrades.some(function(vg) {
-						return v.prelim2 === vg.grade;
-					});
-				}
-				if (!valid1 || !valid2) {
-					invalidCount++;
+				if (v.prelim2) {
+					if (Ember.$.isNumeric(v.prelim2)) {
+						valid2 = validGrades.some(function(vg) {
+							return v.prelim2 === vg.grade;
+						});
+					} else {
+						valid2 = validGrades.some(function(vg) {
+							return v.prelim2 === vg.grade;
+						});
+					}
+					if (!valid2) {
+						invalidCount++;
+					}
 				}
 
 				iData[i] = v;
