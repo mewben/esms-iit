@@ -27,22 +27,55 @@ export default Ember.ObjectController.extend({
 			var iData = [];
 			var data = {};
 
+			var validGrades = this.get('vgrades');
+			var invalidCount = 0;
+			var valid1 = null;
+			var valid2 = null;
+			
 			this.get('data').forEach(function(v, i) {
+				// Set isChanged property
 				if(oData[i]['prelim1'] !== v.prelim1 || oData[i]['prelim2'] !== v.prelim2 || oData[i]['gcompl'] !== v.gcompl) {
 					v.isChanged = true;
 				} else {
 					v.isChanged = false;
 				}
 
+				// Check for inValid grades
+				if (Ember.$.isNumeric(v.prelim1)) {
+					valid1 = validGrades.some(function(vg) {
+						return Number(v.prelim1).toFixed(1) === vg.grade;
+					});
+				} else {
+					valid1 = validGrades.some(function(vg) {
+						return v.prelim1 === vg.grade;
+					});
+				}
+				if (Ember.$.isNumeric(v.prelim2)) {
+					valid2 = validGrades.some(function(vg) {
+						return v.prelim2 === vg.grade;
+					});
+				} else {
+					valid2 = validGrades.some(function(vg) {
+						return v.prelim2 === vg.grade;
+					});
+				}
+				if (!valid1 || !valid2) {
+					invalidCount++;
+				}
+
 				iData[i] = v;
 			});
 
-			data.data = JSON.stringify(iData);
+			if (invalidCount === 0) {
+				data.data = JSON.stringify(iData);
 
-			this.get('g').post('/grades-update', data)
-				.done(function() {
-					toastr.success('Grades saved successfully!');
-				});
+				this.get('g').post('/grades-update', data)
+					.done(function() {
+						toastr.success('Grades saved successfully!');
+					});
+			} else {
+				toastr.error('You have entered an invalid grade. Please review your entries!');
+			}
 		},
 
 		lock: function(v) {

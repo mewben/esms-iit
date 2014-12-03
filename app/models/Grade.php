@@ -49,6 +49,9 @@ class Grade {
 				sem=?
 		", array($subjcode, $section, $sy, $sem));
 
+		// valid grades
+		$data['vgrades'] = DB::select("SELECT * FROM validgrades");
+
 		$data['meta'] = $subj[0];
 		$data['meta']->section = $section;
 		if($rec) {

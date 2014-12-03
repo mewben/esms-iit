@@ -25,7 +25,6 @@ class GradesController extends \BaseController {
 
 	public function saveGrade() {
 		return Response::json($this->model->store(json_decode(Input::get('data'))));
-		//dd(json_decode(Input::get('data')));
 	}
 
 	public function lockGrade() {
