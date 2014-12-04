@@ -48,7 +48,7 @@ export default Ember.ObjectController.extend({
 						});
 					} else {
 						valid1 = validGrades.some(function(vg) {
-							return v.prelim1 === vg.grade;
+							return v.prelim1.toUpperCase() === vg.grade;
 						});
 					}
 					if (!valid1) {
@@ -62,7 +62,7 @@ export default Ember.ObjectController.extend({
 						});
 					} else {
 						valid2 = validGrades.some(function(vg) {
-							return v.prelim2 === vg.grade;
+							return v.prelim2.toUpperCase() === vg.grade;
 						});
 					}
 					if (!valid2) {
