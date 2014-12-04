@@ -15,7 +15,8 @@
 	</div>
 	<div class="form-group">
 		<label for="date" class="sr2-only">Payment as of Date</label>
-		{{input value=dd placeholder="yyyy-mm-dd" class="form-control" autofocus="autofocus"}}
+		{{!-- {{input value=dd placeholder="yyyy-mm-dd" class="form-control" autofocus="autofocus"}} --}}
+		{{view 'date-picker' name='date' value=dd}}
 	</div>
 	{{submit-spin saveText='Retrieve Data' disabled=disb isProc=g.isProc}}
 </form>
