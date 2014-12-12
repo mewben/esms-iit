@@ -17,15 +17,9 @@ export default Base.extend({
 		return !this.get('succ');
 	}.property('succ'),
 	total: function() {
-		// return this.get('det').reduce(function(t, p) {
-		// 	return t + (p.amount - 0);
-		// }, 0);
-		var sum = 0;
-		var amts = this.get('det');
-		for (var i = amts.length - 1; i >= 0; i--) {
-			sum += amts[i].amount;
-		};
-		return sum;
+		return this.get('det').reduce(function(t, p) {
+			return t + (p.amount - 0);
+		}, 0);
 	}.property('det.@each.amount'),
 
 	actions: {
