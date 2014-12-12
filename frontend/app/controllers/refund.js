@@ -17,9 +17,15 @@ export default Base.extend({
 		return !this.get('succ');
 	}.property('succ'),
 	total: function() {
-		return this.get('det').reduce(function(t, p) {
-			return t + (p.amount - 0);
-		}, 0);
+		// return this.get('det').reduce(function(t, p) {
+		// 	return t + (p.amount - 0);
+		// }, 0);
+		var sum = 0;
+		var amts = this.get('det');
+		for (var i = amts.length - 1; i >= 0; i--) {
+			sum += amts[i].amount;
+		};
+		return sum;
 	}.property('det.@each.amount'),
 
 	actions: {
@@ -61,7 +67,6 @@ export default Base.extend({
 		},
 
 		delete: function() {
-			console.log('delete');
 			var self = this;
 			if(confirm(this.get('g.msg.del_confirm'))) {
 				this.get('g').post('/delete-refund', {q: this.get('refno')})
