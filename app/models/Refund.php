@@ -221,7 +221,7 @@ class Refund extends \Eloquent {
 						$d_ref[$i]->amount = $v;
 					}
 					else {
-						$d_ref[$i]->amount = number_format(($v - $val->amt), 2);
+						$d_ref[$i]->amount = number_format(($v - $val->amt), 2, '.', '');
 					}
 					$i++;
 				}
@@ -231,7 +231,7 @@ class Refund extends \Eloquent {
 			if(!array_key_exists($key, $d_ass)) {
 				$delfee = new stdClass();
 				$delfee->feecode = $key;
-				$delfee->amount = number_format($val, 2);
+				$delfee->amount = number_format($val, 2, '.', '');
 				array_push($d_ref, $delfee);
 			}
 		}
