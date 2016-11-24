@@ -3,7 +3,7 @@
 @section('content')
 <style>
 	body {
-		background-image: url('bgs/{{$bg}}.jpg');
+		/* background-image: url('bgs/{{$bg}}.jpg'); */
 		background-size: cover;
 		background-repeat: no-repeat;
 	}
@@ -12,7 +12,7 @@
 	<section class="login-box">
 		<form action="/login" class="login-form" method="post">
 			<div class="text-center">
-				<img src="bgs/bisu-logo.png" width="150" alt="BISU LOGO">
+				<img src="/assets/images/bisu-logo.png" width="150" alt="BISU LOGO">
 			</div>
 			@if (Session::has('err'))
 			<div class="alert alert-danger">Login Incorrect!</div>
